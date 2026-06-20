@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function Navbar() {
   return (
@@ -27,9 +28,15 @@ export function Navbar() {
         </nav>
         <div className="flex items-center gap-4">
           <Link href="/login" className="hidden sm:block text-sm font-medium text-foreground hover:text-primary transition-colors">Client Portal</Link>
-          <Button asChild className="rounded-full px-6 bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_8px_30px_-10px_rgba(245,158,11,0.5)] hover:-translate-y-0.5 transition-all duration-300">
-            <Link href="/contact">Mulai Project</Link>
-          </Button>
+          <Link
+            href="/contact"
+            className={cn(
+              buttonVariants({ variant: "default", size: "lg" }),
+              "rounded-full px-6 bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_8px_30px_-10px_rgba(245,158,11,0.5)] hover:-translate-y-0.5 transition-all duration-300"
+            )}
+          >
+            Mulai Project
+          </Link>
         </div>
       </div>
     </header>
