@@ -135,7 +135,53 @@ export default async function Home() {
             </div>
           ) : (
             <div className="flex flex-col gap-12 lg:gap-24">
-              {/* Service rows will go here */}
+              {services.map((service, index) => {
+                const isEven = index % 2 !== 0; // 0-indexed, so 1, 3, 5 are "even" in layout terms (reversed)
+                
+                // Helper to safely get image URL if it exists
+                const imageUrl = service.hero_image && typeof service.hero_image === 'object' && service.hero_image.url 
+                  ? service.hero_image.url 
+                  : null;
+
+                return (
+                  <div key={service.id} className={`flex flex-col ${isEven ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-8 lg:gap-16 p-8 lg:p-12 rounded-[2.5rem] ${isEven ? 'bg-stone-50 dark:bg-stone-900' : 'bg-white dark:bg-stone-950 border border-stone-100 dark:border-stone-800'}`}>
+                    
+                    {/* Media Block */}
+                    <div className="w-full lg:w-1/2 aspect-[4/3] relative rounded-3xl overflow-hidden shadow-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center">
+                      {imageUrl ? (
+                        <Image
+                          src={imageUrl}
+                          alt={service.title}
+                          fill
+                          className="object-cover transition-transform duration-700 hover:scale-105"
+                        />
+                      ) : (
+                        <div className="text-6xl opacity-20">✨</div>
+                      )}
+                    </div>
+
+                    {/* Content Block */}
+                    <div className="w-full lg:w-1/2 flex flex-col items-start text-left">
+                      <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary font-bold text-sm mb-6 uppercase tracking-wider">
+                        {service.category}
+                      </div>
+                      
+                      <h3 className="text-3xl lg:text-4xl font-black text-foreground mb-4 leading-tight">
+                        {service.title}
+                      </h3>
+                      
+                      <p className="text-lg text-stone-500 dark:text-stone-400 mb-8 leading-relaxed">
+                        {service.description}
+                      </p>
+                      
+                      <Button size="lg" className="rounded-full px-8 bg-foreground text-background hover:bg-foreground/90 dark:bg-white dark:text-stone-950">
+                        <Link href={`/layanan/${service.slug}`}>Lihat Detail</Link>
+                      </Button>
+                    </div>
+                    
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
