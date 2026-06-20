@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun run *)",
+      "Bash(bun *)",
+      "Bash(npm list *)",
+      "Bash(npm ls *)",
+      "Bash(npx *)",
+      "Bash(git checkout *)",
+      "Skill(deep-research)",
+      "WebFetch(domain:docs.google.com)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git init *)"
+    ]
+  }
+}
