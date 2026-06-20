@@ -11,7 +11,8 @@
       "WebFetch(domain:docs.google.com)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(git init *)"
+      "Bash(git init *)",
+      "Bash(npm run *)"
     ]
   }
 }
