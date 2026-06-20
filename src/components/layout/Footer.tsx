@@ -37,19 +37,9 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-foreground mb-6">Perusahaan</h4>
             <ul className="space-y-4 text-sm text-stone-500 dark:text-stone-400">
-              <li><Link href="/about" className="hover:text-primary transition-colors">Tentang Kami</Link></li>
+              <li><Link href="/tentang" className="hover:text-primary transition-colors">Tentang Kami</Link></li>
               <li><Link href="/portfolio" className="hover:text-primary transition-colors">Portfolio</Link></li>
-              <li><Link href="/blog" className="hover:text-primary transition-colors">Blog</Link></li>
-              <li><Link href="/contact" className="hover:text-primary transition-colors">Hubungi Kami</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-foreground mb-6">Legal</h4>
-            <ul className="space-y-4 text-sm text-stone-500 dark:text-stone-400">
-              <li><Link href="/terms" className="hover:text-primary transition-colors">Syarat & Ketentuan</Link></li>
-              <li><Link href="/privacy" className="hover:text-primary transition-colors">Kebijakan Privasi</Link></li>
-              <li><Link href="/license" className="hover:text-primary transition-colors">Lisensi Produk Digital</Link></li>
+              <li><Link href="/kontak" className="hover:text-primary transition-colors">Hubungi Kami</Link></li>
             </ul>
           </div>
 

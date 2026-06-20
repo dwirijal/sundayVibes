@@ -27,9 +27,9 @@ export function Navbar() {
           <Link href="/layanan/design" className="hover:text-primary transition-colors">Design & Web</Link>
         </nav>
         <div className="flex items-center gap-4">
-          <Link href="/login" className="hidden sm:block text-sm font-medium text-foreground hover:text-primary transition-colors">Client Portal</Link>
+          <Link href="/admin" className="hidden sm:block text-sm font-medium text-foreground hover:text-primary transition-colors">Client Portal</Link>
           <Link
-            href="/contact"
+            href="/kontak"
             className={cn(
               buttonVariants({ variant: "default", size: "lg" }),
               "rounded-full px-6 bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_8px_30px_-10px_rgba(245,158,11,0.5)] hover:-translate-y-0.5 transition-all duration-300"

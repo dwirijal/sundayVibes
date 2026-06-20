@@ -157,7 +157,7 @@ function BookingForm() {
             <Link href="/">Kembali ke Beranda</Link>
           </Button>
           <Button size="lg" variant="outline" className="rounded-full px-8 h-12 text-sm font-bold border-2">
-            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/6285157319611" target="_blank" rel="noopener noreferrer">
               Hubungi via WhatsApp
             </a>
           </Button>
@@ -467,7 +467,7 @@ export default function BookingPage() {
             size="lg"
             className="rounded-full px-8 bg-primary text-primary-foreground hover:bg-primary/90 h-14 text-lg font-bold"
           >
-            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/6285157319611" target="_blank" rel="noopener noreferrer">
               Chat WhatsApp
             </a>
           </Button>
