@@ -1,8 +1,17 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getPayload } from "payload";
+import configPromise from "@payload-config";
 
-export default function Home() {
+export default async function Home() {
+  const payload = await getPayload({ config: configPromise });
+  const { docs: services } = await payload.find({
+    collection: "services",
+    sort: "createdAt",
+    limit: 6,
+  });
+
   return (
     <div className="relative min-h-screen flex flex-col overflow-hidden bg-background font-sans selection:bg-primary/20 selection:text-primary">
       
