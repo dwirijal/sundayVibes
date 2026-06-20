@@ -57,7 +57,7 @@ export default function DigitalPage() {
               </ul>
 
               <Link
-                href="#"
+                href="/booking?service=digital"
                 className={`inline-flex h-11 items-center justify-center rounded-full px-8 text-sm font-medium transition-colors w-full ${pkg.isPopular ? 'bg-amber-500 text-white hover:bg-amber-600' : 'border-2 border-border bg-transparent hover:bg-muted-foreground/10 text-foreground'}`}
               >
                 Beli Sekarang
