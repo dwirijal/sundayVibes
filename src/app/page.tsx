@@ -121,6 +121,26 @@ export default async function Home() {
         </div>
       </main>
 
+      {/* Services Overview Section */}
+      <section className="py-24 bg-white dark:bg-stone-950 relative z-10" id="services">
+        <div className="container mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-foreground mb-4">Layanan Kami</h2>
+            <p className="text-lg text-stone-500 dark:text-stone-400">Solusi lengkap untuk kebutuhan kreatif dan digital Anda.</p>
+          </div>
+
+          {services.length === 0 ? (
+            <div className="text-center py-12 bg-stone-50 dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800">
+              <p className="text-xl text-stone-500 dark:text-stone-400 font-medium">Layanan sedang disiapkan, nantikan update dari kami!</p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-12 lg:gap-24">
+              {/* Service rows will go here */}
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* Trust & Workflow Strip */}
       <section className="border-y border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 py-12 relative z-10">
         <div className="container mx-auto px-6">
