@@ -37,7 +37,7 @@ export default async function Home() {
               <span className="text-primary">tanpa pusing.</span>
             </h1>
             
-            <p className="text-lg sm:text-xl text-stone-500 dark:text-stone-400 leading-relaxed mb-10">
+            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-10">
               Dari konsep event hingga foto produk yang siap publish. Sunday Vibes menyatukan seluruh kebutuhan kreatif dan teknis Anda dalam satu ekosistem yang terintegrasi, transparan, dan profesional.
             </p>
             
@@ -59,7 +59,7 @@ export default async function Home() {
                   </div>
                 ))}
               </div>
-              <div className="text-sm font-medium text-stone-500 dark:text-stone-400">
+              <div className="text-sm font-medium text-muted-foreground">
                 Dipercaya oleh 50+ klien lokal & nasional
               </div>
             </div>
@@ -88,7 +88,7 @@ export default async function Home() {
                 </div>
                 <div>
                   <div className="text-sm font-bold text-foreground">Digital Products</div>
-                  <div className="text-xs text-stone-500">Ready to publish</div>
+                  <div className="text-xs text-muted-foreground">Ready to publish</div>
                 </div>
               </div>
             </div>
@@ -100,19 +100,19 @@ export default async function Home() {
                 </div>
                 <div>
                   <div className="text-sm font-bold text-foreground">Photography</div>
-                  <div className="text-xs text-stone-500">Professional Studio</div>
+                  <div className="text-xs text-muted-foreground">Professional Studio</div>
                 </div>
               </div>
             </div>
 
             <div className="absolute top-[60%] right-[-5%] z-30 bg-white dark:bg-stone-800 p-4 rounded-2xl shadow-xl border border-stone-100 dark:border-stone-700 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-700 hover:scale-105 transition-transform cursor-pointer hidden sm:block">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-stone-900 dark:bg-stone-100 flex items-center justify-center text-white dark:text-stone-900">
+                <div className="w-10 h-10 rounded-full bg-foreground dark:bg-background flex items-center justify-center text-background dark:text-foreground">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
                 </div>
                 <div>
                   <div className="text-sm font-bold text-foreground">Web & App</div>
-                  <div className="text-xs text-stone-500">Custom Dev</div>
+                  <div className="text-xs text-muted-foreground">Custom Dev</div>
                 </div>
               </div>
             </div>
@@ -126,12 +126,12 @@ export default async function Home() {
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-black text-foreground mb-4">Layanan Kami</h2>
-            <p className="text-lg text-stone-500 dark:text-stone-400">Solusi lengkap untuk kebutuhan kreatif dan digital Anda.</p>
+            <p className="text-lg text-muted-foreground">Solusi lengkap untuk kebutuhan kreatif dan digital Anda.</p>
           </div>
 
           {services.length === 0 ? (
-            <div className="text-center py-12 bg-stone-50 dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800">
-              <p className="text-xl text-stone-500 dark:text-stone-400 font-medium">Layanan sedang disiapkan, nantikan update dari kami!</p>
+            <div className="text-center py-12 bg-muted rounded-3xl border border-border">
+              <p className="text-xl text-muted-foreground font-medium">Layanan sedang disiapkan, nantikan update dari kami!</p>
             </div>
           ) : (
             <div className="flex flex-col gap-12 lg:gap-24">
@@ -170,11 +170,11 @@ export default async function Home() {
                         {service.title}
                       </h3>
                       
-                      <p className="text-lg text-stone-500 dark:text-stone-400 mb-8 leading-relaxed">
+                      <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                         {service.description}
                       </p>
                       
-                      <Button size="lg" className="rounded-full px-8 bg-foreground text-background hover:bg-foreground/90 dark:bg-white dark:text-stone-950">
+                      <Button size="lg" className="rounded-full px-8 bg-foreground text-background hover:bg-foreground/90 dark:bg-background dark:text-foreground">
                         <Link href={`/layanan/${service.slug}`}>Lihat Detail</Link>
                       </Button>
                     </div>

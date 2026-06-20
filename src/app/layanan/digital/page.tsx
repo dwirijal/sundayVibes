@@ -48,7 +48,7 @@ export default function DigitalPage() {
     <main className="min-h-screen pt-32 pb-24 bg-background">
       {/* Hero Section */}
       <section className="container mx-auto px-6 max-w-4xl text-center mb-24">
-        <div className="w-20 h-20 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">
+        <div className="w-20 h-20 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">
           💻
         </div>
         <h1 className="text-5xl md:text-6xl font-black mb-6 text-foreground">Digital Products</h1>
@@ -70,12 +70,12 @@ export default function DigitalPage() {
               key={product.name}
               className={`relative flex flex-col p-8 rounded-3xl border ${
                 product.isPopular
-                  ? "border-amber-500 shadow-xl shadow-amber-500/10 bg-card"
+                  ? "border-secondary shadow-xl shadow-secondary/10 bg-card"
                   : "border-border bg-muted/50"
               }`}
             >
               {product.isPopular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber-500 text-white px-4 py-1 rounded-full text-sm font-bold">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-secondary text-secondary-foreground px-4 py-1 rounded-full text-sm font-bold">
                   Bestseller
                 </div>
               )}
@@ -86,7 +86,7 @@ export default function DigitalPage() {
               <ul className="space-y-4 mb-8">
                 {product.features.map((feature, i) => (
                   <li key={i} className="flex items-start gap-3 text-muted-foreground">
-                    <Check className="w-5 h-5 text-amber-500 shrink-0" />
+                    <Check className="w-5 h-5 text-secondary shrink-0" />
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -97,7 +97,7 @@ export default function DigitalPage() {
                 variant={product.isPopular ? "default" : "outline"}
                 className={`w-full rounded-full ${
                   product.isPopular
-                    ? "bg-amber-500 hover:bg-amber-600 text-white border-transparent"
+                    ? "bg-secondary text-secondary-foreground hover:bg-secondary/90"
                     : "border-2 border-border bg-background hover:bg-muted hover:text-foreground"
                 }`}
               >
@@ -119,7 +119,7 @@ export default function DigitalPage() {
           </p>
           <Button
             size="lg"
-            className="rounded-full px-8 bg-amber-500 text-white hover:bg-amber-600 h-14 text-lg font-medium transition-all"
+            className="rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 text-lg font-medium transition-all"
           >
             <Link href="#">Hubungi Kami</Link>
           </Button>

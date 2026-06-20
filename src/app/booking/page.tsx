@@ -117,7 +117,7 @@ function BookingForm() {
   if (isSubmitted) {
     return (
       <div className="max-w-2xl mx-auto bg-card border border-border rounded-[2.5rem] p-8 md:p-12 text-center shadow-lg">
-        <div className="w-20 h-20 rounded-full bg-green-500/10 text-green-500 flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">
+        <div className="w-20 h-20 rounded-full bg-primary/10 text-primary flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">
           ✓
         </div>
         <h2 className="text-3xl font-black text-foreground mb-4">
@@ -200,7 +200,7 @@ function BookingForm() {
             </div>
 
             {errors.service && (
-              <p className="text-sm text-red-500 bg-red-500/10 px-4 py-2 rounded-xl border border-red-500/20 font-medium">
+              <p className="text-sm text-destructive bg-destructive/10 px-4 py-2 rounded-xl border border-destructive/20 font-medium">
                 {errors.service}
               </p>
             )}
@@ -261,7 +261,7 @@ function BookingForm() {
                   }`}
                 />
                 {errors.date && (
-                  <p className="text-xs text-red-500 mt-1.5 font-medium">{errors.date}</p>
+                  <p className="text-xs text-destructive mt-1.5 font-medium">{errors.date}</p>
                 )}
               </div>
 
@@ -286,7 +286,7 @@ function BookingForm() {
                   <option value=">30jt">&gt; Rp 30.000.000 (Lebih dari 30 Juta)</option>
                 </select>
                 {errors.budget && (
-                  <p className="text-xs text-red-500 mt-1.5 font-medium">{errors.budget}</p>
+                  <p className="text-xs text-destructive mt-1.5 font-medium">{errors.budget}</p>
                 )}
               </div>
 
@@ -307,7 +307,7 @@ function BookingForm() {
                   placeholder="Ceritakan sedetail mungkin tentang konsep, tujuan, atau spesifikasi project yang Anda inginkan..."
                 />
                 {errors.description && (
-                  <p className="text-xs text-red-500 mt-1.5 font-medium">
+                  <p className="text-xs text-destructive mt-1.5 font-medium">
                     {errors.description}
                   </p>
                 )}
@@ -343,7 +343,7 @@ function BookingForm() {
                   placeholder="Nama Anda"
                 />
                 {errors.name && (
-                  <p className="text-xs text-red-500 mt-1.5 font-medium">{errors.name}</p>
+                  <p className="text-xs text-destructive mt-1.5 font-medium">{errors.name}</p>
                 )}
               </div>
 
@@ -364,7 +364,7 @@ function BookingForm() {
                   placeholder="email@example.com atau 08xx"
                 />
                 {errors.contact && (
-                  <p className="text-xs text-red-500 mt-1.5 font-medium">{errors.contact}</p>
+                  <p className="text-xs text-destructive mt-1.5 font-medium">{errors.contact}</p>
                 )}
               </div>
 

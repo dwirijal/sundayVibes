@@ -18,7 +18,7 @@ export default function PortfolioPage() {
             Our Works
           </div>
           <h1 className="text-4xl md:text-5xl font-black mb-4">Dokumentasi Event & Trip</h1>
-          <p className="text-xl text-stone-500 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Beberapa hasil dokumentasi event dan perjalanan yang telah kami selesaikan.
           </p>
         </div>
@@ -26,7 +26,7 @@ export default function PortfolioPage() {
         {/* Clean Video-Only Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {tiktoks.map((tt, i) => (
-            <div key={i} className="group relative aspect-[9/16] bg-stone-100 dark:bg-stone-900 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-stone-200 dark:border-stone-800">
+            <div key={i} className="group relative aspect-[9/16] bg-muted rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border">
               
               {/* Direct Iframe to TikTok's v2 embed endpoint (Cleaner, no bloated scripts) */}
               <iframe 

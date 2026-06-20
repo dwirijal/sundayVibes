@@ -2,25 +2,10 @@
 > sunday-vibes@0.1.0 build
 > next build
 
-▲ Next.js 16.2.9 (Turbopack)
-- Environments: .env
-- Experiments (use with caution):
-  ⨯ turbopackServerFastRefresh
+⨯ Another next build process is already running.
 
-  Creating an optimized production build ...
-✓ Compiled successfully in 71s
-  Running TypeScript ...
-Failed to type check.
+  This could be:
+  - A next build still in progress
+  - A previous build that didn't exit cleanly
 
-./src/components/layout/Navbar.tsx:30:19
-Type error: Type '{ children: Element; asChild: true; className: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps & VariantProps<(props?: (ConfigVariants<{ variant: { default: string; outline: string; secondary: string; ghost: string; destructive: string; link: string; }; size: { ...; }; }> & ClassProp) | undefined) => string>'.
-  Property 'asChild' does not exist on type 'IntrinsicAttributes & ButtonProps & VariantProps<(props?: (ConfigVariants<{ variant: { default: string; outline: string; secondary: string; ghost: string; destructive: string; link: string; }; size: { ...; }; }> & ClassProp) | undefined) => string>'.
-
-  [90m28 |[0m         <div className=[32m"flex items-center gap-4"[0m>
-  [90m29 |[0m           <[33mLink[0m href=[32m"/login"[0m className=[32m"hidden sm:block text-sm font-medium text-foregrou...[0m
-[31m[1m>[0m [90m30 |[0m           <[33mButton[0m asChild className=[32m"rounded-full px-6 bg-primary text-primary-foreground ...[0m
-  [90m   |[0m                   [31m[1m^[0m
-  [90m31 |[0m             <[33mLink[0m href=[32m"/contact"[0m>[33mMulai[0m [33mProject[0m</[33mLink[0m>
-  [90m32 |[0m           </[33mButton[0m>
-  [90m33 |[0m         </div>
-Next.js build worker exited with code: 1 and signal: null
+  Suggestion: Wait for the build to complete.

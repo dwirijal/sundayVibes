@@ -27,21 +27,21 @@ export default function KontakPage() {
               <div>
                 <h3 className="font-bold text-foreground mb-1">WhatsApp</h3>
                 <p className="text-muted-foreground text-sm mb-2">Respon cepat untuk konsultasi</p>
-                <a href="https://wa.me/6281234567890" className="text-primary font-semibold hover:underline">
-                  +62 812-3456-7890
+                <a href="https://wa.me/6285157319611" className="text-primary font-semibold hover:underline">
+                  +62 851-5731-9611
                 </a>
               </div>
             </div>
 
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center text-xl shrink-0">
-                ✉️
+                🎵
               </div>
               <div>
-                <h3 className="font-bold text-foreground mb-1">Email</h3>
-                <p className="text-muted-foreground text-sm mb-2">Untuk proposal & dokumen</p>
-                <a href="mailto:hello@sundayvibes.id" className="text-secondary font-semibold hover:underline">
-                  hello@sundayvibes.id
+                <h3 className="font-bold text-foreground mb-1">TikTok</h3>
+                <p className="text-muted-foreground text-sm mb-2">Follow untuk update terbaru</p>
+                <a href="https://tiktok.com/@sundayvibes._" target="_blank" rel="noopener noreferrer" className="text-secondary font-semibold hover:underline">
+                  @sundayvibes._
                 </a>
               </div>
             </div>
