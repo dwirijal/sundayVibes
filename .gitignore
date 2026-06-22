@@ -40,3 +40,4 @@ build.log
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.claude/skills/gstack/
