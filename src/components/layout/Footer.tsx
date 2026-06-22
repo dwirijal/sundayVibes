@@ -45,13 +45,8 @@ export function Footer() {
 
         </div>
 
-        <div className="pt-8 border-t border-stone-200 dark:border-stone-800 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-400">
+        <div className="pt-8 border-t border-stone-200 dark:border-stone-800 flex items-center justify-center gap-4 text-xs text-stone-400">
           <p>© {new Date().getFullYear()} Sunday Vibes. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            <a href="#" className="hover:text-primary transition-colors">Instagram</a>
-            <a href="#" className="hover:text-primary transition-colors">LinkedIn</a>
-            <a href="#" className="hover:text-primary transition-colors">Twitter</a>
-          </div>
         </div>
       </div>
     </footer>

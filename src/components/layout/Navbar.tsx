@@ -25,6 +25,8 @@ export function Navbar() {
           <Link href="/layanan/digital" className="hover:text-primary transition-colors">Digital Product</Link>
           <Link href="/layanan/sewa-alat" className="hover:text-primary transition-colors">Sewa Alat</Link>
           <Link href="/layanan/design" className="hover:text-primary transition-colors">Design & Web</Link>
+          <Link href="/foto" className="hover:text-primary transition-colors">Foto</Link>
+          <Link href="/blog" className="hover:text-primary transition-colors">Blog</Link>
         </nav>
         <div className="flex items-center gap-4">
           <Link href="/admin" className="hidden sm:block text-sm font-medium text-foreground hover:text-primary transition-colors">Client Portal</Link>

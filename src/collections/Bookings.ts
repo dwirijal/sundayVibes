@@ -5,6 +5,36 @@ export const Bookings: CollectionConfig = {
   admin: {
     useAsTitle: 'id',
   },
+  access: {
+    read: ({ req: { user } }) => {
+      // Admins can see all bookings
+      if (user?.role === 'admin') {
+        return true
+      }
+      // Clients can only see their own bookings
+      if (user) {
+        return {
+          client: {
+            equals: user.id,
+          },
+        }
+      }
+      // Not authenticated - no access
+      return false
+    },
+    create: ({ req: { user } }) => {
+      // Only authenticated users can create bookings
+      return !!user
+    },
+    update: ({ req: { user } }) => {
+      // Only admins can update bookings
+      return user?.role === 'admin'
+    },
+    delete: ({ req: { user } }) => {
+      // Only admins can delete bookings
+      return user?.role === 'admin'
+    },
+  },
   fields: [
     {
       name: 'service_type',

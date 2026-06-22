@@ -5,6 +5,36 @@ export const Projects: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
   },
+  access: {
+    read: ({ req: { user } }) => {
+      // Admins can see all projects
+      if (user?.role === 'admin') {
+        return true
+      }
+      // Clients can only see their own projects
+      if (user) {
+        return {
+          client: {
+            equals: user.id,
+          },
+        }
+      }
+      // Not authenticated - no access
+      return false
+    },
+    create: ({ req: { user } }) => {
+      // Only authenticated users can create projects
+      return !!user
+    },
+    update: ({ req: { user } }) => {
+      // Only admins can update projects
+      return user?.role === 'admin'
+    },
+    delete: ({ req: { user } }) => {
+      // Only admins can delete projects
+      return user?.role === 'admin'
+    },
+  },
   fields: [
     {
       name: 'title',
