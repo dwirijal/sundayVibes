@@ -25,7 +25,7 @@ export function DetailClient({ item }: { item: { slug?: string; name: string; pr
   };
 
   return (
-    <div className="bg-card border border-border rounded-3xl p-6 mb-8 flex flex-col sm:flex-row gap-4 items-center justify-between">
+    <div className="bg-card border border-border rounded-3xl p-5 sm:p-6 mb-8 lg:mb-12 flex flex-col sm:flex-row gap-5 items-start sm:items-center justify-between relative z-20">
       <div className="flex items-center gap-3 w-full sm:w-auto">
         <div className="w-10 h-10 rounded-full bg-green-500/10 text-green-500 flex items-center justify-center shrink-0">
           <Check className="w-5 h-5" />
@@ -36,12 +36,12 @@ export function DetailClient({ item }: { item: { slug?: string; name: string; pr
         </div>
       </div>
       
-      <div className="flex gap-3 w-full sm:w-auto">
+      <div className="w-full sm:w-auto mt-2 sm:mt-0">
         <Button 
           onClick={handleAddToCart}
           disabled={isAdding}
           size="lg" 
-          className="flex-1 sm:flex-none rounded-full px-6 font-bold text-base h-12 shadow-sm"
+          className="w-full sm:w-auto rounded-full px-6 font-bold text-base h-12 shadow-sm"
         >
           <ShoppingCart className="w-4 h-4 mr-2" />
           {isAdding ? "Ditambahkan..." : "+ Keranjang Sewa"}

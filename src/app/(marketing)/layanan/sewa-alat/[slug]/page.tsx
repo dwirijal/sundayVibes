@@ -46,7 +46,7 @@ export default async function SewaAlatDetailPage(props: { params: Promise<{ slug
           {/* Image & Gallery Placeholder */}
           
           {/* Image & Gallery */}
-          <div className="sticky top-32">
+          <div className="lg:sticky lg:top-32 relative z-10">
             {item.images && item.images.length > 0 ? (
               <div className="space-y-4">
                 <div className="aspect-square w-full rounded-[2.5rem] bg-card border border-border flex flex-col items-center justify-center p-0 text-center relative overflow-hidden">
