@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, Printer, FileText } from "lucide-react";
 import { useCart } from "@/store/useCart";
+import { QRCodeSVG } from 'qrcode.react';
+import { generateDynamicQRIS } from '@/lib/qris';
 import { useEffect } from "react";
 
 interface RentalItem {
@@ -25,6 +27,9 @@ export default function KontrakPage() {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showQris, setShowQris] = useState(false);
+  const [qrisPayload, setQrisPayload] = useState("");
+  const BASE_QRIS = "00020101021126610014COM.GO-JEK.WWW01189360091439738305930210G9738305930303UMI51440014ID.CO.QRIS.WWW0215ID10243394679450303UMI5204733353033605802ID5919LEV. SPACE, Jakarta6005TUBAN61056238262070703A0163049B3A";
   const cartItems = useCart((state) => state.items);
   const promoCode = useCart((state) => state.promoCode);
   const discountAmount = useCart((state) => state.discountAmount);
@@ -130,7 +135,22 @@ export default function KontrakPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Generate QRIS
+    try {
+      const total = calculateTotal();
+      const payload = generateDynamicQRIS(BASE_QRIS, total);
+      setQrisPayload(payload);
+      setShowQris(true);
+    } catch (err) {
+      console.error(err);
+      alert("Gagal membuat kode QRIS.");
+    }
+  };
+  
+  const handleConfirmPayment = () => {
     setIsSubmitted(true);
+    setShowQris(false);
     clearCart();
   };
 
@@ -152,7 +172,33 @@ export default function KontrakPage() {
 
           {/* Contract Document */}
           <div className="bg-card border border-border rounded-3xl p-8 md:p-12 print:border-0 print:rounded-none print:p-0">
-            {/* Header */}
+            
+      {/* QRIS Modal overlay */}
+      {showQris && (
+        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-card border border-border shadow-2xl rounded-3xl p-8 max-w-sm w-full flex flex-col items-center text-center animate-in zoom-in-95 duration-300">
+            <h3 className="text-2xl font-black mb-2">Scan QRIS</h3>
+            <p className="text-muted-foreground text-sm mb-6">Gunakan aplikasi m-banking atau e-wallet Anda.</p>
+            
+            <div className="bg-white p-4 rounded-2xl mb-6 border-2 border-stone-200">
+              <QRCodeSVG value={qrisPayload} size={250} level="H" />
+            </div>
+            
+            <div className="bg-primary/10 text-primary font-black text-xl px-6 py-3 rounded-xl mb-8 w-full">
+              Rp {calculateTotal().toLocaleString("id-ID")}
+            </div>
+            
+            <Button size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white mb-3" onClick={handleConfirmPayment}>
+              Saya Sudah Membayar
+            </Button>
+            <Button variant="ghost" className="w-full" onClick={() => setShowQris(false)}>
+              Batal
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
             <div className="text-center mb-8 pb-6 border-b border-border">
               <h1 className="text-3xl font-black text-foreground mb-2">KONTRAK SEWA ALAT</h1>
               <p className="text-muted-foreground">Sunday Vibes - Platform Kreatif</p>
