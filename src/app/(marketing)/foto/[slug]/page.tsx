@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Check, ArrowLeft, ShoppingCart, Download, Eye } from "lucide-react";
+import { ArrowLeft, Check, ShieldCheck, Download, Info } from "lucide-react";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
@@ -16,7 +16,7 @@ export async function generateStaticParams() {
     collection: 'photos',
     limit: 100,
   })
-  return photos.docs.map((photo) => ({ slug: photo.slug }))
+  return photos.docs.map((p) => ({ slug: p.slug }))
 }
 
 export default async function PhotoDetailPage({ params }: PageProps) {
@@ -36,65 +36,63 @@ export default async function PhotoDetailPage({ params }: PageProps) {
 
   const photo = photoResult.docs[0];
 
-  // Get related photos from same category
-  const relatedResult = await payload.find({
-    collection: 'photos',
-    where: {
-      category: { equals: photo.category },
-      slug: { not_equals: slug },
-    },
-    limit: 4,
-    depth: 1,
-  })
-
-  const relatedPhotos = relatedResult.docs;
+  const aspectClass = photo.orientation === 'portrait' 
+    ? 'aspect-[3/4]' 
+    : photo.orientation === 'square' 
+      ? 'aspect-square' 
+      : 'aspect-[4/3]';
 
   return (
     <main className="min-h-screen pt-32 pb-24 bg-background">
-      <div className="container mx-auto px-6 max-w-7xl">
-        {/* Back Button */}
+      <div className="container mx-auto px-6 max-w-6xl">
         <Link
           href="/foto"
-          className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-8 transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-12 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Kembali ke Marketplace
         </Link>
 
-        <div className="grid lg:grid-cols-2 gap-12 mb-24">
-          {/* Photo Preview */}
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border bg-card shadow-lg group">
-            {photo.file_hires?.url ? (
-              <Image
-                src={photo.preview_watermark?.url || photo.file_hires.url}
-                alt={photo.title}
-                fill
-                className="object-cover"
-              />
-            ) : (
-              <div className="absolute inset-0 bg-gradient-to-br from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-800" />
-            )}
-            <div className="absolute top-4 left-4 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full z-10">
-              {photo.category}
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-foreground/40 backdrop-blur-sm z-20">
-              <div className="flex items-center gap-2 bg-background/95 px-4 py-2 rounded-full">
-                <Eye className="w-4 h-4" />
-                <span className="text-sm font-bold">Preview</span>
-              </div>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          {/* Image/Preview Column */}
+          <div className="sticky top-32">
+            <div className={`relative ${aspectClass} w-full overflow-hidden rounded-[2.5rem] border border-border bg-muted shadow-lg`}>
+              {photo.file_hires?.url ? (
+                <Image
+                  src={photo.preview_watermark?.url || photo.file_hires.url}
+                  alt={photo.file_hires.alt || photo.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-20">
+                  📸
+                </div>
+              )}
+              {/* Watermark overlay if not hard-baked into the image */}
+              {!photo.preview_watermark?.url && (
+                <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
+                  <div className="transform -rotate-45 text-4xl sm:text-6xl font-black text-white mix-blend-overlay tracking-widest uppercase">
+                    SUNDAY VIBES
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Photo Info */}
+          {/* Details & Checkout Column */}
           <div className="flex flex-col">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-wider mb-4 w-fit">
-              {photo.category}
-            </div>
-            <h1 className="text-4xl md:text-5xl font-black text-foreground mb-4 leading-tight">
+            {photo.category && (
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-wider mb-6 w-fit">
+                {photo.category}
+              </div>
+            )}
+
+            <h1 className="text-4xl md:text-5xl font-black text-foreground mb-6 leading-tight">
               {photo.title}
             </h1>
-
-            {/* Tags */}
+            
             {photo.tags && photo.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-8">
                 {photo.tags.map((tag: any, index: number) => (
@@ -108,118 +106,84 @@ export default async function PhotoDetailPage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Pricing */}
-            <div className="space-y-4 mb-8">
-              <div className="flex items-center justify-between p-4 rounded-2xl border border-border bg-card">
-                <div>
-                  <div className="font-bold text-foreground">Standard License</div>
-                  <div className="text-sm text-muted-foreground">
-                    Penggunaan personal & komersial terbatas
+            {/* License Selection Options (Static Layout showing both) */}
+            <div className="space-y-6 mb-10">
+              <h3 className="text-xl font-bold">Pilih Lisensi</h3>
+              
+              <div className="grid sm:grid-cols-2 gap-4">
+                {/* Standard License */}
+                <div className="border-2 border-stone-200 dark:border-stone-700 hover:border-primary transition-colors rounded-3xl p-6 flex flex-col h-full bg-card">
+                  <div className="text-lg font-bold mb-1">Standard</div>
+                  <div className="text-2xl font-black text-foreground mb-4">
+                    Rp {photo.price_standard.toLocaleString('id-ID')}
                   </div>
+                  <ul className="space-y-2 mb-6 flex-1">
+                    <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <Check className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+                      <span>Sosial media & blog</span>
+                    </li>
+                    <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <Check className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+                      <span>Presentasi & materi internal</span>
+                    </li>
+                    <li className="flex items-start gap-2 text-sm text-muted-foreground opacity-50">
+                      <svg className="w-4 h-4 shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                      <span className="line-through">Iklan komersial / cetak</span>
+                    </li>
+                  </ul>
+                  <Button className="w-full rounded-full" variant="outline">
+                    <Link href={`/checkout?type=photo&id=${photo.id}&license=standard`} className="w-full">
+                      Beli Standard
+                    </Link>
+                  </Button>
                 </div>
-                <div className="text-2xl font-black text-primary">
-                  Rp {photo.price_standard.toLocaleString('id-ID')}
-                </div>
-              </div>
-              <div className="flex items-center justify-between p-4 rounded-2xl border-2 border-primary bg-primary/5">
-                <div>
-                  <div className="font-bold text-foreground">Extended License</div>
-                  <div className="text-sm text-muted-foreground">
-                    Penggunaan komersial penuh, resale rights
+
+                {/* Extended License */}
+                <div className="border-2 border-primary rounded-3xl p-6 flex flex-col h-full bg-primary/5 relative">
+                  <div className="absolute top-0 right-6 -translate-y-1/2 bg-primary text-primary-foreground text-[10px] font-bold uppercase px-3 py-1 rounded-full">
+                    Recommended
                   </div>
-                </div>
-                <div className="text-2xl font-black text-primary">
-                  Rp {photo.price_extended.toLocaleString('id-ID')}
+                  <div className="text-lg font-bold mb-1">Extended</div>
+                  <div className="text-2xl font-black text-primary mb-4">
+                    Rp {photo.price_extended.toLocaleString('id-ID')}
+                  </div>
+                  <ul className="space-y-2 mb-6 flex-1">
+                    <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <span>Semua benefit Standard</span>
+                    </li>
+                    <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <span>Iklan cetak & digital (Ads)</span>
+                    </li>
+                    <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <span>Produk untuk dijual kembali (Merchandise)</span>
+                    </li>
+                  </ul>
+                  <Button className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90">
+                    <Link href={`/checkout?type=photo&id=${photo.id}&license=extended`} className="w-full">
+                      Beli Extended
+                    </Link>
+                  </Button>
                 </div>
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                size="lg"
-                className="flex-1 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 h-14 text-lg font-bold"
-              >
-                <Link href={`/checkout?photo=${photo.id}&license=standard`} className="flex items-center gap-2 w-full justify-center">
-                  <ShoppingCart className="w-5 h-5" />
-                  Beli Standard
-                </Link>
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="flex-1 rounded-full border-2 border-primary text-primary hover:bg-primary/10 h-14 text-lg font-bold"
-              >
-                <Link href={`/checkout?photo=${photo.id}&license=extended`} className="flex items-center gap-2 w-full justify-center">
-                  <Download className="w-5 h-5" />
-                  Beli Extended
-                </Link>
-              </Button>
-            </div>
-
-            {/* Features */}
-            <div className="mt-8 pt-8 border-t border-border">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary" />
-                  <span>Resolusi tinggi (4K+)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary" />
-                  <span>Instant download</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary" />
-                  <span>Lisensi komersial</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary" />
-                  <span>Support 24/7</span>
-                </div>
+            <div className="bg-stone-50 dark:bg-stone-900 rounded-3xl p-6 border border-border mb-10 flex gap-4 items-start">
+              <div className="bg-white dark:bg-stone-800 p-3 rounded-full shadow-sm">
+                <Download className="w-6 h-6 text-stone-700 dark:text-stone-300" />
+              </div>
+              <div>
+                <h4 className="font-bold mb-1">High-Resolution File</h4>
+                <p className="text-sm text-muted-foreground">
+                  File asli berkualitas tinggi tanpa watermark akan tersedia untuk didownload seketika setelah pembayaran berhasil dikonfirmasi.
+                </p>
               </div>
             </div>
+            
           </div>
         </div>
-
-        {/* Related Photos */}
-        {relatedPhotos.length > 0 && (
-          <section>
-            <h2 className="text-3xl font-black text-foreground mb-8">Foto Terkait</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {relatedPhotos.map((related) => (
-                <Link
-                  key={related.slug}
-                  href={`/foto/${related.slug}`}
-                  className="group"
-                >
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm group-hover:shadow-xl transition-all duration-300">
-                    {related.file_hires?.url ? (
-                      <Image
-                        src={related.preview_watermark?.url || related.file_hires.url}
-                        alt={related.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 bg-gradient-to-br from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-800" />
-                    )}
-                    <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full z-10">
-                      {related.category}
-                    </div>
-                  </div>
-                  <div className="mt-3">
-                    <div className="font-bold text-foreground group-hover:text-primary transition-colors">
-                      {related.title}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      Rp {related.price_standard.toLocaleString('id-ID')}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
       </div>
     </main>
   );

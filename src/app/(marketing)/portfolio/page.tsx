@@ -127,7 +127,7 @@ export default async function PortfolioPage() {
 
         {/* CTA */}
         <div className="text-center">
-          <Button size="lg" className="rounded-full h-14 px-8 text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_10px_40px_-10px_rgba(245,158,11,0.5)]">
+          <Button asChild size="lg" className="rounded-full h-14 px-8 text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_10px_40px_-10px_rgba(245,158,11,0.5)]">
             <Link href="/kontak">Diskusikan Proyek Anda</Link>
           </Button>
         </div>

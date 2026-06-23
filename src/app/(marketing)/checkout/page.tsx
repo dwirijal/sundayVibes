@@ -15,7 +15,9 @@ const metadata: Metadata = {
 
 function CheckoutContent() {
   const searchParams = useSearchParams()
-  const productId = searchParams.get('product')
+  const productId = searchParams.get('id') || searchParams.get('product')
+  const type = searchParams.get('type') || 'product'
+  const license = searchParams.get('license') || 'standard'
 
   const [formData, setFormData] = useState({
     name: '',
@@ -27,29 +29,27 @@ function CheckoutContent() {
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
-    // Mock product data - in production, fetch from API
-    const products = {
-      'lightroom-presets': {
-        id: 'lightroom-presets',
-        name: 'Lightroom Presets',
-        price: 149000,
-      },
-      'notion-os-template': {
-        id: 'notion-os-template',
-        name: 'Notion OS Template',
-        price: 249000,
-      },
-      'social-media-bundle': {
-        id: 'social-media-bundle',
-        name: 'Social Media Bundle',
-        price: 199000,
-      },
+    async function fetchProduct() {
+      if (!productId) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const url = `/api/products/${productId}?license=${license}`;
+        const response = await fetch(url);
+        if (response.ok) {
+          const data = await response.json();
+          setProduct(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch product:', error);
+      } finally {
+        setLoading(false);
+      }
     }
 
-    if (productId && products[productId as keyof typeof products]) {
-      setProduct(products[productId as keyof typeof products])
-    }
-    setLoading(false)
+    fetchProduct();
   }, [productId])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,6 +64,8 @@ function CheckoutContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           productId: product.id,
+          type: product.type || type,
+          license: product.license || license,
           customer: formData,
         }),
       })

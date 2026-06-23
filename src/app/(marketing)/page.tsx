@@ -56,10 +56,10 @@ export default async function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <Button size="lg" className="rounded-full h-14 px-8 text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_10px_40px_-10px_rgba(245,158,11,0.5)] hover:-translate-y-1 transition-all duration-300">
+              <Button asChild size="lg" className="rounded-full h-14 px-8 text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_10px_40px_-10px_rgba(245,158,11,0.5)] hover:-translate-y-1 transition-all duration-300">
                 <Link href="/layanan">Eksplorasi Layanan</Link>
               </Button>
-              <Button size="lg" variant="outline" className="rounded-full h-14 px-8 text-lg font-bold border-2 border-stone-200 dark:border-stone-700 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors duration-300">
+              <Button asChild size="lg" variant="outline" className="rounded-full h-14 px-8 text-lg font-bold border-2 border-stone-200 dark:border-stone-700 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors duration-300">
                 <Link href="/portfolio">Lihat Portfolio</Link>
               </Button>
             </div>
@@ -188,7 +188,7 @@ export default async function Home() {
                         {service.description}
                       </p>
                       
-                      <Button size="lg" className="rounded-full px-8 bg-foreground text-background hover:bg-foreground/90 dark:bg-background dark:text-foreground">
+                      <Button asChild size="lg" className="rounded-full px-8 bg-foreground text-background hover:bg-foreground/90 dark:bg-background dark:text-foreground">
                         <Link href={`/layanan/${service.slug}`}>Lihat Detail</Link>
                       </Button>
                     </div>
