@@ -16,6 +16,10 @@ import { Testimonials } from './src/collections/Testimonials'
 import { Posts } from './src/collections/Posts'
 import { Media } from './src/collections/Media'
 
+import { SiteConfig } from './src/globals/SiteConfig'
+import { ContactInfo } from './src/globals/ContactInfo'
+import { SEODefaults } from './src/globals/SEODefaults'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -34,6 +38,11 @@ export default buildConfig({
     Testimonials,
     Posts,
     Media,
+  ],
+  globals: [
+    SiteConfig,
+    ContactInfo,
+    SEODefaults,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
