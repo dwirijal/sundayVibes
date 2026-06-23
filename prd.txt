@@ -1,0 +1,805 @@
+﻿SUNDAY VIBES
+	Product Requirements Document
+	
+
+
+
+PRODUCT REQUIREMENTS DOCUMENT
+Sunday Vibes
+Platform Digital Kreatif & Layanan Dokumentasi
+
+
+Events · Produk Digital · Sewa Alat · Design · Coding · WordPress · Foto
+
+
+Versi
+	1.0
+	Tanggal
+	Juni 2025
+	Status
+	Draft — Vibe Coding Ready
+	Tech Stack
+	Next.js · Payload CMS · Bun · shadcn/ui · Tailwind CSS v4
+	Author
+	Sunday Vibes Team
+	Audience
+	Developer · Klien · Stakeholder
+	
+
+Dokumen ini bersifat konfidensial.
+________________
+
+
+Daftar Isi
+Bagian-bagian utama dalam dokumen ini:
+1. Executive Summary
+2. Visi & Misi
+3. Target Pengguna & Persona
+4. Layanan & Fitur Platform
+5. Arsitektur & Tech Stack
+6. Struktur Halaman & Navigasi
+7. Desain Sistem & UI/UX
+8. Content Management (Payload CMS)
+9. Integrasi & Third-Party
+10. Roadmap & Prioritas
+11. Non-Functional Requirements
+12. Metrik Keberhasilan
+________________
+
+
+1. Executive Summary
+Sunday Vibes adalah platform digital multifungsi yang menyatukan seluruh layanan kreatif dan teknis dalam satu ekosistem terintegrasi. Platform ini melayani klien yang membutuhkan jasa event organizer, produk digital, persewaan alat dokumentasi, jasa desain, pengembangan web (termasuk WordPress), dan jual beli foto profesional.
+
+
+Filosofi platform: one-stop creative platform — klien cukup datang ke satu pintu untuk semua kebutuhan kreatif mereka, mulai dari konsep event hingga foto produk yang siap publish.
+
+
+1.1 Problem Statement
+* Klien kesulitan mencari vendor terpercaya yang bisa menangani berbagai kebutuhan kreatif sekaligus
+* Proses booking layanan kreatif masih manual, tidak transparan, dan memakan waktu
+* Tidak ada platform lokal yang mengintegrasikan layanan event + digital + dokumentasi dalam satu UI
+* Portfolio dan katalog layanan sulit diakses secara profesional
+
+
+1.2 Solusi
+* Website profesional dengan CMS yang mudah dikelola (Payload CMS)
+* Sistem booking online untuk semua layanan
+* Marketplace foto dengan lisensi yang jelas
+* Dashboard klien untuk tracking project dan invoice
+* Portfolio showcase yang menarik untuk memenangkan kepercayaan klien baru
+________________
+
+
+2. Visi & Misi
+2.1 Visi
+"Menjadi platform kreatif terpercaya #1 di Surabaya yang menghubungkan ide dengan eksekusi profesional."
+2.2 Misi
+* Memberikan layanan kreatif berkualitas tinggi dengan proses yang transparan dan efisien
+* Membangun ekosistem digital yang memudahkan klien mengakses, memesan, dan memantau layanan
+* Menjadi showcase karya terbaik yang terus berkembang
+* Menawarkan harga yang kompetitif dengan output kelas profesional
+
+
+2.3 Nilai Utama
+Nilai
+	Deskripsi
+	Implementasi Platform
+	Good Vibes Only
+	Pengalaman menyenangkan dari awal hingga akhir
+	UI yang warm, responsif, tanpa friction
+	Transparan
+	Harga & proses yang jelas
+	Real-time status tracking, breakdown harga
+	Kreatif
+	Output yang tidak generik
+	Portfolio showcase, case studies
+	Andal
+	Deadline selalu terpenuhi
+	Notifikasi otomatis, manajemen timeline
+	________________
+
+
+3. Target Pengguna & Persona
+3.1 Segmentasi Utama
+Segmen
+	Profil
+	Kebutuhan Utama
+	Layanan Relevan
+	UMKM & Brand Lokal
+	Bisnis kecil-menengah Surabaya
+	Konten, website, foto produk
+	Foto, Design, WordPress, Coding
+	Event Organizer
+	Komunitas, kampus, korporat
+	Vendor perlengkapan, dokumentasi
+	EO, Sewa Alat, Foto
+	Individual Profesional
+	Freelancer, content creator
+	Portfolio, produk digital
+	Digital Products, Design
+	Instansi & Kampus
+	Acara wisuda, seminar
+	Fotografer, videografer, EO
+	EO, Sewa Alat, Foto
+	Startup & Tech
+	Tim yang butuh website cepat
+	Landing page, web app, CMS
+	Coding, WordPress
+	
+
+3.2 User Persona
+Persona A — Rini, Wedding Organizer (28 thn)
+* Goal: Cari vendor foto + sewa drone untuk event
+* Pain: Harus hubungi 3-4 vendor berbeda, harga tidak transparan
+* Journey: Lihat portfolio → Cek paket sewa → Booking online → Terima konfirmasi
+
+
+Persona B — Bagas, Founder Startup (25 thn)
+* Goal: Landing page keren + integrasi payment dalam 2 minggu
+* Pain: Developer freelance susah ditemukan yang bisa full-stack
+* Journey: Lihat case study → Konsultasi via form → Terima proposal → Sign off
+
+
+Persona C — Bu Sari, UMKM Kue (40 thn)
+* Goal: Foto produk profesional untuk marketplace
+* Pain: Studio foto mahal, tidak tahu cara pesan
+* Journey: Lihat contoh foto → Beli paket foto → Upload brief → Terima hasil
+________________
+
+
+4. Layanan & Fitur Platform
+4.1 Event Organizer
+Layanan penyelenggaraan acara dari skala kecil hingga besar.
+Fitur
+	Deskripsi
+	Prioritas
+	Halaman Paket EO
+	Tampilkan paket Bronze/Silver/Gold dengan detail lengkap
+	P0
+	Form Konsultasi
+	Intake form detail: tanggal, tipe acara, budget, lokasi
+	P0
+	Portfolio Acara
+	Gallery acara yang pernah ditangani, dengan filter kategori
+	P1
+	Timeline Tracker
+	Client bisa lihat progress persiapan acara
+	P2
+	Vendor Network
+	List vendor partner (catering, sound, dll)
+	P2
+	
+
+4.2 Produk Digital
+Template, preset, tools digital yang dijual langsung atau berlangganan.
+Fitur
+	Deskripsi
+	Prioritas
+	Storefront Digital
+	Toko produk digital: template, preset Lightroom, mockup
+	P0
+	Secure Download
+	Link download terlindungi pasca pembayaran
+	P0
+	Lisensi & T&C
+	Halaman lisensi jelas per produk
+	P1
+	Preview Demo
+	Preview produk sebelum beli (watermark)
+	P1
+	Bundle Deal
+	Bundling produk dengan diskon
+	P2
+	
+
+4.3 Persewaan Alat Dokumentasi
+Sewa kamera, drone, lighting, dan perlengkapan produksi.
+Fitur
+	Deskripsi
+	Prioritas
+	Katalog Alat
+	List alat dengan foto, spesifikasi, harga/hari
+	P0
+	Availability Calendar
+	Kalender ketersediaan alat realtime
+	P0
+	Booking Form
+	Form reservasi dengan tanggal, durasi, alamat pengiriman
+	P0
+	Deposit & Jaminan
+	Info SOP deposit, jaminan KTP/aset
+	P1
+	Paket Bundle
+	Sewa paket (kamera + lighting + mic)
+	P1
+	
+
+4.4 Jasa Design
+Desain grafis, branding, social media, dan materi marketing.
+Fitur
+	Deskripsi
+	Prioritas
+	Paket Design
+	Logo, brand identity, sosmed kit, print design
+	P0
+	Brief Intake
+	Form pengisian brief + referensi style
+	P0
+	Revisi Tracker
+	Tracking round revisi per project
+	P1
+	Asset Delivery
+	Download aset final via portal klien
+	P1
+	
+
+4.5 Jasa Coding & Web Development
+Pengembangan aplikasi web, API, dan integrasi sistem.
+Fitur
+	Deskripsi
+	Prioritas
+	Halaman Layanan Dev
+	Breakdown layanan: Next.js, API, integrasi, maintenance
+	P0
+	Tech Stack Showcase
+	Tampilkan kapabilitas teknologi dengan ikon + deskripsi
+	P0
+	Case Study Dev
+	Detail project: problem, solusi, hasil, tech yang digunakan
+	P1
+	Inquiry Form
+	Form khusus dev: requirements, timeline, budget range
+	P0
+	
+
+4.6 Jasa WordPress
+Setup, kustomisasi, dan maintenance website WordPress.
+Fitur
+	Deskripsi
+	Prioritas
+	Paket WP
+	Starter, Business, Ecommerce — fitur per paket jelas
+	P0
+	Theme Showcase
+	Demo tema yang tersedia
+	P1
+	Plugin Catalog
+	Daftar plugin yang biasa digunakan + fungsi
+	P2
+	Maintenance SLA
+	Paket maintenance bulanan + SLA response time
+	P1
+	
+
+4.7 Jual Foto
+Marketplace foto profesional untuk kebutuhan komersial, editorial, dan personal.
+Fitur
+	Deskripsi
+	Prioritas
+	Foto Marketplace
+	Grid foto dengan filter: kategori, orientasi, warna, harga
+	P0
+	Lisensi Foto
+	Standard License vs Extended License dengan harga berbeda
+	P0
+	Cart & Checkout
+	Keranjang + payment gateway lokal (Midtrans)
+	P0
+	Download Portal
+	Download foto resolusi penuh post-purchase
+	P0
+	Custom Session
+	Booking sesi foto custom (produk, portrait, event)
+	P1
+	Foto Wisuda
+	Paket foto wisuda dengan promo kampus
+	P1
+	________________
+
+
+5. Arsitektur & Tech Stack
+5.1 Stack Utama
+Layer
+	Teknologi
+	Peran
+	Keterangan
+	Frontend
+	Next.js 15 (App Router)
+	UI & routing
+	SSR/SSG/ISR tergantung kebutuhan halaman
+	UI Library
+	shadcn/ui + Tailwind CSS v4
+	Komponen & styling
+	Custom theme Sunday Vibes
+	CMS
+	Payload CMS 3.x
+	Content management
+	Self-hosted, GraphQL + REST API
+	Runtime
+	Bun
+	JS runtime & package manager
+	Lebih cepat dari Node.js
+	Database
+	PostgreSQL
+	Data utama
+	Dikelola via Payload CMS
+	Auth
+	Payload Auth
+	Autentikasi admin & klien
+	JWT + cookie-based
+	Storage
+	Cloudflare R2 / S3-compatible
+	Upload foto & aset
+	CDN untuk foto marketplace
+	Payment
+	Midtrans
+	Payment gateway
+	QRIS, transfer bank, kartu kredit
+	Email
+	Resend / Nodemailer
+	Transactional email
+	Konfirmasi booking, invoice
+	Deployment
+	VPS + Docker / Coolify
+	Hosting
+	Self-hosted atau Vercel untuk Next.js
+	
+
+5.2 Struktur Repository
+Monorepo dengan struktur berikut menggunakan Bun workspaces:
+* sunday-vibes/ (root)
+   * apps/web — Next.js frontend
+   * apps/cms — Payload CMS backend
+   * packages/ui — shadcn/ui + custom components
+   * packages/config — Shared config (tailwind, ts, eslint)
+   * packages/types — Shared TypeScript types
+   * .env.local, .env.production
+   * docker-compose.yml
+
+
+5.3 Pendekatan Payload CMS
+* Collections: Services, Projects, Photos, Products, Bookings, Users, Testimonials
+* Globals: SiteConfig, Homepage, ContactInfo, SEODefaults
+* Media collection dengan auto-resize dan WebP conversion
+* Access control: admin full access, klien read-only untuk project mereka
+* Hooks: afterChange untuk trigger email notifikasi
+________________
+
+
+6. Struktur Halaman & Navigasi
+6.1 Sitemap
+URL
+	Halaman
+	Tipe
+	Prioritas
+	/
+	Homepage
+	Static + Dynamic
+	P0
+	/layanan
+	Semua Layanan
+	Static
+	P0
+	/layanan/events
+	Event Organizer
+	Static
+	P0
+	/layanan/digital
+	Produk Digital
+	Dynamic
+	P0
+	/layanan/sewa-alat
+	Persewaan Alat
+	Dynamic
+	P0
+	/layanan/design
+	Jasa Design
+	Static
+	P0
+	/layanan/coding
+	Jasa Coding
+	Static
+	P0
+	/layanan/wordpress
+	Jasa WordPress
+	Static
+	P0
+	/foto
+	Marketplace Foto
+	Dynamic
+	P0
+	/foto/[slug]
+	Detail Foto
+	Dynamic
+	P0
+	/portfolio
+	Portfolio
+	Dynamic
+	P1
+	/portfolio/[slug]
+	Detail Case Study
+	Dynamic
+	P1
+	/booking
+	Form Booking Universal
+	Static
+	P0
+	/tentang
+	About Us
+	Static
+	P1
+	/blog
+	Blog / Tips Kreatif
+	Dynamic
+	P2
+	/kontak
+	Kontak
+	Static
+	P0
+	/dashboard
+	Client Dashboard
+	Auth-protected
+	P1
+	/dashboard/project
+	My Projects
+	Auth-protected
+	P1
+	/dashboard/invoice
+	My Invoices
+	Auth-protected
+	P1
+	/admin
+	Payload CMS Admin
+	Auth-protected
+	P0
+	
+
+6.2 Navigasi Utama
+* Logo Sunday Vibes (link ke /)
+* Layanan (mega menu atau dropdown)
+* Foto (link ke marketplace)
+* Portfolio
+* Blog
+* Kontak
+* CTA: 'Booking Sekarang' (tombol, always visible)
+* Icon: Login/Dashboard (jika sudah auth)
+________________
+
+
+7. Desain Sistem & UI/UX
+7.1 Design Philosophy
+Sunday Vibes menggabungkan energi positif weekend (warm amber) dengan profesionalisme kreatif. Vibe: hangat, approachable, tapi tetap premium.
+
+
+7.2 Token Warna
+Token
+	Hex
+	Penggunaan
+	--color-amber-500
+	#F59E0B
+	Primary CTA, accent, highlight
+	--color-violet-700
+	#7C3AED
+	Secondary accent, headings, badges
+	--color-stone-900
+	#1C1917
+	Body text, dark backgrounds
+	--color-stone-500
+	#78716C
+	Muted text, labels, captions
+	--color-stone-100
+	#F5F5F4
+	Background sections, cards
+	--color-white
+	#FFFFFF
+	Base background, card surface
+	--color-amber-50
+	#FFFBEB
+	Warm tint backgrounds
+	
+
+7.3 Tipografi
+Role
+	Typeface
+	Weight
+	Penggunaan
+	Display / Hero
+	Plus Jakarta Sans
+	800 ExtraBold
+	Hero headline, brand name
+	Heading
+	Plus Jakarta Sans
+	700 Bold
+	H1–H3, section titles
+	Body
+	Inter
+	400–500
+	Paragraf, deskripsi layanan
+	UI / Label
+	Inter
+	500–600 Medium
+	Button, badge, caption, nav
+	Mono
+	JetBrains Mono
+	400
+	Kode, harga teknis
+	
+
+7.4 Komponen Kunci (shadcn/ui + Custom)
+* ServiceCard — Kartu layanan dengan icon, title, deskripsi singkat, CTA
+* PhotoGrid — Masonry grid untuk marketplace foto
+* BookingForm — Multi-step form dengan validasi Zod
+* PricingTable — Perbandingan paket layanan
+* TestimonialCarousel — Slider testimoni klien
+* AvailabilityPicker — Kalender booking alat
+* ProjectTimeline — Tracker status project klien
+* HeroSection — Full-width hero dengan headline + CTA
+
+
+7.5 UX Principles
+13. Mobile-first — semua halaman optimal di 375px+
+14. Loading states — skeleton loader untuk foto dan grid
+15. Empty states — ilustrasi + copy informatif
+16. Error handling — pesan error yang manusiawi
+17. Accessibility — WCAG 2.1 AA minimum
+18. Performance — Core Web Vitals: LCP < 2.5s, CLS < 0.1
+________________
+
+
+8. Content Management — Payload CMS
+8.1 Collections
+Collection
+	Fields Utama
+	Relasi
+	services
+	title, slug, category, description, packages (array), hero_image, seo
+	—
+	projects
+	title, slug, category, client, tags, thumbnail, gallery, description, tech_stack, result
+	services
+	photos
+	title, slug, category, tags, price_standard, price_extended, file_hires, preview_watermark, orientation
+	—
+	products
+	title, slug, type, price, file_download, preview, license_type
+	—
+	equipment
+	name, slug, specs, price_per_day, deposit, available, images
+	—
+	bookings
+	service_type, client, date, status, notes, amount, payment_status
+	users, services
+	users
+	name, email, role (admin/client), phone, company
+	bookings
+	testimonials
+	client_name, company, content, rating, avatar, service
+	services
+	posts
+	title, slug, category, content (rich text), author, thumbnail, seo
+	—
+	
+
+8.2 Globals
+* SiteConfig — nama brand, logo, kontak, sosial media
+* Homepage — hero headline, featured services, about snippet
+* SEODefaults — og:image default, meta description template
+* ContactInfo — alamat, WhatsApp, email, jam operasional
+
+
+8.3 Media Handling
+* Auto-resize ke: thumbnail (400x300), card (800x600), hero (1920x1080)
+* Convert ke WebP secara otomatis
+* Foto marketplace simpan versi watermark + hires terpisah
+* Storage di Cloudflare R2 via S3 adapter Payload
+________________
+
+
+9. Integrasi & Third-Party
+Integrasi
+	Provider
+	Tujuan
+	Prioritas
+	Payment Gateway
+	Midtrans
+	Checkout foto, produk digital, booking EO
+	P0
+	WhatsApp
+	Fonnte / WA Business API
+	Notifikasi booking + CS otomatis
+	P1
+	Email
+	Resend
+	Transactional email: konfirmasi, invoice, reminder
+	P0
+	Analytics
+	Umami (self-hosted)
+	Traffic & conversion tanpa cookie consent
+	P1
+	Maps
+	Google Maps Embed
+	Lokasi studio / pickup alat
+	P2
+	Social Proof
+	Google Review API
+	Pull rating Google Maps
+	P2
+	CDN
+	Cloudflare
+	Asset delivery, DDoS protection, caching
+	P0
+	OG Images
+	Satori / og-image
+	Generate OG image dinamis per halaman
+	P2
+	________________
+
+
+10. Roadmap & Prioritas
+10.1 Phase 1 — Foundation (Minggu 1–3)
+Goal: Website live dengan halaman utama dan booking form berfungsi.
+19. Setup project: Next.js + Payload CMS + Bun monorepo
+20. Konfigurasi Tailwind v4 + shadcn/ui dengan tema Sunday Vibes
+21. Setup database PostgreSQL + koneksi Payload
+22. Buat collections dasar: services, bookings, users, media
+23. Homepage: hero, services overview, CTA
+24. Halaman per layanan (6 halaman statis)
+25. Booking form universal
+26. Kontak + WhatsApp integration
+
+
+10.2 Phase 2 — Commerce (Minggu 4–6)
+Goal: Marketplace foto dan produk digital aktif.
+27. Marketplace foto: grid, filter, detail halaman
+28. Checkout flow + Midtrans integration
+29. Secure download portal post-payment
+30. Storefront produk digital
+31. Katalog sewa alat + availability calendar
+32. Email transactional (Resend)
+
+
+10.3 Phase 3 — Client Portal (Minggu 7–9)
+Goal: Klien bisa self-serve untuk tracking project.
+33. Auth sistem klien (login, register)
+34. Dashboard klien: lihat project, status, invoice
+35. Portfolio + case study pages
+36. Testimonial system
+37. Blog / artikel SEO
+
+
+10.4 Phase 4 — Growth (Minggu 10+)
+Goal: SEO, konversi, dan automasi.
+38. SEO optimization: sitemap, schema markup, OG images
+39. Analytics (Umami)
+40. WhatsApp chatbot / auto-responder
+41. Google Review integration
+42. Paket wisuda dengan promo kampus
+43. Bundle deals dan promo engine
+________________
+
+
+11. Non-Functional Requirements
+11.1 Performance
+* First Contentful Paint (FCP): < 1.8 detik
+* Largest Contentful Paint (LCP): < 2.5 detik
+* Cumulative Layout Shift (CLS): < 0.1
+* Time to First Byte (TTFB): < 600ms
+* Foto marketplace: lazy-load + progressive image
+
+
+11.2 Keamanan
+* HTTPS enforced via Cloudflare
+* Payload CMS admin di subdomain terpisah: cms.sundayvibes.id
+* Rate limiting pada endpoint booking dan auth
+* File download hanya via signed URL (expired dalam 24 jam)
+* Validasi input dengan Zod di semua form
+* CSRF protection via Payload built-in
+
+
+11.3 SEO
+* Setiap halaman memiliki unique title, meta description, OG image
+* Structured data: LocalBusiness, Product, BlogPosting
+* Sitemap.xml auto-generated dari Payload collections
+* URL slug SEO-friendly, lowercase, hyphen-separated
+* Image alt text wajib untuk semua foto
+
+
+11.4 Aksesibilitas
+* WCAG 2.1 Level AA compliance
+* Keyboard navigable untuk semua interaktif elemen
+* Color contrast ratio minimal 4.5:1 untuk body text
+* ARIA labels pada semua ikon dan tombol tanpa label teks
+
+
+11.5 Browser Support
+* Chrome 110+ | Firefox 110+ | Safari 16+ | Edge 110+
+* Mobile: iOS Safari 16+ | Chrome Android 110+
+________________
+
+
+12. Metrik Keberhasilan
+Metrik
+	Target (3 Bulan)
+	Target (6 Bulan)
+	Cara Ukur
+	Monthly Visitors
+	500 UV/bulan
+	2.000 UV/bulan
+	Umami Analytics
+	Booking Conversion
+	> 3%
+	> 5%
+	Booking / unique visitor
+	Foto Terjual
+	10 lisensi/bulan
+	50 lisensi/bulan
+	Midtrans transaction log
+	Produk Digital Terjual
+	5 produk/bulan
+	20 produk/bulan
+	Payload CMS orders
+	Lighthouse Score
+	Performance > 85
+	Performance > 90
+	Lighthouse CI
+	Core Web Vitals
+	Semua Pass
+	Semua Pass
+	Google Search Console
+	WhatsApp Response
+	< 2 jam
+	< 1 jam
+	Manual tracking awal
+	Client Satisfaction
+	NPS > 40
+	NPS > 60
+	Post-project survey
+	
+
+12.1 Definisi Success untuk Phase 1
+* Website live dan dapat diakses publik
+* Minimal 1 booking masuk melalui website dalam minggu pertama live
+* Semua 6 halaman layanan selesai dengan konten lengkap
+* Admin Payload CMS dapat update konten mandiri tanpa developer
+
+
+________________
+
+
+Appendix A — Vibe Coding Guidelines
+Dokumen ini dibuat untuk mendukung workflow vibe coding dengan Claude Code. Berikut konvensi yang perlu diikuti:
+
+
+A.1 File & Folder Convention
+* Komponen di src/components/{feature}/ComponentName.tsx
+* Page di src/app/{route}/page.tsx (App Router)
+* Payload collections di src/collections/{Name}.ts
+* Hooks custom di src/hooks/useName.ts
+* Utils di src/lib/{util}.ts
+* Types di src/types/{name}.ts
+
+
+A.2 Naming Convention
+* PascalCase: Komponen React, Types, Interfaces
+* camelCase: Fungsi, variabel, props
+* kebab-case: URL slug, CSS class custom, file name
+* SCREAMING_SNAKE: Konstanta environment
+
+
+A.3 Commit Convention
+* feat: fitur baru
+* fix: bug fix
+* chore: dependency, config
+* style: styling changes
+* content: update konten CMS/copy
+
+
+A.4 Claude Code Slash Commands yang Disarankan
+* /build-page [nama halaman] — scaffold halaman baru dengan layout standard
+* /add-collection [nama] — buat Payload collection baru dengan field umum
+* /style-component [nama] — refactor komponen dengan Sunday Vibes design tokens
+* /fix-a11y — scan dan fix accessibility issues di halaman aktif
+
+
+Sunday Vibes PRD v1.0  ·  Good Vibes Only  ☀️  
+Sunday Vibes  ·  Confidential  ·  v1.0  ·  Halaman  dari
