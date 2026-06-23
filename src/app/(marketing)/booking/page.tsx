@@ -56,7 +56,9 @@ function BookingForm() {
         (s) => s.id.toLowerCase() === serviceParam.toLowerCase()
       );
       if (match) {
-        setFormData((prev) => ({ ...prev, service: match.id }));
+        // Since React 18 strict mode + hooks can be finnicky about immediate updates inside useSearchParams
+        // wrapping the state updates helps Next.js safely resolve it outside the immediate tree render sync
+        setTimeout(() => setFormData((prev) => ({ ...prev, service: match.id })), 0);
       }
     }
   }, [serviceParam]);
