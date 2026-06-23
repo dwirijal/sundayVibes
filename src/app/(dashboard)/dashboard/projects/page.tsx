@@ -62,15 +62,9 @@ export default async function ProjectsPage() {
                     <div>
                       <span className="text-xs text-muted-foreground">Status:</span>
                       <Badge
-                        className={
-                          project.status === 'completed'
-                            ? 'bg-primary/10 text-primary ml-2'
-                            : project.status === 'in_progress'
-                            ? 'bg-secondary/10 text-secondary ml-2'
-                            : 'bg-muted text-muted-foreground ml-2'
-                        }
+                        className={'bg-primary/10 text-primary ml-2'}
                       >
-                        {project.status}
+                        In Progress
                       </Badge>
                     </div>
                     {project.description && (
