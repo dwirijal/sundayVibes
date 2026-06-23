@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Calendar, FolderKanban, FileText, LogOut } from 'lucide-react'
+import { LayoutDashboard, Calendar, FolderKanban, FileText, Settings, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface DashboardSidebarProps {
@@ -21,6 +21,7 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
     { name: 'Bookings', href: '/dashboard/bookings', icon: Calendar },
     { name: 'Projects', href: '/dashboard/projects', icon: FolderKanban },
     { name: 'Invoices', href: '/dashboard/invoices', icon: FileText },
+    { name: 'Settings', href: '/dashboard/settings', icon: Settings },
   ]
 
   return (

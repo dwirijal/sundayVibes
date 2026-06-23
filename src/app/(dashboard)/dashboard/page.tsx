@@ -35,7 +35,7 @@ export default async function DashboardPage() {
 
   // Calculate stats
   const totalBookings = bookings.docs.length
-  const activeProjects = projects.docs.filter(p => p.status !== 'completed').length
+  const activeProjects = projects.docs.length // projects dont have status field yet in phase 1
   const unpaidInvoices = bookings.docs.filter(b => b.payment_status === 'unpaid').length
   const totalSpent = bookings.docs
     .filter(b => b.payment_status === 'paid')
@@ -148,25 +148,24 @@ export default async function DashboardPage() {
             <CardTitle>Active Projects</CardTitle>
           </CardHeader>
           <CardContent>
-            {projects.docs.filter(p => p.status !== 'completed').length === 0 ? (
+            {projects.docs.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-8">
                 No active projects
               </p>
             ) : (
               <div className="space-y-4">
                 {projects.docs
-                  .filter(p => p.status !== 'completed')
                   .slice(0, 5)
                   .map((project) => (
                     <div key={project.id} className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium">{project.title}</p>
                         <p className="text-xs text-muted-foreground">
-                          {project.category || 'General'}
+                          {typeof project.category === 'object' ? project.category?.title : 'General'}
                         </p>
                       </div>
                       <span className="text-xs px-2 py-1 rounded-full bg-secondary/10 text-secondary capitalize">
-                        {project.status}
+                        In Progress
                       </span>
                     </div>
                   ))}
