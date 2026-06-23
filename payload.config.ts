@@ -19,6 +19,7 @@ import { Media } from './src/collections/Media'
 import { SiteConfig } from './src/globals/SiteConfig'
 import { ContactInfo } from './src/globals/ContactInfo'
 import { SEODefaults } from './src/globals/SEODefaults'
+import { Homepage } from './src/globals/Homepage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -43,6 +44,7 @@ export default buildConfig({
     SiteConfig,
     ContactInfo,
     SEODefaults,
+    Homepage,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
