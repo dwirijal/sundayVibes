@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 import Script from "next/script";
 import { getPayload } from "payload";
@@ -47,10 +47,30 @@ async function getOrganizationSchema() {
   };
 }
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#1c1917" }
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1, // Prevents iOS Safari auto-zoom on inputs
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
   title: "Sunday Vibes | One-Stop Creative Platform",
   description: "Platform digital multifungsi yang menyatukan seluruh layanan kreatif dan teknis dalam satu ekosistem terintegrasi.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://sundayvibes.id'),
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Sunday Vibes",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/assets/logo-black-transparent.webp", // Will act as Apple Touch Icon
+  },
   openGraph: {
     title: "Sunday Vibes | One-Stop Creative Platform",
     description: "Platform digital multifungsi yang menyatukan seluruh layanan kreatif dan teknis dalam satu ekosistem terintegrasi.",

@@ -29,7 +29,7 @@ export function Navbar() {
   }, [isOpen]);
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl border-b border-stone-200 dark:border-stone-800">
+    <header className="fixed top-0 w-full z-50 bg-white/90 dark:bg-stone-900/90 supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:dark:bg-stone-900/60 backdrop-blur-xl border-b border-stone-200 dark:border-stone-800">
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         
         {/* Logo */}
@@ -106,7 +106,7 @@ export function Navbar() {
           
           <Link href="/admin" className="text-muted-foreground hover:text-primary transition-colors">Login / Client Portal</Link>
           
-          <div className="mt-4 pb-10">
+          <div className="mt-4 pb-10 mb-[env(safe-area-inset-bottom)]">
             <Link
               href="/kontak"
               className={cn(
