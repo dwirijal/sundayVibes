@@ -4,6 +4,7 @@ import Script from "next/script";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -134,7 +135,14 @@ export default async function RootLayout({
         <JsonLd data={organizationSchema} />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

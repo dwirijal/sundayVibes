@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CartIcon } from "./CartIcon";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
@@ -59,6 +60,7 @@ export function Navbar() {
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-4">
+          <ThemeToggle />
           <Link href="/admin" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Client Portal</Link>
           <CartIcon />
           <Link
@@ -101,9 +103,16 @@ export function Navbar() {
           <Link href="/foto/wisuda" className="hover:text-primary transition-colors">Promo Foto Wisuda</Link>
           <Link href="/portfolio" className="hover:text-primary transition-colors">Portfolio</Link>
           <Link href="/blog" className="hover:text-primary transition-colors">Blog</Link>
-          
+
           <div className="h-px w-full bg-border my-2"></div>
-          
+
+          <div className="flex items-center justify-between">
+            <span className="text-muted-foreground">Tema</span>
+            <ThemeToggle />
+          </div>
+
+          <div className="h-px w-full bg-border my-2"></div>
+
           <Link href="/admin" className="text-muted-foreground hover:text-primary transition-colors">Login / Client Portal</Link>
           
           <div className="mt-4 pb-10 mb-[env(safe-area-inset-bottom)]">
