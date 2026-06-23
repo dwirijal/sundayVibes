@@ -101,18 +101,17 @@ export const metadata: Metadata = {
         height: 630,
         alt: "Sunday Vibes",
       },
+    ],
+    locale: "id_ID",
+    type: "website",
+  },
   twitter: {
     card: "summary_large_image",
     title: "Sunday Vibes | One-Stop Creative Platform",
     description: "Layanan kreatif dan teknis (Event, Foto, Web Dev, Sewa Alat) dalam satu ekosistem terintegrasi.",
     images: ["/assets/og-default.png"],
   },
-  // Helps Bing, DuckDuckGo and other alternative engines verify and index the site
   category: "technology",
-    ],
-    locale: "id_ID",
-    type: "website",
-  },
 };
 
 export default async function RootLayout({

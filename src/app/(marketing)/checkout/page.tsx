@@ -1,6 +1,5 @@
 'use client'
 
-import type { Metadata } from 'next'
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -10,17 +9,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { QRCodeSVG } from 'qrcode.react'
 import { generateDynamicQRIS } from '@/lib/qris'
 
-const metadata: Metadata = {
-  title: "Checkout - Sunday Vibes",
-  description: "Selesaikan pembayaran untuk produk digital, foto, atau booking layanan Sunday Vibes.",
-};
 
 const BASE_QRIS = "00020101021126610014COM.GO-JEK.WWW01189360091439738305930210G9738305930303UMI51440014ID.CO.QRIS.WWW0215ID10243394679450303UMI5204733353033605802ID5919LEV. SPACE, Jakarta6005TUBAN61056238262070703A0163049B3A";
 
 function CheckoutContent({ waNumber }: { waNumber: string }) {
   const searchParams = useSearchParams()
   const productId = searchParams.get('id') || searchParams.get('product')
-  const type = searchParams.get('type') || 'product'
+  // const type = searchParams.get('type') || 'product'
   const license = searchParams.get('license') || 'standard'
 
   const [formData, setFormData] = useState({
@@ -28,7 +23,14 @@ function CheckoutContent({ waNumber }: { waNumber: string }) {
     email: '',
     phone: '',
   })
-  const [product, setProduct] = useState<{ id: string; name: string; price: number; type?: string; license?: string } | null>(null)
+  interface ProductData {
+    id: string;
+    name: string;
+    price: number;
+    type?: string;
+    license?: string;
+  }
+  const [product, setProduct] = useState<ProductData | null>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [paymentMethod, setPaymentMethod] = useState<'qris' | 'transfer'>('qris')

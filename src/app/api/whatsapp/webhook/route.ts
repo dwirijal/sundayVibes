@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     // Fonnte webhook structure usually contains:
     // sender, message, name, target, etc.
     const message = data.message?.toLowerCase() || ''
-    const sender = data.sender
+    // const sender = data.sender
     
     let replyMessage = ''
 
