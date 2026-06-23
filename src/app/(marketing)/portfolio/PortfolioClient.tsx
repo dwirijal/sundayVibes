@@ -218,10 +218,11 @@ export function PortfolioClient({ projects, tiktoks, youtubeVideos }: PortfolioC
               <div key={i} className="youtube-card group relative aspect-video bg-muted rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border">
                 <iframe
                   src={`https://www.youtube.com/embed/${video.id}`}
-                  className="w-full h-full border-0"
+                  className="absolute inset-0 w-full h-full border-0"
                   title={video.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
+                  loading="lazy"
                 />
               </div>
             ))}
