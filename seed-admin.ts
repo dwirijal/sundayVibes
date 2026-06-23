@@ -1,28 +1,36 @@
 import dotenv from 'dotenv'
 import path from 'path'
+import { fileURLToPath } from 'url'
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
 
 // Load environment variables
-dotenv.config({ path: path.resolve(__dirname, '.env') })
+dotenv.config({ path: path.resolve(dirname, '.env') })
 
 import { getPayload } from 'payload'
-import config from './payload.config'
+import configPromise from './payload.config'
 
 async function seedAdmin() {
-  const payload = await getPayload({ config })
+  const payload = await getPayload({ config: configPromise })
 
   console.log('Creating admin user...')
 
-  const admin = await payload.create({
-    collection: 'users',
-    data: {
-      email: 'admin@sundayvibes.com',
-      password: 'admin123',
-      name: 'Admin',
-      role: 'admin',
-    },
-  })
+  try {
+    const admin = await payload.create({
+      collection: 'users',
+      data: {
+        email: 'admin@sundayvibes.com',
+        password: 'admin123',
+        name: 'Admin',
+        role: 'admin',
+      },
+    })
+    console.log('Admin user created:', admin.email)
+  } catch (error) {
+    console.log('User might already exist or there was an issue:', error)
+  }
 
-  console.log('Admin user created:', admin.email)
   process.exit(0)
 }
 
