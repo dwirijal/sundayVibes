@@ -6,18 +6,47 @@ import { snap, generateOrderId } from '@/lib/midtrans'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { productId, customer } = body
+    const { productId, type, license, customer } = body
 
     const payload = await getPayload({ config })
 
-    // Fetch product details
-    const product = await payload.findByID({
-      collection: 'products',
-      id: productId,
-    })
+    let itemDetails: any = null;
 
-    if (!product) {
-      return NextResponse.json({ error: 'Product not found' }, { status: 404 })
+    if (type === 'photo') {
+      const photo = await payload.findByID({
+        collection: 'photos',
+        id: productId,
+      });
+
+      if (!photo) {
+        return NextResponse.json({ error: 'Photo not found' }, { status: 404 })
+      }
+
+      const price = license === 'extended' ? photo.price_extended : photo.price_standard;
+
+      itemDetails = {
+        id: photo.id,
+        price: price,
+        quantity: 1,
+        name: `${photo.title} (${license} license)`,
+      }
+    } else {
+      // Default to digital products
+      const product = await payload.findByID({
+        collection: 'products',
+        id: productId,
+      });
+
+      if (!product) {
+        return NextResponse.json({ error: 'Product not found' }, { status: 404 })
+      }
+
+      itemDetails = {
+        id: product.id,
+        price: product.price,
+        quantity: 1,
+        name: product.title,
+      }
     }
 
     const orderId = generateOrderId()
@@ -26,21 +55,14 @@ export async function POST(req: NextRequest) {
     const parameter = {
       transaction_details: {
         order_id: orderId,
-        gross_amount: product.price,
+        gross_amount: itemDetails.price,
       },
       customer_details: {
         first_name: customer.name,
         email: customer.email,
         phone: customer.phone,
       },
-      item_details: [
-        {
-          id: product.id,
-          price: product.price,
-          quantity: 1,
-          name: product.title,
-        },
-      ],
+      item_details: [itemDetails],
     }
 
     const transaction = await snap.createTransaction(parameter)
@@ -70,22 +92,25 @@ export async function POST(req: NextRequest) {
       userId = newUser.id
     }
 
-    // Find the digital product service
-    const digitalService = await payload.find({
+    // Find the digital product / photo service
+    const serviceSlug = type === 'photo' ? 'photography' : 'digital';
+    const relatedService = await payload.find({
       collection: 'services',
-      where: { slug: { equals: 'digital' } },
+      where: { slug: { equals: serviceSlug } },
       limit: 1,
     })
+
+    const serviceId = relatedService.docs.length > 0 ? relatedService.docs[0].id : null;
 
     // Create booking record
     await payload.create({
       collection: 'bookings',
       data: {
-        service_type: digitalService.docs[0].id,
+        ...(serviceId && { service_type: serviceId }),
         client: userId,
         date: new Date().toISOString(),
-        amount: product.price,
-        notes: `Order ID: ${orderId}\nProduct: ${product.title}`,
+        amount: itemDetails.price,
+        notes: `Order ID: ${orderId}\nItem: ${itemDetails.name}\nType: ${type}`,
         status: 'pending',
         payment_status: 'unpaid',
       },

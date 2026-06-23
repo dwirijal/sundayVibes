@@ -104,7 +104,7 @@ export default function LayananPage() {
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
             Tidak yakin layanan mana yang cocok? Hubungi kami untuk diskusi gratis.
           </p>
-          <Button size="lg" className="rounded-full h-14 px-8 text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90">
+          <Button asChild size="lg" className="rounded-full h-14 px-8 text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90">
             <Link href="/kontak">Hubungi Kami</Link>
           </Button>
         </div>
