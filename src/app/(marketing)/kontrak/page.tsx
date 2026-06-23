@@ -29,6 +29,7 @@ export default function KontrakPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showQris, setShowQris] = useState(false);
   const [qrisPayload, setQrisPayload] = useState("");
+  const [waNumber, setWaNumber] = useState("6285157319611");
   const BASE_QRIS = "00020101021126610014COM.GO-JEK.WWW01189360091439738305930210G9738305930303UMI51440014ID.CO.QRIS.WWW0215ID10243394679450303UMI5204733353033605802ID5919LEV. SPACE, Jakarta6005TUBAN61056238262070703A0163049B3A";
   const cartItems = useCart((state) => state.items);
   const promoCode = useCart((state) => state.promoCode);
@@ -37,6 +38,11 @@ export default function KontrakPage() {
   const removePromo = useCart((state) => state.removePromo);
   const [promoInput, setPromoInput] = useState("");
   const clearCart = useCart((state) => state.clearCart);
+
+  // Fetch WA Number
+  useEffect(() => {
+    fetch('/api/contact').then(res => res.json()).then(data => setWaNumber(data.whatsappNumber)).catch(() => {});
+  }, []);
 
   // Sync cart items to form on mount
   useEffect(() => {
@@ -159,7 +165,7 @@ export default function KontrakPage() {
     );
     
     // Open WA in a new tab so they can still see/print the invoice
-    window.open(`https://wa.me/6281234567890?text=${message}`, '_blank');
+    window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank');
   };
 
   const handlePrint = () => {

@@ -17,7 +17,7 @@ const metadata: Metadata = {
 
 const BASE_QRIS = "00020101021126610014COM.GO-JEK.WWW01189360091439738305930210G9738305930303UMI51440014ID.CO.QRIS.WWW0215ID10243394679450303UMI5204733353033605802ID5919LEV. SPACE, Jakarta6005TUBAN61056238262070703A0163049B3A";
 
-function CheckoutContent() {
+function CheckoutContent({ waNumber }: { waNumber: string }) {
   const searchParams = useSearchParams()
   const productId = searchParams.get('id') || searchParams.get('product')
   const type = searchParams.get('type') || 'product'
@@ -85,7 +85,7 @@ function CheckoutContent() {
     const message = encodeURIComponent(
       `Halo Admin Sunday Vibes! 👋\n\nSaya sudah melakukan pembayaran via QRIS untuk:\n*Produk*: ${product.name}\n*Total*: Rp ${product.price.toLocaleString('id-ID')}\n*Atas Nama*: ${formData.name}\n*Email*: ${formData.email}\n\nBerikut saya lampirkan bukti transfernya: [SILAKAN ATTACH FOTO/SCREENSHOT BUKTI TRANSFER]`
     );
-    window.location.href = `https://wa.me/6281234567890?text=${message}`;
+    window.location.href = `https://wa.me/${waNumber}?text=${message}`;
   }
 
 
@@ -209,10 +209,22 @@ function CheckoutContent() {
   )
 }
 
-export default function CheckoutPage() {
+export default async function CheckoutPage() {
+  let waNumber = "6285157319611"; // Default fallback
+  try {
+    const payload = await getPayload({ config: configPromise });
+    const contactInfo = await payload.findGlobal({ slug: "contact-info" }) as any;
+    if (contactInfo?.whatsappNumber) {
+      // Ensure format is 62...
+      waNumber = contactInfo.whatsappNumber.toString().replace(/^0/, '62');
+    }
+  } catch (err) {
+    console.error("Failed to fetch contact info for WA", err);
+  }
+
   return (
     <Suspense fallback={<div className="container mx-auto px-6 py-24">Loading...</div>}>
-      <CheckoutContent />
+      <CheckoutContent waNumber={waNumber} />
     </Suspense>
   )
 }
