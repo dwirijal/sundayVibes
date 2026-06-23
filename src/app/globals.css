@@ -111,31 +111,191 @@
   --input: #44403C;
   --ring: #F59E0B;
 }
-  
-  --muted: #292524;
-  --muted-foreground: #A8A29E; /* stone-400 */
-  
-  --accent: #451A03; /* Deep amber */
-  --accent-foreground: #F5F5F4;
-  
-  --destructive: #F87171;
-  --destructive-foreground: #1C1917;
-  
-  --border: #44403C; /* stone-700 */
-  --input: #44403C;
-  --ring: #F59E0B;
-}
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  /* Firefox Scrollbar Customization */
+
+  /* Cross-browser base styles */
   html {
+    /* Firefox scrollbar */
     scrollbar-color: var(--border) var(--background);
     scrollbar-width: thin;
+
+    /* iOS text size adjust */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+
+    /* Prevent pull-to-refresh on mobile */
+    overscroll-behavior-y: contain;
   }
+
   body {
     @apply bg-background text-foreground antialiased;
+
+    /* iOS tap highlight removal */
+    -webkit-tap-highlight-color: transparent;
+
+    /* Better font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Color scheme for native elements */
+    color-scheme: light dark;
+  }
+
+  /* Webkit scrollbar (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
+
+  /* Focus visible for keyboard navigation */
+  :focus-visible {
+    @apply outline-2 outline-ring outline-offset-2;
+  }
+
+  /* Remove focus outline for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* iOS input zoom prevention */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  @media (min-width: 768px) {
+    input,
+    select,
+    textarea {
+      font-size: inherit;
+    }
+  }
+
+  /* Prevent iOS input rounding */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  textarea,
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: var(--radius);
+  }
+
+  /* iOS button fix */
+  button,
+  [role="button"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  /* Smooth image rendering */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  /* Prevent text selection on interactive elements */
+  button,
+  [role="button"],
+  a {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Allow text selection on form elements */
+  input,
+  textarea {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+}
+
+/* Safe area utilities for notched devices */
+@supports (padding: max(0px)) {
+  .safe-top {
+    padding-top: max(0.5rem, env(safe-area-inset-top));
+  }
+
+  .safe-bottom {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+
+  .safe-left {
+    padding-left: max(0.5rem, env(safe-area-inset-left));
+  }
+
+  .safe-right {
+    padding-right: max(0.5rem, env(safe-area-inset-right));
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border: #000000;
+    --foreground: #000000;
+  }
+
+  .dark {
+    --border: #ffffff;
+    --foreground: #ffffff;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  img {
+    page-break-inside: avoid;
   }
 }

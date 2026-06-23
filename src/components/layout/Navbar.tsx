@@ -30,8 +30,8 @@ export function Navbar() {
   }, [isOpen]);
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-white/95 dark:bg-stone-900/95 supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:dark:bg-stone-900/60 backdrop-blur-xl border-b border-stone-200 dark:border-stone-800">
-      <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+    <header className="fixed top-0 w-full z-50 bg-white/95 dark:bg-stone-900/95 supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:dark:bg-stone-900/60 backdrop-blur-xl border-b border-stone-200 dark:border-stone-800 safe-top">
+      <div className="container mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group cursor-pointer z-50">
@@ -75,12 +75,13 @@ export function Navbar() {
         </div>
 
         {/* Mobile Toggle Button */}
-        <div className="flex lg:hidden items-center gap-4 z-50">
+        <div className="flex lg:hidden items-center gap-2 sm:gap-4 z-50">
           <CartIcon />
-          <button 
+          <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 -mr-2 text-foreground hover:text-primary transition-colors"
+            className="p-3 -mr-2 text-foreground hover:text-primary transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
             aria-label="Toggle Menu"
+            aria-expanded={isOpen}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -88,13 +89,13 @@ export function Navbar() {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <div 
+      <div
         className={cn(
-          "fixed inset-0 top-20 bg-background lg:hidden transition-all duration-300 ease-in-out flex flex-col",
+          "fixed inset-0 top-16 sm:top-20 bg-background lg:hidden transition-all duration-300 ease-in-out flex flex-col",
           isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <nav className="flex flex-col gap-6 p-8 text-xl font-bold overflow-y-auto">
+        <nav className="flex flex-col gap-6 p-6 sm:p-8 text-xl font-bold overflow-y-auto safe-bottom">
           <Link href="/layanan/events" className="hover:text-primary transition-colors">Event Organizer</Link>
           <Link href="/layanan/digital" className="hover:text-primary transition-colors">Digital Product</Link>
           <Link href="/layanan/sewa-alat" className="hover:text-primary transition-colors">Sewa Alat</Link>
