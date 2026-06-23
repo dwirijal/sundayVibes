@@ -91,7 +91,7 @@ export function Navbar() {
       {/* Mobile Menu Overlay */}
       <div
         className={cn(
-          "fixed inset-0 top-16 sm:top-20 bg-background lg:hidden transition-all duration-300 ease-in-out flex flex-col",
+          "fixed inset-0 top-16 sm:top-20 z-[60] bg-background lg:hidden transition-all duration-300 ease-in-out flex flex-col",
           isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
