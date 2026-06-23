@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { CartIcon } from "./CartIcon";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

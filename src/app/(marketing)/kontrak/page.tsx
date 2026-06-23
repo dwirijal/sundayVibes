@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, Printer, FileText } from "lucide-react";
+import { useCart } from "@/store/useCart";
+import { useEffect } from "react";
 
 interface RentalItem {
   name: string;
@@ -23,6 +25,21 @@ export default function KontrakPage() {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const cartItems = useCart((state) => state.items);
+  const clearCart = useCart((state) => state.clearCart);
+
+  // Sync cart items to form on mount
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      const timeoutId = setTimeout(() => {
+        setFormData(prev => ({
+          ...prev,
+          items: cartItems.map(i => ({ name: i.name, price: i.price, qty: i.qty }))
+        }));
+      }, 0);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [cartItems]);
 
   const catalogItems = [
     { name: "Softbox Kit-1", price: 75000 },
@@ -35,6 +52,8 @@ export default function KontrakPage() {
     { name: "TNW-M01Pro", price: 200000 },
     { name: "Brica B-Steady 2", price: 175000 },
     { name: "DJI OM7", price: 325000 },
+    { name: "DJI Lito X1", price: 220000 },
+    { name: "DJI Neo 2", price: 175000 },
     { name: "Tripod S", price: 25000 },
     { name: "Tripod M", price: 35000 },
     { name: "Tripod L", price: 50000 },
@@ -95,6 +114,7 @@ export default function KontrakPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
+    clearCart();
   };
 
   const handlePrint = () => {
