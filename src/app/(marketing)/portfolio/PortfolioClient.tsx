@@ -25,9 +25,10 @@ interface Project {
 interface PortfolioClientProps {
   projects: Project[];
   tiktoks: Array<{ url: string; id: string }>;
+  youtubeVideos?: Array<{ id: string; title: string }>;
 }
 
-export function PortfolioClient({ projects, tiktoks }: PortfolioClientProps) {
+export function PortfolioClient({ projects, tiktoks, youtubeVideos }: PortfolioClientProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -76,6 +77,21 @@ export function PortfolioClient({ projects, tiktoks }: PortfolioClientProps) {
         stagger: STAGGER.NORMAL,
         duration: getDuration(0.6),
         ease: 'back.out(1.7)',
+      });
+
+      // YouTube videos stagger
+      gsap.from('.youtube-card', {
+        scrollTrigger: {
+          trigger: '.youtube-grid',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+        opacity: 0,
+        y: 40,
+        scale: 0.95,
+        stagger: STAGGER.NORMAL,
+        duration: getDuration(0.6),
+        ease: 'power3.out',
       });
 
       // CTA button
@@ -192,6 +208,26 @@ export function PortfolioClient({ projects, tiktoks }: PortfolioClientProps) {
           ))}
         </div>
       </section>
+
+      {/* YouTube Videos */}
+      {youtubeVideos && youtubeVideos.length > 0 && (
+        <section className="mb-24">
+          <h2 className="text-3xl font-black text-foreground mb-8">Video Dokumentasi</h2>
+          <div className="youtube-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {youtubeVideos.map((video, i) => (
+              <div key={i} className="youtube-card group relative aspect-video bg-muted rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border">
+                <iframe
+                  src={`https://www.youtube.com/embed/${video.id}`}
+                  className="w-full h-full border-0"
+                  title={video.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* CTA */}
       <div className="text-center">

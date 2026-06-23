@@ -74,17 +74,9 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Toggle Button */}
+        {/* Mobile Cart - hamburger removed, using bottom tab bar instead */}
         <div className="flex lg:hidden items-center gap-2 sm:gap-4 z-50">
           <CartIcon />
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-3 -mr-2 text-foreground hover:text-primary transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
-            aria-label="Toggle Menu"
-            aria-expanded={isOpen}
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
       </div>
 
