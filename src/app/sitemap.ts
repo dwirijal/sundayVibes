@@ -134,5 +134,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Failed to fetch photos for sitemap:', error)
   }
 
+  // Add dynamic digital products
+  try {
+    const products = await payload.find({
+      collection: 'products',
+      limit: 100,
+    })
+
+    products.docs.forEach((product) => {
+      sitemapData.push({
+        url: `${baseUrl}/produk-digital/${product.slug}`,
+        lastModified: new Date(product.updatedAt || product.createdAt),
+        changeFrequency: 'monthly',
+        priority: 0.7,
+      })
+    })
+  } catch (error) {
+    console.error('Failed to fetch products for sitemap:', error)
+  }
+
   return sitemapData
 }

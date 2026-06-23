@@ -5,9 +5,22 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ExternalLink, Calendar, User, Tag } from "lucide-react";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import type { Metadata } from 'next'
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+async function getProject(slug: string) {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'projects',
+    where: { slug: { equals: slug } },
+    limit: 1,
+    depth: 1,
+    overrideAccess: true,
+  })
+  return docs[0] || null
 }
 
 export async function generateStaticParams() {
@@ -15,26 +28,43 @@ export async function generateStaticParams() {
   const projects = await payload.find({
     collection: 'projects',
     limit: 100,
+    overrideAccess: true,
   })
   return projects.docs.map((project) => ({ slug: project.slug }))
 }
 
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params
+  const project = await getProject(slug)
+  if (!project) return {}
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sundayvibes.id'
+  const categoryTitle = typeof project.category === 'object' ? project.category?.title : undefined
+  const title = `${project.title} - Sunday Vibes Portfolio`
+  const description = `Proyek ${project.title}${project.client ? ` untuk ${project.client}` : ''}${categoryTitle ? ` (${categoryTitle})` : ''}.`
+  const images = project.thumbnail?.url ? [{ url: project.thumbnail.url }] : undefined
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `${baseUrl}/portfolio/${project.slug}` },
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      url: `${baseUrl}/portfolio/${project.slug}`,
+      images,
+    },
+    twitter: { title, description, images },
+  }
+}
+
 export default async function ProjectDetailPage({ params }: PageProps) {
   const { slug } = await params;
+  const project = await getProject(slug);
+  if (!project) notFound();
+
   const payload = await getPayload({ config: configPromise })
-
-  const projectResult = await payload.find({
-    collection: 'projects',
-    where: { slug: { equals: slug } },
-    limit: 1,
-    depth: 1,
-  })
-
-  if (projectResult.docs.length === 0) {
-    notFound();
-  }
-
-  const project = projectResult.docs[0];
 
   // Get related projects from same category
   const relatedResult = await payload.find({

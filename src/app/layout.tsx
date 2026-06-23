@@ -1,12 +1,51 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import Script from "next/script";
+import { getPayload } from "payload";
+import configPromise from "@payload-config";
+import { JsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
 
 const nunito = Nunito({
   variable: "--font-sans",
   subsets: ["latin"],
 });
+
+async function getOrganizationSchema() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sundayvibes.id";
+  type Loose = Record<string, unknown> | undefined;
+  let contact: Loose;
+  let site: Loose;
+  try {
+    const payload = await getPayload({ config: configPromise });
+    contact = (await payload.findGlobal({ slug: "contact-info" })) as Loose;
+    site = (await payload.findGlobal({ slug: "site-config" })) as Loose;
+  } catch {
+    // Globals may be empty in a fresh DB — emit minimal schema.
+    contact = undefined;
+    site = undefined;
+  }
+
+  const brandName = (site?.brandName as string) || "Sunday Vibes";
+  const addressText =
+    typeof contact?.address === "string" ? (contact.address as string) : "";
+  const socialMedia = Array.isArray(site?.socialMedia)
+    ? (site?.socialMedia as Array<{ url?: string }>)
+    : [];
+  const social = socialMedia.filter((s) => s?.url).map((s) => s.url as string);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": ["Organization", "LocalBusiness"],
+    "@id": `${baseUrl}/#organization`,
+    name: brandName,
+    url: baseUrl,
+    email: (contact?.email as string) || undefined,
+    telephone: contact?.whatsappNumber ? `+${contact.whatsappNumber}` : undefined,
+    address: addressText ? { "@type": "PostalAddress", streetAddress: addressText } : undefined,
+    sameAs: social.length ? social : undefined,
+  };
+}
 
 export const metadata: Metadata = {
   title: "Sunday Vibes | One-Stop Creative Platform",
@@ -30,11 +69,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationSchema = await getOrganizationSchema();
   return (
     <html lang="id" className={`${nunito.variable} h-full antialiased`}>
       <head>
@@ -46,6 +86,7 @@ export default function RootLayout({
             strategy="afterInteractive"
           />
         )}
+        <JsonLd data={organizationSchema} />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}
