@@ -26,12 +26,12 @@ export async function POST(req: NextRequest) {
 
     const payload = await getPayload({ config })
 
-    // Find booking by order ID
+    // Find booking by order ID (using like to match the notes field)
     const bookings = await payload.find({
       collection: 'bookings',
       where: {
         notes: {
-          equals: `Order ID: ${notification.order_id}`,
+          like: notification.order_id,
         },
       },
       limit: 1,
@@ -75,17 +75,22 @@ export async function POST(req: NextRequest) {
 
     // Send email notifications if payment confirmed
     if (status === 'confirmed') {
+      const client = typeof booking.client === 'object' ? booking.client : null;
+      const service = typeof booking.service_type === 'object' ? booking.service_type : null;
+
       const bookingData = {
-        service: booking.service,
+        service: service?.title || 'Unknown Service',
         date: booking.date,
         duration: 1,
-        totalPrice: booking.budget,
-        customerName: booking.customer?.name || '',
-        email: booking.customer?.email || '',
-        phone: booking.customer?.phone || '',
+        totalPrice: booking.amount,
+        customerName: client?.name || 'Customer',
+        email: client?.email || '',
+        phone: client?.phone || '',
       }
 
-      await sendBookingConfirmation(bookingData.email, bookingData)
+      if (bookingData.email) {
+        await sendBookingConfirmation(bookingData.email, bookingData)
+      }
       await sendAdminNotification(bookingData)
     }
 
