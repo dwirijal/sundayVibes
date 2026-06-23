@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Placeholder for Fonnte / WhatsApp Business API Webhook
 // This route will handle incoming messages and provide automated responses
+export const runtime = 'edge';
+
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json()
