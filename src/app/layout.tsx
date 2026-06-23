@@ -44,6 +44,11 @@ async function getOrganizationSchema() {
     telephone: contact?.whatsappNumber ? `+${contact.whatsappNumber}` : undefined,
     address: addressText ? { "@type": "PostalAddress", streetAddress: addressText } : undefined,
     sameAs: social.length ? social : undefined,
+    priceRange: "Rp 25.000 - Rp 5.000.000",
+    areaServed: {
+      "@type": "City",
+      "name": "Surabaya"
+    }
   };
 }
 
@@ -60,8 +65,21 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Sunday Vibes | One-Stop Creative Platform",
-  description: "Platform digital multifungsi yang menyatukan seluruh layanan kreatif dan teknis dalam satu ekosistem terintegrasi.",
+  description: "Platform digital multifungsi di Surabaya yang menyatukan layanan event organizer, sewa alat kamera, pembuatan website/aplikasi, produk digital, dan fotografi profesional.",
+  keywords: ["event organizer surabaya", "sewa kamera surabaya", "sewa drone surabaya", "jasa pembuatan website", "jasa coding", "jasa foto wisuda", "sunday vibes"],
+  authors: [{ name: "Sunday Vibes Team" }],
+  creator: "Sunday Vibes",
+  publisher: "Sunday Vibes",
+  generator: "Sunday Vibes Platform",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://sundayvibes.id'),
+  alternates: {
+    canonical: '/',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -83,6 +101,14 @@ export const metadata: Metadata = {
         height: 630,
         alt: "Sunday Vibes",
       },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sunday Vibes | One-Stop Creative Platform",
+    description: "Layanan kreatif dan teknis (Event, Foto, Web Dev, Sewa Alat) dalam satu ekosistem terintegrasi.",
+    images: ["/assets/og-default.png"],
+  },
+  // Helps Bing, DuckDuckGo and other alternative engines verify and index the site
+  category: "technology",
     ],
     locale: "id_ID",
     type: "website",
