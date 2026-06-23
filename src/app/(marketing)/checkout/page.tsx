@@ -82,8 +82,10 @@ function CheckoutContent() {
   }
 
   const handleConfirmManual = () => {
-    alert("Terima kasih! Pesanan Anda sedang kami proses. Tim admin akan segera menghubungi nomor WhatsApp Anda setelah pembayaran diverifikasi.");
-    window.location.href = "/";
+    const message = encodeURIComponent(
+      `Halo Admin Sunday Vibes! 👋\n\nSaya sudah melakukan pembayaran via QRIS untuk:\n*Produk*: ${product.name}\n*Total*: Rp ${product.price.toLocaleString('id-ID')}\n*Atas Nama*: ${formData.name}\n*Email*: ${formData.email}\n\nBerikut saya lampirkan bukti transfernya: [SILAKAN ATTACH FOTO/SCREENSHOT BUKTI TRANSFER]`
+    );
+    window.location.href = `https://wa.me/6281234567890?text=${message}`;
   }
 
 

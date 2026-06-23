@@ -152,6 +152,14 @@ export default function KontrakPage() {
     setIsSubmitted(true);
     setShowQris(false);
     clearCart();
+    
+    const itemList = formData.items.map(i => `- ${i.name} (${i.qty}x)`).join('\n');
+    const message = encodeURIComponent(
+      `Halo Admin Sunday Vibes! 👋\n\nSaya sudah melakukan pembayaran via QRIS untuk Penyewaan Alat.\n\n*Detail Penyewa*:\nNama: ${formData.customerName}\nDurasi: ${formData.startDate} s/d ${formData.endDate}\n\n*Item Disewa*:\n${itemList}\n\n*Total Bayar*: Rp ${calculateTotal().toLocaleString('id-ID')}\n\nBerikut saya lampirkan bukti transfernya: [SILAKAN ATTACH FOTO/SCREENSHOT BUKTI TRANSFER]`
+    );
+    
+    // Open WA in a new tab so they can still see/print the invoice
+    window.open(`https://wa.me/6281234567890?text=${message}`, '_blank');
   };
 
   const handlePrint = () => {
