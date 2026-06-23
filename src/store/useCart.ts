@@ -17,12 +17,18 @@ interface CartStore {
   clearCart: () => void;
   totalItems: () => number;
   totalPrice: () => number;
+  promoCode: string | null;
+  discountAmount: number;
+  applyPromo: (code: string) => boolean;
+  removePromo: () => void;
 }
 
 export const useCart = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
+      promoCode: null,
+      discountAmount: 0,
       addItem: (item) => set((state) => {
         const existing = state.items.find(i => i.id === item.id);
         if (existing) {
@@ -42,7 +48,25 @@ export const useCart = create<CartStore>()(
           ? state.items.filter(i => i.id !== id)
           : state.items.map(i => i.id === id ? { ...i, qty } : i)
       })),
-      clearCart: () => set({ items: [] }),
+      clearCart: () => set({ items: [], promoCode: null, discountAmount: 0 }),
+      
+      applyPromo: (code) => {
+        // Simple promo engine logic
+        const validPromos: Record<string, number> = {
+          'WISUDA2026': 50000,
+          'SUNDAYVIBES': 0.1, // 10% discount if < 1
+          'STUDENT': 25000
+        };
+        
+        const discount = validPromos[code.toUpperCase()];
+        if (discount) {
+          set({ promoCode: code.toUpperCase(), discountAmount: discount });
+          return true;
+        }
+        return false;
+      },
+      
+      removePromo: () => set({ promoCode: null, discountAmount: 0 }),
       totalItems: () => get().items.reduce((total, item) => total + item.qty, 0),
       totalPrice: () => get().items.reduce((total, item) => total + (item.price * item.qty), 0),
     }),

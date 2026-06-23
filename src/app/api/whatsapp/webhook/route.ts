@@ -30,11 +30,9 @@ export async function POST(req: NextRequest) {
       replyMessage = `Pesan Anda telah diterima. Admin kami akan segera merespons dalam waktu dekat. Jika urgent, silakan balas dengan "URGENT".\n\nJam operasional:\nSenin-Sabtu: 09:00 - 18:00 WIB.`
     }
 
-    // In a real implementation with Fonnte, you would send this back via their API:
-    // await fetch('https://api.fonnte.com/send', {
-    //   method: 'POST',
-    //   headers: { Authorization: process.env.FONNTE_TOKEN },
-    //   body: JSON.stringify({ target: sender, message: replyMessage })
+    // Since no Fonnte is provided, this webhook just logs incoming events
+    // and returns the auto-reply format that could be used by other providers
+    console.log("No Fonnte provider configured. Ignoring outbound send.");
     // })
 
     return NextResponse.json({ 

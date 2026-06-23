@@ -26,6 +26,11 @@ export default function KontrakPage() {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const cartItems = useCart((state) => state.items);
+  const promoCode = useCart((state) => state.promoCode);
+  const discountAmount = useCart((state) => state.discountAmount);
+  const applyPromo = useCart((state) => state.applyPromo);
+  const removePromo = useCart((state) => state.removePromo);
+  const [promoInput, setPromoInput] = useState("");
   const clearCart = useCart((state) => state.clearCart);
 
   // Sync cart items to form on mount
@@ -107,8 +112,20 @@ export default function KontrakPage() {
 
   const calculateTotal = () => {
     const days = calculateDays();
-    const subtotal = formData.items.reduce((sum, item) => sum + item.price * item.qty, 0);
-    return subtotal * days;
+    const subtotal = formData.items.reduce((sum, item) => sum + item.price * item.qty, 0) * days;
+    
+    if (!promoCode) return subtotal;
+    
+    // If discount < 1, it's a percentage. Otherwise it's a fixed amount.
+    const discount = discountAmount < 1 ? subtotal * discountAmount : discountAmount;
+    return Math.max(0, subtotal - discount);
+  };
+  
+  const handleApplyPromo = () => {
+    if (!promoInput) return;
+    const success = applyPromo(promoInput);
+    if (!success) alert("Kode promo tidak valid");
+    setPromoInput("");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -211,6 +228,29 @@ export default function KontrakPage() {
                     ))}
                   </tbody>
                   <tfoot className="bg-muted/50 border-t-2 border-border">
+                    {/* Promo Code Section */}
+                    <tr className="print:hidden">
+                      <td colSpan={2} className="p-3">
+                        <div className="flex gap-2 max-w-xs">
+                          <input 
+                            type="text" 
+                            value={promoInput}
+                            onChange={(e) => setPromoInput(e.target.value)}
+                            placeholder="Kode Promo" 
+                            className="w-full px-3 py-1.5 rounded-lg border border-border bg-background text-sm"
+                          />
+                          <Button type="button" onClick={handleApplyPromo} variant="secondary" size="sm">Pakai</Button>
+                        </div>
+                      </td>
+                      <td colSpan={2} className="p-3 text-right">
+                        {promoCode && (
+                          <div className="inline-flex items-center gap-2 bg-green-500/10 text-green-600 px-3 py-1 rounded-full text-sm font-bold">
+                            Promo {promoCode} Aktif
+                            <button type="button" onClick={removePromo} className="text-green-800 hover:text-green-900 ml-1">×</button>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
                     <tr>
                       <td colSpan={3} className="p-3 text-right font-bold text-foreground">
                         Total ({calculateDays()} hari):

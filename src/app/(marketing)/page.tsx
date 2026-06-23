@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { GoogleReviews } from "@/components/ui/GoogleReviews";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import type { Metadata } from "next";
