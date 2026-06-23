@@ -17,5 +17,19 @@ export default async function Page() {
     depth: 1,
   })
 
-  return <SewaAlatClient equipment={equipment.docs as any} />
+  const serializedEquipment = equipment.docs.map((doc: any) => ({
+    id: doc.id,
+    name: doc.name,
+    slug: doc.slug,
+    price_per_day: doc.price_per_day,
+    available: doc.available,
+    images: doc.images?.map((img: any) => ({
+      image: {
+        url: img.image?.url || '',
+        alt: img.image?.alt,
+      }
+    }))
+  }));
+
+  return <SewaAlatClient equipment={serializedEquipment} />
 }

@@ -17,5 +17,20 @@ export default async function Page() {
     depth: 1,
   })
 
-  return <ProdukDigitalClient products={products.docs as any} />
+  // Extract docs and assert them to the expected Client type implicitly by serializing and destructuring if needed,
+  // or pass down via mapping to strip off complex backend payload Types.
+  const serializedProducts = products.docs.map((doc: any) => ({
+    id: doc.id,
+    title: doc.title,
+    slug: doc.slug,
+    type: doc.type,
+    price: doc.price,
+    license_type: doc.license_type,
+    preview: doc.preview ? {
+      url: doc.preview.url,
+      alt: doc.preview.alt,
+    } : undefined
+  }));
+
+  return <ProdukDigitalClient products={serializedProducts} />
 }

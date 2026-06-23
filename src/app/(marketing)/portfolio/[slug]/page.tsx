@@ -178,7 +178,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Mari diskusikan bagaimana kami bisa membantu mewujudkan visi Anda
           </p>
-          <Button size="lg" className="rounded-full h-14 px-8 text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90">
+          <Button asChild size="lg" className="rounded-full h-14 px-8 text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90">
             <Link href="/kontak">Hubungi Kami</Link>
           </Button>
         </section>

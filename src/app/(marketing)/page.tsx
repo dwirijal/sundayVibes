@@ -20,41 +20,56 @@ export default async function Home() {
     limit: 6,
   });
 
-  const { docs: testimonials } = await payload.find({
+  const { docs: testimonialsDocs } = await payload.find({
     collection: "testimonials",
     limit: 10,
     depth: 1,
   }) as any;
 
+  const serializedTestimonials = testimonialsDocs.map((doc: any) => ({
+    id: doc.id,
+    client_name: doc.client_name,
+    company: doc.company,
+    content: doc.content,
+    rating: doc.rating,
+    avatar: doc.avatar ? { url: doc.avatar.url, alt: doc.avatar.alt } : undefined,
+  }));
+
+  const homepageGlobal = await payload.findGlobal({ slug: "homepage" }) as any;
+
   return (
     <div className="relative min-h-screen flex flex-col overflow-hidden bg-background font-sans selection:bg-primary/20 selection:text-primary">
-      
+
       {/* Hero Section */}
       <main className="flex-1 flex items-center pt-20 relative">
-        
+
         {/* Background Accents based on PRD colors */}
         <div className="absolute top-0 right-0 w-1/2 h-full bg-accent dark:bg-stone-800/50 -z-10 [clip-path:polygon(20%_0%,100%_0%,100%_100%,0%_100%)]" />
         <div className="absolute top-[20%] right-[10%] w-[40vw] h-[40vw] rounded-full bg-primary/10 blur-[100px] mix-blend-multiply dark:mix-blend-screen -z-10 animate-pulse" style={{ animationDuration: '8s' }} />
         <div className="absolute bottom-[10%] right-[30%] w-[30vw] h-[30vw] rounded-full bg-secondary/10 blur-[100px] mix-blend-multiply dark:mix-blend-screen -z-10 animate-pulse" style={{ animationDuration: '12s' }} />
 
         <div className="container mx-auto px-6 py-12 lg:py-24 grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          
+
           {/* Left: Copy */}
           <div className="flex flex-col items-start max-w-2xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent text-primary border border-primary/20 font-semibold text-sm mb-8">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               One-stop creative platform
             </div>
-            
+
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter text-foreground leading-[1.05] mb-6">
-              Karya terbaik,<br />
-              <span className="text-primary">tanpa pusing.</span>
+              {homepageGlobal.heroHeadline || (
+                <>
+                  Karya terbaik,<br />
+                  <span className="text-primary">tanpa pusing.</span>
+                </>
+              )}
             </h1>
-            
+
             <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-10">
-              Dari konsep event hingga foto produk yang siap publish. Sunday Vibes menyatukan seluruh kebutuhan kreatif dan teknis Anda dalam satu ekosistem yang terintegrasi, transparan, dan profesional.
+              {homepageGlobal.heroSubheadline || "Dari konsep event hingga foto produk yang siap publish. Sunday Vibes menyatukan seluruh kebutuhan kreatif dan teknis Anda dalam satu ekosistem yang terintegrasi, transparan, dan profesional."}
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <Button asChild size="lg" className="rounded-full h-14 px-8 text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_10px_40px_-10px_rgba(245,158,11,0.5)] hover:-translate-y-1 transition-all duration-300">
                 <Link href="/layanan">Eksplorasi Layanan</Link>
@@ -63,7 +78,7 @@ export default async function Home() {
                 <Link href="/portfolio">Lihat Portfolio</Link>
               </Button>
             </div>
-            
+
             {/* Trust Markers */}
             <div className="mt-12 flex items-center gap-6 pt-8 border-t border-stone-200 dark:border-stone-800 w-full">
               <div className="flex -space-x-4">
@@ -78,7 +93,7 @@ export default async function Home() {
               </div>
             </div>
           </div>
-          
+
           {/* Right: Signature Visual */}
           <div className="relative flex items-center justify-center h-[500px] lg:h-[600px] w-full">
             {/* Central Badge */}
@@ -130,7 +145,7 @@ export default async function Home() {
                 </div>
               </div>
             </Link>
-            
+
           </div>
         </div>
       </main>
@@ -151,15 +166,15 @@ export default async function Home() {
             <div className="flex flex-col gap-12 lg:gap-24">
               {services.map((service, index) => {
                 const isEven = index % 2 !== 0; // 0-indexed, so 1, 3, 5 are "even" in layout terms (reversed)
-                
+
                 // Helper to safely get image URL if it exists
-                const imageUrl = service.hero_image && typeof service.hero_image === 'object' && service.hero_image.url 
-                  ? service.hero_image.url 
+                const imageUrl = service.hero_image && typeof service.hero_image === 'object' && service.hero_image.url
+                  ? service.hero_image.url
                   : null;
 
                 return (
                   <div key={service.id} className={`flex flex-col ${isEven ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-8 lg:gap-16 p-8 lg:p-12 rounded-[2.5rem] ${isEven ? 'bg-stone-50 dark:bg-stone-900' : 'bg-white dark:bg-stone-950 border border-stone-100 dark:border-stone-800'}`}>
-                    
+
                     {/* Media Block */}
                     <div className="w-full lg:w-1/2 aspect-[4/3] relative rounded-3xl overflow-hidden shadow-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center">
                       {imageUrl ? (
@@ -179,20 +194,20 @@ export default async function Home() {
                       <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary font-bold text-sm mb-6 uppercase tracking-wider">
                         {service.category}
                       </div>
-                      
+
                       <h3 className="text-3xl lg:text-4xl font-black text-foreground mb-4 leading-tight">
                         {service.title}
                       </h3>
-                      
+
                       <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                         {service.description}
                       </p>
-                      
+
                       <Button asChild size="lg" className="rounded-full px-8 bg-foreground text-background hover:bg-foreground/90 dark:bg-background dark:text-foreground">
                         <Link href={`/layanan/${service.slug}`}>Lihat Detail</Link>
                       </Button>
                     </div>
-                    
+
                   </div>
                 );
               })}
@@ -202,8 +217,8 @@ export default async function Home() {
       </section>
 
       {/* Testimonials */}
-      {testimonials.length > 0 && (
-        <TestimonialCarousel testimonials={testimonials} />
+      {serializedTestimonials.length > 0 && (
+        <TestimonialCarousel testimonials={serializedTestimonials} />
       )}
 
       {/* Trust & Workflow Strip */}

@@ -131,7 +131,7 @@ export default async function PhotoDetailPage({ params }: PageProps) {
                       <span className="line-through">Iklan komersial / cetak</span>
                     </li>
                   </ul>
-                  <Button className="w-full rounded-full" variant="outline">
+                  <Button asChild className="w-full rounded-full" variant="outline">
                     <Link href={`/checkout?type=photo&id=${photo.id}&license=standard`} className="w-full">
                       Beli Standard
                     </Link>
@@ -161,7 +161,7 @@ export default async function PhotoDetailPage({ params }: PageProps) {
                       <span>Produk untuk dijual kembali (Merchandise)</span>
                     </li>
                   </ul>
-                  <Button className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90">
+                  <Button asChild className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90">
                     <Link href={`/checkout?type=photo&id=${photo.id}&license=extended`} className="w-full">
                       Beli Extended
                     </Link>

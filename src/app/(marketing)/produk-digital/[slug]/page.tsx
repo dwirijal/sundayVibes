@@ -110,7 +110,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 </li>
               </ul>
 
-              <Button size="lg" className="w-full rounded-full h-14 text-lg font-bold bg-foreground text-background hover:bg-foreground/90">
+              <Button asChild size="lg" className="w-full rounded-full h-14 text-lg font-bold bg-foreground text-background hover:bg-foreground/90">
                 <Link href={`/checkout?type=digital&id=${product.id}`} className="flex items-center justify-center gap-2 w-full">
                   Beli Sekarang
                 </Link>
