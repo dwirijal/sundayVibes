@@ -40,7 +40,7 @@ function CheckoutContent() {
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
-          setProduct(data);
+          setTimeout(() => setProduct(data), 0);
         }
       } catch (error) {
         console.error('Failed to fetch product:', error);
@@ -50,7 +50,7 @@ function CheckoutContent() {
     }
 
     fetchProduct();
-  }, [productId])
+  }, [productId, license])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

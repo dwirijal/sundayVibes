@@ -69,7 +69,7 @@ export function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) 
             <Quote className="w-12 h-12 text-primary/20 mb-6" />
 
             <p className="text-xl md:text-2xl text-foreground leading-relaxed mb-8">
-              "{currentTestimonial.content}"
+              &quot;{currentTestimonial.content}&quot;
             </p>
 
             <div className="flex items-center justify-between">
