@@ -222,7 +222,6 @@ export function PortfolioClient({ projects, tiktoks, youtubeVideos }: PortfolioC
                   title={video.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
-                  loading="lazy"
                 />
               </div>
             ))}
