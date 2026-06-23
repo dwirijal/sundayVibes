@@ -29,6 +29,7 @@ function CheckoutContent() {
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
+    let isMounted = true;
     async function fetchProduct() {
       if (!productId) {
         setLoading(false);
@@ -40,16 +41,17 @@ function CheckoutContent() {
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
-          setTimeout(() => setProduct(data), 0);
+          setTimeout(() => { if (isMounted) setProduct(data) }, 0);
         }
       } catch (error) {
         console.error('Failed to fetch product:', error);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
 
     fetchProduct();
+    return () => { isMounted = false };
   }, [productId, license])
 
   const handleSubmit = async (e: React.FormEvent) => {

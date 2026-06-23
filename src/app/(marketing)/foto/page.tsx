@@ -17,5 +17,16 @@ export default async function Page() {
     depth: 1,
   })
 
-  return <FotoPage photos={photos.docs as any} />
+  const serializedPhotos = photos.docs.map((doc: any) => ({
+    id: doc.id,
+    title: doc.title,
+    slug: doc.slug,
+    category: doc.category,
+    price_standard: doc.price_standard,
+    price_extended: doc.price_extended,
+    file_hires: doc.file_hires ? { url: doc.file_hires.url, alt: doc.file_hires.alt } : { url: '' },
+    preview_watermark: doc.preview_watermark ? { url: doc.preview_watermark.url } : undefined,
+  }));
+
+  return <FotoPage photos={serializedPhotos} />
 }

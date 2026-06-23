@@ -5,7 +5,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Check, ChevronLeft, ChevronRight, Send, ArrowLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight, Send } from "lucide-react";
 
 const metadata: Metadata = {
   title: "Booking - Sunday Vibes",

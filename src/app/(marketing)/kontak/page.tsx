@@ -130,7 +130,7 @@ export default function KontakPage() {
 
         <div className="text-center">
           <p className="text-muted-foreground mb-4">Atau langsung chat via WhatsApp untuk respon tercepat</p>
-          <Button size="lg" className="rounded-full h-14 px-8 text-lg font-bold bg-green-600 text-white hover:bg-green-700">
+          <Button asChild size="lg" className="rounded-full h-14 px-8 text-lg font-bold bg-green-600 text-white hover:bg-green-700">
             <a href="https://wa.me/6285157319611" className="flex items-center gap-2">
               💬 Chat WhatsApp
             </a>
