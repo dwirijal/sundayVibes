@@ -9,12 +9,14 @@ export const metadata: Metadata = {
 };
 
 export default function PhotographyPage() {
-  const packages = [
+  const packages: any[] = [
     {
       name: "Produk",
       price: "Mulai Rp 1.500.000",
       description: "Foto produk profesional untuk marketplace, katalog, atau sosial media.",
       features: ["10-15 Produk", "Background Studio", "Basic Editing", "File High-Res", "Siap Upload Marketplace", "1x Revisi"],
+      isPopular: false,
+      isPromo: false,
     },
     {
       name: "Portrait",
@@ -22,12 +24,24 @@ export default function PhotographyPage() {
       description: "Sesi foto portrait untuk personal branding, LinkedIn, atau CV profesional.",
       features: ["2 Jam Sesi", "2 Outfit", "20-30 Foto Edited", "Location Indoor/Outdoor", "Online Gallery", "Print 1 Foto"],
       isPopular: true,
+      isPromo: false,
+    },
+    {
+      name: "Wisuda / Graduation",
+      price: "Rp 850.000",
+      originalPrice: "Rp 1.500.000",
+      description: "PROMO: Paket dokumentasi wisuda khusus area Surabaya.",
+      features: ["1.5 Jam Sesi", "1 Lokasi (Kampus)", "15 Foto Edited", "Semua Softcopy", "Maks. 5 Orang", "Free Print 10R"],
+      isPromo: true,
+      isPopular: false,
     },
     {
       name: "Event",
       price: "Mulai Rp 5.000.000",
       description: "Dokumentasi foto acara: wedding, seminar, launching produk, atau gathering.",
       features: ["Full Day Coverage", "2 Fotografer", "Unlimited Shot", "300+ Foto Edited", "Same Day Preview", "USB Delivery"],
+      isPopular: false,
+      isPromo: false,
     },
   ];
 
@@ -78,20 +92,30 @@ export default function PhotographyPage() {
                   Paling Diminati
                 </div>
               )}
+              {pkg.isPromo && (
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-secondary text-secondary-foreground px-4 py-1 rounded-full text-sm font-bold">
+                  Promo Spesial
+                </div>
+              )}
               <h3 className="text-2xl font-bold text-foreground mb-2">{pkg.name}</h3>
               <p className="text-muted-foreground mb-6 text-sm flex-grow">{pkg.description}</p>
-              <div className="text-3xl font-black text-foreground mb-8">{pkg.price}</div>
+              <div className="flex flex-col mb-8">
+                {pkg.originalPrice && (
+                  <span className="text-sm text-muted-foreground line-through decoration-destructive decoration-2">{pkg.originalPrice}</span>
+                )}
+                <div className="text-3xl font-black text-foreground">{pkg.price}</div>
+              </div>
 
               <ul className="space-y-4 mb-8">
-                {pkg.features.map((feature, i) => (
+                {pkg.features.map((feature: string, i: number) => (
                   <li key={i} className="flex items-start gap-3 text-muted-foreground">
-                    <Check className="w-5 h-5 text-primary shrink-0" />
+                    <Check className={`w-5 h-5 shrink-0 ${pkg.isPromo ? 'text-secondary' : 'text-primary'}`} />
                     <span>{feature}</span>
                   </li>
                 ))}
               </ul>
 
-              <Button size="lg" variant={pkg.isPopular ? "default" : "outline"} className={`w-full rounded-full ${pkg.isPopular ? '' : 'border-2'}`}>
+              <Button size="lg" variant={pkg.isPopular ? "default" : pkg.isPromo ? "secondary" : "outline"} className={`w-full rounded-full ${(!pkg.isPopular && !pkg.isPromo) ? 'border-2' : ''}`}>
                 <Link href="/booking?service=photography">Pilih Paket</Link>
               </Button>
             </div>
