@@ -29,7 +29,7 @@ export function Navbar() {
   }, [isOpen]);
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-white/90 dark:bg-stone-900/90 supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:dark:bg-stone-900/60 backdrop-blur-xl border-b border-stone-200 dark:border-stone-800">
+    <header className="fixed top-0 w-full z-50 bg-white/95 dark:bg-stone-900/95 supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:dark:bg-stone-900/60 backdrop-blur-xl border-b border-stone-200 dark:border-stone-800">
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         
         {/* Logo */}
