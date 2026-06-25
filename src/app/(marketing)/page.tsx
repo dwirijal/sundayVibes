@@ -7,26 +7,49 @@ import { HeroClient } from "./HeroClient";
 import { ServicesClient } from "./ServicesClient";
 
 export const metadata: Metadata = {
-  title: "Sunday Vibes - One-stop Creative Platform",
-  description: "Platform digital kreatif & layanan dokumentasi. Event organizer, produk digital, sewa alat, design, coding, WordPress, dan foto profesional.",
-  keywords: ["event organizer", "digital product", "sewa alat", "design", "coding", "wordpress", "foto", "surabaya"],
+  title: "Sunday Vibes - One-stop Creative Platform Surabaya & Tuban",
+  description: "Platform digital kreatif & layanan dokumentasi di Surabaya dan Tuban. Event organizer, produk digital, sewa alat, design, coding, WordPress, dan foto profesional.",
+  keywords: [
+    "event organizer",
+    "event organizer Surabaya",
+    "event organizer Tuban",
+    "sewa kamera Surabaya",
+    "sewa kamera Tuban",
+    "jasa foto wisuda",
+    "jasa design grafis",
+    "pembuatan website",
+    "digital product",
+    "sewa alat",
+    "design",
+    "coding",
+    "wordpress",
+    "foto",
+    "surabaya",
+    "tuban"
+  ],
 };
 
 export default async function Home() {
   const payload = await getPayload({ config: configPromise });
-  const { docs: services } = await payload.find({
-    collection: "services",
-    sort: "createdAt",
-    limit: 6,
-  });
 
-  const { docs: testimonialsDocs } = await payload.find({
-    collection: "testimonials",
-    limit: 10,
-    depth: 1,
-  }) as any;
+  // Parallelize independent queries (was sequential: services → testimonials → global)
+  const [servicesResult, testimonialsResult, homepageGlobal] = await Promise.all([
+    payload.find({
+      collection: "services",
+      sort: "createdAt",
+      limit: 6,
+      select: ["id", "title", "slug", "category", "description", "hero_image", "createdAt"] as any,
+    }),
+    payload.find({
+      collection: "testimonials",
+      limit: 10,
+      depth: 1,
+    }) as Promise<any>,
+    payload.findGlobal({ slug: "homepage" }) as Promise<any>,
+  ]);
 
-  const serializedTestimonials = testimonialsDocs.map((doc: any) => ({
+  const services = servicesResult.docs;
+  const serializedTestimonials = testimonialsResult.docs.map((doc: any) => ({
     id: doc.id,
     client_name: doc.client_name,
     company: doc.company,
@@ -34,8 +57,6 @@ export default async function Home() {
     rating: doc.rating,
     avatar: doc.avatar ? { url: doc.avatar.url, alt: doc.avatar.alt } : undefined,
   }));
-
-  const homepageGlobal = await payload.findGlobal({ slug: "homepage" }) as any;
 
   return (
     <PageTransition>

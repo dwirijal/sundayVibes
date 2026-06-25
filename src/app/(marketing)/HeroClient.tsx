@@ -107,25 +107,34 @@ export function HeroClient({ homepageGlobal }: HeroClientProps) {
 
     const cards = floatingRef.current.querySelectorAll('.hero-float-card');
 
+    let ticking = false;
+
     const handleMouseMove = (e: MouseEvent) => {
-      cards.forEach((card, i) => {
-        const rect = card.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
+      if (ticking) return;
+      ticking = true;
 
-        const deltaX = (e.clientX - centerX) * 0.02 * (i + 1);
-        const deltaY = (e.clientY - centerY) * 0.02 * (i + 1);
+      requestAnimationFrame(() => {
+        cards.forEach((card, i) => {
+          const rect = card.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
 
-        gsap.to(card, {
-          x: deltaX,
-          y: deltaY,
-          duration: getDuration(0.5),
-          ease: 'power2.out',
+          const deltaX = (e.clientX - centerX) * 0.02 * (i + 1);
+          const deltaY = (e.clientY - centerY) * 0.02 * (i + 1);
+
+          gsap.to(card, {
+            x: deltaX,
+            y: deltaY,
+            duration: getDuration(0.5),
+            ease: 'power2.out',
+          });
         });
+
+        ticking = false;
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, { scope: floatingRef });
 
@@ -133,8 +142,8 @@ export function HeroClient({ homepageGlobal }: HeroClientProps) {
     <>
       {/* Background Accents */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-accent dark:bg-stone-800/50 -z-10 [clip-path:polygon(20%_0%,100%_0%,100%_100%,0%_100%)]" />
-      <div className="hero-blob absolute top-[20%] right-[10%] w-[40vw] h-[40vw] rounded-full bg-primary/10 blur-[100px] mix-blend-multiply dark:mix-blend-screen -z-10" style={{ animationDuration: '8s' }} />
-      <div className="hero-blob absolute bottom-[10%] right-[30%] w-[30vw] h-[30vw] rounded-full bg-secondary/10 blur-[100px] mix-blend-multiply dark:mix-blend-screen -z-10" style={{ animationDuration: '12s' }} />
+      <div className="hero-blob absolute top-[20%] right-[10%] w-[40vw] h-[40vw] rounded-full bg-primary/10 blur-[50px] mix-blend-multiply dark:mix-blend-screen -z-10" style={{ animationDuration: '8s' }} />
+      <div className="hero-blob absolute bottom-[10%] right-[30%] w-[30vw] h-[30vw] rounded-full bg-secondary/10 blur-[50px] mix-blend-multiply dark:mix-blend-screen -z-10" style={{ animationDuration: '12s' }} />
 
       <div ref={containerRef} className="container mx-auto px-6 py-12 lg:py-24 grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 

@@ -10,6 +10,8 @@ import "./globals.css";
 const nunito = Nunito({
   variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 async function getOrganizationSchema() {
@@ -46,10 +48,10 @@ async function getOrganizationSchema() {
     address: addressText ? { "@type": "PostalAddress", streetAddress: addressText } : undefined,
     sameAs: social.length ? social : undefined,
     priceRange: "Rp 25.000 - Rp 5.000.000",
-    areaServed: {
-      "@type": "City",
-      "name": "Surabaya"
-    }
+    areaServed: [
+      { "@type": "City", "name": "Surabaya" },
+      { "@type": "City", "name": "Tuban" }
+    ]
   };
 }
 
@@ -124,6 +126,9 @@ export default async function RootLayout({
   return (
     <html lang="id" className={`${nunito.variable} h-full antialiased`}>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" as="image" href="/assets/logo-black-transparent.webp" type="image/webp" />
         {/* Analytics Umami Placeholder (No-Cookie) */}
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && process.env.NEXT_PUBLIC_UMAMI_URL && (
           <Script
