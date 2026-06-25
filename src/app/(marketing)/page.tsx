@@ -38,7 +38,7 @@ export default async function Home() {
       collection: "services",
       sort: "createdAt",
       limit: 6,
-      select: ["id", "title", "slug", "category", "description", "hero_image", "createdAt"] as any,
+      depth: 1,
     }),
     payload.find({
       collection: "testimonials",
@@ -48,7 +48,14 @@ export default async function Home() {
     payload.findGlobal({ slug: "homepage" }) as Promise<any>,
   ]);
 
-  const services = servicesResult.docs;
+  const services = servicesResult.docs.map((doc: any) => ({
+    id: doc.id,
+    title: doc.title,
+    slug: doc.slug,
+    category: doc.category,
+    description: doc.description,
+    hero_image: doc.hero_image && typeof doc.hero_image === "object" ? { url: doc.hero_image.url } : null,
+  }));
   const serializedTestimonials = testimonialsResult.docs.map((doc: any) => ({
     id: doc.id,
     client_name: doc.client_name,

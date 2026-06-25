@@ -124,7 +124,7 @@ export default async function RootLayout({
 }>) {
   const organizationSchema = await getOrganizationSchema();
   return (
-    <html lang="id" className={`${nunito.variable} h-full antialiased`}>
+    <html lang="id" className={`${nunito.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
