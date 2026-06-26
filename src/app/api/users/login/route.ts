@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '../../../../../payload.config'
+import { logger } from '@/lib/logger'
 
 export async function POST(req: NextRequest) {
   try {
@@ -39,7 +40,7 @@ export async function POST(req: NextRequest) {
 
     return response
   } catch (error) {
-    console.error('Login error:', error)
+    logger.error('Login error', { error: String(error) })
     return NextResponse.json(
       { error: 'Login failed' },
       { status: 500 }

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { after } from 'next/server'
 import { getPayload } from 'payload'
 import config from '../../../../payload.config'
 import { snap, generateOrderId } from '@/lib/midtrans'
+import { logger } from '@/lib/logger'
 
 export async function POST(req: NextRequest) {
   try {
@@ -68,61 +68,65 @@ export async function POST(req: NextRequest) {
 
     const transaction = await snap.createTransaction(parameter)
 
-    // Background database operations via `after()`
-    after(async () => {
-      try {
-        // Find or create user for this customer
-        let userId: string | number
-        const existingUsers = await payload.find({
+    // Create booking record before response (not in background)
+    try {
+      // Find or create user for this customer
+      let userId: string | number
+      const existingUsers = await payload.find({
+        collection: 'users',
+        where: { email: { equals: customer.email } },
+        limit: 1,
+      })
+
+      if (existingUsers.docs.length > 0) {
+        userId = existingUsers.docs[0].id
+      } else {
+        // Create guest user account
+        const newUser = await payload.create({
           collection: 'users',
-          where: { email: { equals: customer.email } },
-          limit: 1,
-        })
-
-        if (existingUsers.docs.length > 0) {
-          userId = existingUsers.docs[0].id
-        } else {
-          // Create guest user account
-          const newUser = await payload.create({
-            collection: 'users',
-            data: {
-              email: customer.email,
-              name: customer.name,
-              phone: customer.phone,
-              role: 'client',
-              password: Math.random().toString(36).slice(-12), // Random password for guest
-            },
-          })
-          userId = newUser.id
-        }
-
-        // Find the digital product / photo service
-        const serviceSlug = type === 'photo' ? 'photography' : 'digital';
-        const relatedService = await payload.find({
-          collection: 'services',
-          where: { slug: { equals: serviceSlug } },
-          limit: 1,
-        })
-
-        const serviceId = relatedService.docs.length > 0 ? relatedService.docs[0].id : null;
-
-        // Create booking record
-        await payload.create({
-          collection: 'bookings',
           data: {
-            ...(serviceId && { service_type: serviceId }),
-            client: userId,
-            date: new Date().toISOString(),
-            amount: itemDetails.price,
-            notes: `Order ID: ${orderId}\nItem: ${itemDetails.name}\nType: ${type}`,
-            status: 'pending',
-            payment_status: 'unpaid',
+            email: customer.email,
+            name: customer.name,
+            phone: customer.phone,
+            role: 'client',
+            password: Math.random().toString(36).slice(-12), // Random password for guest
           },
         })
-      } catch (dbErr) {
-        console.error('Background DB error:', dbErr)
+        userId = newUser.id
       }
-    })
+
+      // Find the digital product / photo service
+      const serviceSlug = type === 'photo' ? 'photography' : 'digital';
+      const relatedService = await payload.find({
+        collection: 'services',
+        where: { slug: { equals: serviceSlug } },
+        limit: 1,
+      })
+
+      const serviceId = relatedService.docs.length > 0 ? relatedService.docs[0].id : null;
+
+      // Create booking record with order_id for webhook lookup
+      await payload.create({
+        collection: 'bookings',
+        data: {
+          order_id: orderId,
+          ...(serviceId && { service_type: serviceId }),
+          client: userId,
+          date: new Date().toISOString(),
+          amount: itemDetails.price,
+          notes: `Item: ${itemDetails.name}\nType: ${type}`,
+          status: 'pending',
+          payment_status: 'unpaid',
+        },
+      })
+    } catch (dbErr) {
+      logger.error('Database error during booking creation', { error: String(dbErr) })
+      // Return error if booking creation fails
+      return NextResponse.json(
+        { error: 'Failed to create booking record' },
+        { status: 500 }
+      )
+    }
 
     return NextResponse.json({
       token: transaction.token,
@@ -130,7 +134,7 @@ export async function POST(req: NextRequest) {
       order_id: orderId,
     })
   } catch (error) {
-    console.error('Checkout error:', error)
+    logger.error('Checkout error', { error: String(error) })
     return NextResponse.json(
       { error: 'Failed to create transaction' },
       { status: 500 }

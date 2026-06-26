@@ -2,16 +2,19 @@
 
 import { Moon, Sun, Monitor } from "lucide-react"
 import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useSyncExternalStore } from "react"
 import { Button } from "@/components/ui/button"
 
 export function ThemeToggle() {
-  const [mounted, setMounted] = useState(false)
-  const { theme, setTheme } = useTheme()
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const { theme, setTheme, resolvedTheme } = useTheme()
+  const mounted = useSyncExternalStore(
+    (cb) => {
+      window.addEventListener("storage", cb)
+      return () => window.removeEventListener("storage", cb)
+    },
+    () => document.documentElement.classList.contains("dark"),
+    () => false,
+  )
 
   if (!mounted) {
     return (

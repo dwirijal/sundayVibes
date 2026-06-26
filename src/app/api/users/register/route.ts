@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '../../../../../payload.config'
+import { logger } from '@/lib/logger'
 
 export async function POST(req: NextRequest) {
   try {
@@ -50,7 +51,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ user }, { status: 201 })
   } catch (error) {
-    console.error('Registration error:', error)
+    logger.error('Registration error', { error: String(error) })
     return NextResponse.json(
       { error: 'Registration failed' },
       { status: 500 }

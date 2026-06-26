@@ -37,6 +37,14 @@ export const Bookings: CollectionConfig = {
   },
   fields: [
     {
+      name: 'order_id',
+      type: 'text',
+      unique: true,
+      admin: {
+        description: 'Midtrans transaction order ID (e.g. INV-1234567890-123)',
+      },
+    },
+    {
       name: 'service_type',
       type: 'relationship',
       relationTo: 'services',

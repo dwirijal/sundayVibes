@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '../../../../../payload.config'
 import { getCache, setCache } from '@/lib/cloudflare-cache'
+import { logger } from '@/lib/logger'
 
 export const revalidate = 1800 // Revalidate setiap 30 menit
 
@@ -48,7 +49,7 @@ export async function GET(
       }
 
       // Simpan ke cache selama 30 menit
-      await setCache(cacheKey, productData, 1800)
+      await setCache(cacheKey, productData, { ttl: 1800 })
 
       return NextResponse.json(productData)
     }
@@ -78,14 +79,14 @@ export async function GET(
       }
 
       // Simpan ke cache selama 30 menit
-      await setCachedData(cacheKey, photoData, 1800)
+      await setCache(cacheKey, photoData, { ttl: 1800 })
 
       return NextResponse.json(photoData)
     }
 
     return NextResponse.json({ error: 'Item not found' }, { status: 404 })
   } catch (error) {
-    console.error('Fetch product error:', error)
+    logger.error('Fetch product error', { error: String(error) })
     return NextResponse.json(
       { error: 'Failed to fetch item' },
       { status: 500 }

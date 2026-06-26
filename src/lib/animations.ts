@@ -19,7 +19,7 @@ const EASING = {
 } as const;
 
 // Animation presets for GSAP
-const ANIMATION_PRESETS = {
+export const ANIMATION_PRESETS = {
   fadeInUp: {
     opacity: 0,
     y: 40,

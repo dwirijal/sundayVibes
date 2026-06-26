@@ -27,7 +27,7 @@ export async function GET() {
     const result = { whatsappNumber: waNumber }
 
     // Simpan ke cache selama 1 jam
-    await setCache(cacheKey, result, 3600)
+    await setCache(cacheKey, result, { ttl: 3600 })
 
     return NextResponse.json(result)
   } catch (_error) {

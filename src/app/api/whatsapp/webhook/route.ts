@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { logger } from '@/lib/logger'
 
 // Placeholder for Fonnte / WhatsApp Business API Webhook
 // This route will handle incoming messages and provide automated responses
@@ -7,7 +8,7 @@ export const runtime = 'edge';
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json()
-    console.log('Received WhatsApp webhook:', data)
+    logger.info('WhatsApp webhook received', { data })
 
     // Fonnte webhook structure usually contains:
     // sender, message, name, target, etc.
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
 
     // Since no Fonnte is provided, this webhook just logs incoming events
     // and returns the auto-reply format that could be used by other providers
-    console.log("No Fonnte provider configured. Ignoring outbound send.");
+    logger.info('No Fonnte provider configured. Ignoring outbound send.');
     // })
 
     return NextResponse.json({ 
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
       reply: replyMessage 
     })
   } catch (error) {
-    console.error('Webhook error:', error)
+    logger.error('Webhook error', { error: String(error) })
     return NextResponse.json({ error: 'Webhook processing failed' }, { status: 500 })
   }
 }

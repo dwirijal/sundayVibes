@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { logger } from '@/lib/logger'
 
 // Keep cache for 24 hours to avoid hitting Google Places API limits on Vercel Hobby
 export const revalidate = 86400;
@@ -42,7 +43,7 @@ export async function GET() {
     const data = await res.json();
     return NextResponse.json({ ...data.result, source: "live" });
   } catch (error) {
-    console.error('Google Reviews error:', error);
+    logger.error('Google Reviews fetch failed', { error: String(error) });
     return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
   }
 }
