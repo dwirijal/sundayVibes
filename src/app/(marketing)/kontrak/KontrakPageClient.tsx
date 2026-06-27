@@ -138,9 +138,26 @@ export default function KontrakPageClient() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Generate QRIS
+    // Create booking record, then generate dynamic QRIS
+    const total = calculateTotal();
+    fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'booking',
+        service: 'sewa-alat',
+        customer: {
+          name: formData.customerName,
+          email: `${formData.customerId}@sundayvibes.id`,
+          phone: formData.customerPhone,
+        },
+        amount: total,
+        date: formData.startDate,
+        notes: `${formData.startDate} s/d ${formData.endDate}\nItems: ${formData.items.map(i => i.name).join(', ')}`,
+      }),
+    }).catch(() => {});
+
     try {
-      const total = calculateTotal();
       const payload = generateDynamicQRIS(BASE_QRIS, total);
       setQrisPayload(payload);
       setShowQris(true);
