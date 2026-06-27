@@ -43,3 +43,4 @@ build.log
 next-env.d.ts
 .claude/skills/gstack/
 .gstack/
+.agents/skills/huashu-design/.env.example
