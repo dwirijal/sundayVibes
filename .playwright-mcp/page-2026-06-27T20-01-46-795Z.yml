@@ -1,0 +1,134 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Sunday Vibes Logo Sunday Vibes" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Sunday Vibes Logo" [ref=e6]
+        - generic [ref=e7]: Sunday Vibes
+      - button "Buka menu" [ref=e9]:
+        - img [ref=e10]
+    - dialog:
+      - navigation:
+        - button:
+          - img
+        - link:
+          - /url: /layanan/events
+          - text: Event Organizer
+        - link:
+          - /url: /layanan/digital
+          - text: Digital Product
+        - link:
+          - /url: /layanan/sewa-alat
+          - text: Sewa Alat
+        - link:
+          - /url: /layanan/design
+          - text: Design & Web
+        - link:
+          - /url: /foto
+          - text: Foto Marketplace
+        - link:
+          - /url: /foto/wisuda
+          - text: Promo Foto Wisuda
+        - link:
+          - /url: /portfolio
+          - text: Portfolio
+        - link:
+          - /url: /blog
+          - text: Blog
+        - generic:
+          - generic: Tema
+          - button:
+            - img
+        - link:
+          - /url: /admin
+          - text: Login / Client Portal
+        - generic:
+          - link:
+            - /url: /kontak
+            - text: Mulai Project Sekarang
+  - main [ref=e11]:
+    - main [ref=e12]:
+      - generic [ref=e13]: Memuat kontrak...
+  - contentinfo [ref=e14]:
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - link "Sunday Vibes Logo Sunday Vibes" [ref=e18] [cursor=pointer]:
+            - /url: /
+            - img "Sunday Vibes Logo" [ref=e19]
+            - generic [ref=e20]: Sunday Vibes
+          - paragraph [ref=e21]: One-stop creative platform. Menyatukan seluruh kebutuhan kreatif dan teknis Anda dalam satu ekosistem yang terintegrasi.
+        - generic [ref=e22]:
+          - heading "Layanan" [level=4] [ref=e23]
+          - list [ref=e24]:
+            - listitem [ref=e25]:
+              - link "Event Organizer" [ref=e26] [cursor=pointer]:
+                - /url: /layanan/events
+            - listitem [ref=e27]:
+              - link "Digital Product" [ref=e28] [cursor=pointer]:
+                - /url: /layanan/digital
+            - listitem [ref=e29]:
+              - link "Sewa Alat Dokumentasi" [ref=e30] [cursor=pointer]:
+                - /url: /layanan/sewa-alat
+            - listitem [ref=e31]:
+              - link "Design & Web Development" [ref=e32] [cursor=pointer]:
+                - /url: /layanan/design
+            - listitem [ref=e33]:
+              - link "Photography" [ref=e34] [cursor=pointer]:
+                - /url: /layanan/photography
+        - generic [ref=e35]:
+          - heading "Perusahaan" [level=4] [ref=e36]
+          - list [ref=e37]:
+            - listitem [ref=e38]:
+              - link "Tentang Kami" [ref=e39] [cursor=pointer]:
+                - /url: /tentang
+            - listitem [ref=e40]:
+              - link "Portfolio" [ref=e41] [cursor=pointer]:
+                - /url: /portfolio
+            - listitem [ref=e42]:
+              - link "Hubungi Kami" [ref=e43] [cursor=pointer]:
+                - /url: /kontak
+        - generic [ref=e44]:
+          - heading "Ikuti Kami" [level=4] [ref=e45]
+          - list [ref=e46]:
+            - listitem [ref=e47]:
+              - link "WhatsApp" [ref=e48] [cursor=pointer]:
+                - /url: https://wa.me/6285157319611
+                - img [ref=e49]
+                - text: WhatsApp
+            - listitem [ref=e52]:
+              - link "TikTok" [ref=e53] [cursor=pointer]:
+                - /url: https://tiktok.com/@sundayvibes._
+                - img [ref=e54]
+                - text: TikTok
+      - generic [ref=e56]:
+        - paragraph [ref=e57]: © 2026 Sunday Vibes. All rights reserved.
+        - generic [ref=e58]:
+          - link "Kebijakan Privasi" [ref=e59] [cursor=pointer]:
+            - /url: /privacy
+          - link "Syarat & Ketentuan" [ref=e60] [cursor=pointer]:
+            - /url: /terms
+          - link "Kebijakan Refund" [ref=e61] [cursor=pointer]:
+            - /url: /refund-policy
+  - navigation "Main navigation":
+    - generic [ref=e62]:
+      - link "Home" [ref=e63] [cursor=pointer]:
+        - /url: /
+        - img [ref=e65]
+        - generic [ref=e68]: Home
+      - link "Layanan" [ref=e69] [cursor=pointer]:
+        - /url: /layanan
+        - img [ref=e71]
+        - generic [ref=e74]: Layanan
+      - link "Foto" [ref=e75] [cursor=pointer]:
+        - /url: /foto
+        - img [ref=e77]
+        - generic [ref=e80]: Foto
+      - link "Blog" [ref=e81] [cursor=pointer]:
+        - /url: /blog
+        - img [ref=e83]
+        - generic [ref=e86]: Blog
+      - link "Kontak" [ref=e87] [cursor=pointer]:
+        - /url: /kontak
+        - img [ref=e89]
+        - generic [ref=e91]: Kontak

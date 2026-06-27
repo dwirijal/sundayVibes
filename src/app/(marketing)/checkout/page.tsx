@@ -15,9 +15,5 @@ export default async function CheckoutPage() {
     console.error("Failed to fetch contact info for WA", err);
   }
 
-  return (
-    <Suspense fallback={<div className="container mx-auto px-6 py-24">Loading...</div>}>
-      <CheckoutContent waNumber={waNumber} />
-    </Suspense>
-  )
+  return <CheckoutContent waNumber={waNumber} />
 }

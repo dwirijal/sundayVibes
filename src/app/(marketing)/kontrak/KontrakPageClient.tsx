@@ -44,18 +44,16 @@ export default function KontrakPageClient() {
     fetch('/api/contact').then(res => res.json()).then(data => setWaNumber(data.whatsappNumber)).catch(() => {});
   }, []);
 
-  // Sync cart items to form on mount
+  // Sync cart items to form (rehydrated from localStorage on mount)
   useEffect(() => {
     if (cartItems.length > 0) {
-      const timeoutId = setTimeout(() => {
-        setFormData(prev => ({
-          ...prev,
-          items: cartItems.map(i => ({ name: i.name, price: i.price, qty: i.qty }))
-        }));
-      }, 0);
-      return () => clearTimeout(timeoutId);
+      setFormData(prev => ({
+        ...prev,
+        items: cartItems.map(i => ({ name: i.name, price: i.price, qty: i.qty }))
+      }));
     }
-  }, [cartItems]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartItems.length]);
 
   const catalogItems = [
     { name: "Softbox Kit-1", price: 75000 },
