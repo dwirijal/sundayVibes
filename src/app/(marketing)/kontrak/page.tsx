@@ -15,17 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function KontrakPage() {
-  return (
-    <Suspense
-      fallback={
-        <main className="min-h-screen pt-32 pb-24 bg-background">
-          <div className="container mx-auto px-6 max-w-4xl text-center text-muted-foreground">
-            Memuat kontrak...
-          </div>
-        </main>
-      }
-    >
-      <KontrakPageClient />
-    </Suspense>
-  );
+  return <KontrakPageClient />;
 }
