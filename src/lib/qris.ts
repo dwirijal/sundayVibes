@@ -20,6 +20,21 @@ export function calculateCRC16(str: string): string {
 }
 
 export function generateDynamicQRIS(qrisString: string, amount: number): string {
+  // Validate QRIS string: must be non-empty and contain the country code tag "5802ID".
+  if (typeof qrisString !== "string" || !qrisString.includes("5802ID")) {
+    throw new Error("Invalid QRIS string: must contain \"5802ID\"");
+  }
+
+  // Validate amount: finite, positive integer, capped at Rp 1 miliar.
+  if (
+    !Number.isFinite(amount) ||
+    !Number.isInteger(amount) ||
+    amount <= 0 ||
+    amount > 1_000_000_000
+  ) {
+    throw new Error("Invalid amount: must be positive integer");
+  }
+
   // Remove the old CRC (last 4 chars) and the CRC tag/length ("6304")
   // Note: The QRIS string always ends with '6304' followed by the 4 character CRC.
   let qrisWithoutCrc = qrisString.slice(0, -8);

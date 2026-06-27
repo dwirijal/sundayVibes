@@ -125,6 +125,7 @@ export function ServicesClient({ services }: ServicesClientProps) {
                       src={imageUrl}
                       alt={service.title}
                       fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                       className="service-image object-cover"
                     />
                   ) : (

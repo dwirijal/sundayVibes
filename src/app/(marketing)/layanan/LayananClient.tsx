@@ -146,7 +146,7 @@ export function LayananClient() {
                 </div>
                 <h2 className="text-2xl font-bold text-foreground mb-3">{service.title}</h2>
                 <p className="text-muted-foreground mb-6 flex-grow">{service.description}</p>
-                <span className="text-sm font-semibold text-primary flex items-center gap-2 group-hover:gap-3 transition-all">
+                <span className="text-sm font-semibold text-primary flex items-center gap-2 group-hover:gap-3 transition-[gap]">
                   Lihat Detail
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                 </span>

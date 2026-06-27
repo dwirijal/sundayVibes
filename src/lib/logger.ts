@@ -12,7 +12,7 @@ function log(level: LogLevel, msg: string, data?: Record<string, unknown>) {
   const out = JSON.stringify(entry)
   if (level === 'error') console.error(out)
   else if (level === 'warn') console.warn(out)
-  else console.log(out)
+  else process.stdout.write(out + '\n')
 }
 
 export const logger = {

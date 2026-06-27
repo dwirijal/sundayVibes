@@ -132,6 +132,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 src={post.thumbnail.url}
                 alt={post.thumbnail.alt || post.title}
                 fill
+                sizes="(max-width: 896px) 100vw, 896px"
                 className="object-cover"
                 priority
               />

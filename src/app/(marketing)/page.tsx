@@ -3,6 +3,8 @@ import configPromise from "@payload-config";
 import type { Metadata } from "next";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { PageTransition } from "@/components/animations";
+import { ReviewSchema } from "@/components/seo/ReviewSchema";
+import { FAQSchema } from "@/components/seo/FAQSchema";
 import { HeroClient } from "./HeroClient";
 import { ServicesClient } from "./ServicesClient";
 
@@ -70,9 +72,9 @@ export default async function Home() {
     <div className="relative min-h-screen flex flex-col overflow-hidden bg-background font-sans selection:bg-primary/20 selection:text-primary">
 
       {/* Hero Section */}
-      <main className="flex-1 flex items-center pt-20 relative">
+      <section className="flex-1 flex items-center pt-20 relative">
         <HeroClient homepageGlobal={homepageGlobal} />
-      </main>
+      </section>
 
       {/* Services Overview Section */}
       <ServicesClient services={services} />
@@ -88,9 +90,9 @@ export default async function Home() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
             <div className="md:w-1/3">
               <h3 className="text-lg font-bold text-foreground mb-2">Kenapa Sunday Vibes?</h3>
-              <p className="text-sm text-stone-500">Booking mudah, tracking transparan, dan hasil profesional dalam satu dashboard.</p>
+              <p className="text-sm text-muted-foreground">Booking mudah, tracking transparan, dan hasil profesional dalam satu dashboard.</p>
             </div>
-            <div className="flex gap-12 text-sm font-medium text-stone-500">
+            <div className="flex gap-12 text-sm font-medium text-muted-foreground">
               <div className="flex flex-col items-center gap-2">
                 <span className="text-2xl font-black text-primary">1</span>
                 <span>Pilih Layanan</span>
@@ -109,6 +111,12 @@ export default async function Home() {
       </section>
 
     </div>
+    <FAQSchema faqs={[
+      { question: 'Apa saja layanan Sunday Vibes?', answer: 'Kami menyediakan Event Organizer, Produk Digital, Sewa Alat, Design, Coding, WordPress, dan Photography di Surabaya dan Tuban.' },
+      { question: 'Berapa estimasi biaya layanan?', answer: 'Harga mulai dari Rp 25.000 untuk produk digital hingga Rp 5.000.000+ untuk project custom. Hubungi kami untuk konsultasi gratis.' },
+      { question: 'Bagaimana cara booking layanan?', answer: 'Isi form booking online atau hubungi via WhatsApp. Tim kami akan menghubungi dalam 1x24 jam.' },
+      { question: 'Apakah bisa bayar via QRIS?', answer: 'Ya, kami menerima pembayaran via QRIS (Gopay, OVO, Dana, ShopeePay, LinkAja) dan transfer bank.' },
+    ]} />
     </PageTransition>
   );
 }

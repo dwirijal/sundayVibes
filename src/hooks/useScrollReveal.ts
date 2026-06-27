@@ -39,7 +39,7 @@ export function useScrollReveal<T extends HTMLElement>(
       ? gsap.utils.toArray(ref.current.children) as HTMLElement[]
       : [ref.current];
 
-    gsap.set(elements, { opacity: 0, ...preset });
+    gsap.set(elements, { ...preset, opacity: 0 });
 
     gsap.to(elements, {
       ...preset,

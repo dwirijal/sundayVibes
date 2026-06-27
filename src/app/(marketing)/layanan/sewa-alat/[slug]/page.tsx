@@ -55,10 +55,11 @@ export default async function SewaAlatDetailPage(props: { params: Promise<{ slug
                       {item.category}
                     </span>
                   </div>
-                  <Image 
-                    src={item.images[0]} 
-                    alt={item.name} 
-                    fill 
+                  <Image
+                    src={item.images[0]}
+                    alt={item.name}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"
                   />
                 </div>
@@ -66,7 +67,7 @@ export default async function SewaAlatDetailPage(props: { params: Promise<{ slug
                   <div className="grid grid-cols-3 gap-4">
                     {item.images.slice(1).map((img, idx) => (
                       <div key={idx} className="aspect-square w-full rounded-2xl bg-card border border-border relative overflow-hidden">
-                        <Image src={img} alt={`${item.name} - ${idx+2}`} fill className="object-cover" />
+                        <Image src={img} alt={`${item.name} - ${idx+2}`} fill sizes="33vw" className="object-cover" />
                       </div>
                     ))}
                   </div>

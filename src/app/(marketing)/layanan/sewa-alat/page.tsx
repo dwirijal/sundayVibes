@@ -68,12 +68,12 @@ export default function SewaAlatPage() {
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {category.items.map((item: { name: string; slug?: string; desc: string; price: number; stock: number; image?: string; }) => (
                   
-                  <div key={item.name} className="flex flex-col p-6 rounded-2xl border border-border bg-card hover:shadow-lg transition-all group overflow-hidden relative">
+                  <div key={item.name} className="flex flex-col p-6 rounded-2xl border border-border bg-card hover:shadow-lg transition-shadow group overflow-hidden relative">
                     
                     {/* Add Image if available */}
                     {item.image && (
                       <div className="absolute top-0 right-0 w-32 h-32 opacity-20 group-hover:opacity-40 transition-opacity -mt-4 -mr-4 pointer-events-none">
-                        <Image src={item.image} alt={item.name} fill className="object-contain" />
+                        <Image src={item.image} alt={item.name} fill sizes="128px" className="object-contain" />
                       </div>
                     )}
                     

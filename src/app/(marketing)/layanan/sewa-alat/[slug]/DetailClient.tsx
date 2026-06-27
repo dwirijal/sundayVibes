@@ -12,7 +12,7 @@ export function DetailClient({ item }: { item: { slug?: string; name: string; pr
   const handleAddToCart = () => {
     setIsAdding(true);
     addItem({
-      id: item.slug,
+      id: item.slug ?? '',
       name: item.name,
       price: item.price,
       qty: 1,

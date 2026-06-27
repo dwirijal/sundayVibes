@@ -13,45 +13,48 @@ export function ThemeToggle() {
       return () => window.removeEventListener("storage", cb)
     },
     () => document.documentElement.classList.contains("dark"),
-    () => false,
+    () => false
   )
 
   if (!mounted) {
     return (
-      <Button variant="ghost" size="icon" className="w-9 h-9">
-        <Sun className="h-4 w-4" />
+      <Button variant="ghost" style={{ width: '44px', height: '44px' }} aria-label="Light mode">
+        <Sun className="h-5 w-5" />
       </Button>
     )
   }
 
   return (
-    <div className="flex items-center gap-1 bg-muted rounded-full p-1">
+    <div className="flex items-center gap-2 bg-muted rounded-full p-1.5">
       <Button
         variant={theme === "light" ? "default" : "ghost"}
-        size="icon"
-        className="w-7 h-7 rounded-full"
+        style={{ width: '44px', height: '44px', minWidth: '44px', minHeight: '44px', flexShrink: 0 }}
+        className="rounded-full flex-shrink-0"
         onClick={() => setTheme("light")}
         title="Light mode"
+        aria-label="Switch to light mode"
       >
-        <Sun className="h-3.5 w-3.5" />
+        <Sun className="h-5 w-5" />
       </Button>
       <Button
         variant={theme === "dark" ? "default" : "ghost"}
-        size="icon"
-        className="w-7 h-7 rounded-full"
+        style={{ width: '44px', height: '44px', minWidth: '44px', minHeight: '44px', flexShrink: 0 }}
+        className="rounded-full flex-shrink-0"
         onClick={() => setTheme("dark")}
         title="Dark mode"
+        aria-label="Switch to dark mode"
       >
-        <Moon className="h-3.5 w-3.5" />
+        <Moon className="h-5 w-5" />
       </Button>
       <Button
         variant={theme === "system" ? "default" : "ghost"}
-        size="icon"
-        className="w-7 h-7 rounded-full"
+        style={{ width: '44px', height: '44px', minWidth: '44px', minHeight: '44px', flexShrink: 0 }}
+        className="rounded-full flex-shrink-0"
         onClick={() => setTheme("system")}
         title="System theme"
+        aria-label="Switch to system theme"
       >
-        <Monitor className="h-3.5 w-3.5" />
+        <Monitor className="h-5 w-5" />
       </Button>
     </div>
   )

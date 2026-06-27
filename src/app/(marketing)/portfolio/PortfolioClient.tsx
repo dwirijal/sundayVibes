@@ -136,12 +136,13 @@ export function PortfolioClient({ projects, tiktoks, youtubeVideos }: PortfolioC
                   href={`/portfolio/${project.slug}`}
                   className="group"
                 >
-                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm group-hover:shadow-xl transition-all duration-300 mb-4">
+                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm group-hover:shadow-xl transition-shadow duration-300 mb-4">
                     {project.thumbnail?.url ? (
                       <Image
                         src={project.thumbnail.url}
                         alt={project.thumbnail.alt || project.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     ) : (
@@ -185,7 +186,7 @@ export function PortfolioClient({ projects, tiktoks, youtubeVideos }: PortfolioC
         <h2 className="text-3xl font-black text-foreground mb-8">Dokumentasi Event & Trip</h2>
         <div className="tiktoks-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {tiktoks.map((tt, i) => (
-            <div key={i} className="tiktok-card group relative aspect-[9/16] bg-muted rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border">
+            <div key={i} className="tiktok-card group relative aspect-[9/16] bg-muted rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-border">
               <iframe
                 src={`https://www.tiktok.com/embed/v2/${tt.id}?lang=en-US`}
                 className="w-full h-full border-0 absolute top-[-45px] scale-[1.05]"
@@ -215,7 +216,7 @@ export function PortfolioClient({ projects, tiktoks, youtubeVideos }: PortfolioC
           <h2 className="text-3xl font-black text-foreground mb-8">Video Dokumentasi</h2>
           <div className="youtube-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {youtubeVideos.map((video, i) => (
-              <div key={i} className="youtube-card group relative aspect-video bg-muted rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border">
+              <div key={i} className="youtube-card group relative aspect-video bg-muted rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-border">
                 <iframe
                   src={`https://www.youtube.com/embed/${video.id}`}
                   className="absolute inset-0 w-full h-full border-0"

@@ -106,6 +106,7 @@ export default async function PhotoDetailPage({ params }: PageProps) {
                   src={photo.preview_watermark?.url || photo.file_hires.url}
                   alt={photo.file_hires.alt || photo.title}
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                   priority
                 />

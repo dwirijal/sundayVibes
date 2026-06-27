@@ -6,6 +6,7 @@ import { ArrowLeft, ExternalLink, Calendar, User, Tag } from "lucide-react";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import type { Metadata } from 'next'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -135,6 +136,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               src={project.thumbnail.url}
               alt={project.thumbnail.alt || project.title}
               fill
+              sizes="100vw"
               className="object-cover"
               priority
             />
@@ -146,7 +148,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <section className="mb-16">
             <h2 className="text-3xl font-black text-foreground mb-6">Tentang Proyek</h2>
             <div className="prose prose-lg max-w-none text-muted-foreground">
-              {project.description}
+              <RichText data={project.description} />
             </div>
           </section>
         )}
@@ -183,6 +185,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                       src={item.image.url}
                       alt={item.image.alt || `${project.title} - ${index + 1}`}
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover hover:scale-105 transition-transform duration-500"
                     />
                   </div>
@@ -197,7 +200,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <section className="mb-16">
             <h2 className="text-3xl font-black text-foreground mb-6">Hasil</h2>
             <div className="prose prose-lg max-w-none text-muted-foreground bg-primary/5 p-8 rounded-3xl border border-primary/20">
-              {project.result}
+              <RichText data={project.result} />
             </div>
           </section>
         )}
@@ -224,12 +227,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   href={`/portfolio/${related.slug}`}
                   className="group"
                 >
-                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm group-hover:shadow-xl transition-all duration-300 mb-4">
+                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm group-hover:shadow-xl transition-shadow duration-300 mb-4">
                     {related.thumbnail?.url ? (
                       <Image
                         src={related.thumbnail.url}
                         alt={related.thumbnail.alt || related.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     ) : (

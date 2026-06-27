@@ -85,7 +85,7 @@ export default function TubanPage() {
                 <Link
                   key={service.title}
                   href={service.href}
-                  className="p-6 rounded-3xl border border-border bg-card hover:border-primary/50 hover:shadow-lg transition-all"
+                  className="p-6 rounded-3xl border border-border bg-card hover:border-primary/50 hover:shadow-lg transition-[border-color,box-shadow]"
                 >
                   <div className="text-4xl mb-4">{service.icon}</div>
                   <h3 className="text-xl font-bold text-foreground mb-2">{service.title}</h3>

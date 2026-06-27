@@ -8,6 +8,10 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { QRCodeSVG } from 'qrcode.react'
 import { generateDynamicQRIS } from '@/lib/qris'
+import { trackCheckout } from '@/lib/analytics'
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorFallback } from '@/components/ErrorFallback'
+import { TrustBadges } from '@/components/checkout/TrustBadges'
 
 
 const BASE_QRIS = "00020101021126610014COM.GO-JEK.WWW01189360091439738305930210G9738305930303UMI51440014ID.CO.QRIS.WWW0215ID10243394679450303UMI5204733353033605802ID5919LEV. SPACE, Jakarta6005TUBAN61056238262070703A0163049B3A";
@@ -38,7 +42,7 @@ export function CheckoutContent({ waNumber }: { waNumber: string }) {
   const [qrisPayload, setQrisPayload] = useState("")
 
   useEffect(() => {
-    let isMounted = true;
+    const controller = new AbortController();
     async function fetchProduct() {
       if (!productId) {
         setLoading(false);
@@ -47,20 +51,21 @@ export function CheckoutContent({ waNumber }: { waNumber: string }) {
 
       try {
         const url = `/api/products/${productId}?license=${license}`;
-        const response = await fetch(url);
+        const response = await fetch(url, { signal: controller.signal });
         if (response.ok) {
           const data = await response.json();
-          setTimeout(() => { if (isMounted) setProduct(data) }, 0);
+          setProduct(data);
         }
-      } catch (error) {
-        console.error('Failed to fetch product:', error);
+      } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') return;
+        console.error('Failed to fetch product:', err);
       } finally {
-        if (isMounted) setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
     }
 
     fetchProduct();
-    return () => { isMounted = false };
+    return () => controller.abort();
   }, [productId, license])
 
 
@@ -76,6 +81,7 @@ export function CheckoutContent({ waNumber }: { waNumber: string }) {
       setQrisPayload(dynamicPayload);
       setShowQris(true);
       setSubmitting(false);
+      trackCheckout(product.id, product.price);
     } catch (error) {
       console.error('QRIS generation error:', error);
       alert('Gagal membuat QRIS.');
@@ -84,6 +90,7 @@ export function CheckoutContent({ waNumber }: { waNumber: string }) {
   }
 
   const handleConfirmManual = () => {
+    if (!product) return;
     const message = encodeURIComponent(
       `Halo Admin Sunday Vibes! 👋\n\nSaya sudah melakukan pembayaran via QRIS untuk:\n*Produk*: ${product.name}\n*Total*: Rp ${product.price.toLocaleString('id-ID')}\n*Atas Nama*: ${formData.name}\n*Email*: ${formData.email}\n\nBerikut saya lampirkan bukti transfernya: [SILAKAN ATTACH FOTO/SCREENSHOT BUKTI TRANSFER]`
     );
@@ -104,6 +111,7 @@ export function CheckoutContent({ waNumber }: { waNumber: string }) {
       <div className="container mx-auto px-6 max-w-2xl">
         <h1 className="text-4xl font-black mb-8 text-foreground">Checkout</h1>
 
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Card>
           <CardHeader>
             <CardTitle>{product.name}</CardTitle>
@@ -192,7 +200,9 @@ export function CheckoutContent({ waNumber }: { waNumber: string }) {
                   Total: Rp {product.price.toLocaleString('id-ID')}
                 </div>
 
-                <div className="w-full space-y-3 mt-6 pt-6 border-t border-border">
+                <TrustBadges />
+
+                <div className="w-full space-y-3 mt-6">
                   <p className="text-sm font-semibold mb-2">Sudah Melakukan Pembayaran?</p>
                   <Button onClick={handleConfirmManual} size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white">
                     Konfirmasi Pembayaran
@@ -204,8 +214,8 @@ export function CheckoutContent({ waNumber }: { waNumber: string }) {
               </div>
             )}
           </CardContent>
-
         </Card>
+        </ErrorBoundary>
       </div>
     </main>
   )
