@@ -6,8 +6,7 @@ export function middleware(request: NextRequest) {
 
   // CSRF Protection for API routes
   if (pathname.startsWith('/api')) {
-    const isWebhook = pathname.startsWith('/api/midtrans/notification') ||
-                      pathname.startsWith('/api/whatsapp/webhook')
+    const isWebhook = pathname.startsWith('/api/whatsapp/webhook')
 
     if (!isWebhook && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method)) {
       const origin = request.headers.get('origin') ?? request.headers.get('referer')
