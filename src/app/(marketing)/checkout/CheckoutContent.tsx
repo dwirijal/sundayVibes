@@ -75,17 +75,29 @@ export function CheckoutContent({ waNumber }: { waNumber: string }) {
 
     setSubmitting(true)
 
-    // Manual QRIS workflow
+    // Create booking record, then show dynamic QRIS
     try {
-      const dynamicPayload = generateDynamicQRIS(BASE_QRIS, product.price);
-      setQrisPayload(dynamicPayload);
-      setShowQris(true);
-      setSubmitting(false);
-      trackCheckout(product.id, product.price);
+      await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productId: product.id,
+          type: product.type || 'product',
+          license: product.license,
+          amount: product.price,
+          customer: formData,
+        }),
+      })
+
+      const dynamicPayload = generateDynamicQRIS(BASE_QRIS, product.price)
+      setQrisPayload(dynamicPayload)
+      setShowQris(true)
+      setSubmitting(false)
+      trackCheckout(product.id, product.price)
     } catch (error) {
-      console.error('QRIS generation error:', error);
-      alert('Gagal membuat QRIS.');
-      setSubmitting(false);
+      console.error('QRIS generation error:', error)
+      alert('Gagal membuat QRIS.')
+      setSubmitting(false)
     }
   }
 

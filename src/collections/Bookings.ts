@@ -41,7 +41,7 @@ export const Bookings: CollectionConfig = {
       type: 'text',
       unique: true,
       admin: {
-        description: 'Midtrans transaction order ID (e.g. INV-1234567890-123)',
+        description: 'Order ID (e.g. ORD-1234567890-abcd)',
       },
     },
     {
