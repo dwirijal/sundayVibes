@@ -1,0 +1,267 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Sunday Vibes Logo Sunday Vibes" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Sunday Vibes Logo" [ref=e6]
+        - generic [ref=e7]: Sunday Vibes
+      - button "Buka menu" [ref=e9]:
+        - img [ref=e10]
+    - dialog:
+      - navigation:
+        - button:
+          - img
+        - link:
+          - /url: /layanan/events
+          - text: Event Organizer
+        - link:
+          - /url: /layanan/digital
+          - text: Digital Product
+        - link:
+          - /url: /layanan/sewa-alat
+          - text: Sewa Alat
+        - link:
+          - /url: /layanan/design
+          - text: Design & Web
+        - link:
+          - /url: /foto
+          - text: Foto Marketplace
+        - link:
+          - /url: /foto/wisuda
+          - text: Promo Foto Wisuda
+        - link:
+          - /url: /portfolio
+          - text: Portfolio
+        - link:
+          - /url: /blog
+          - text: Blog
+        - generic:
+          - generic: Tema
+          - button:
+            - img
+        - link:
+          - /url: /admin
+          - text: Login / Client Portal
+        - generic:
+          - link:
+            - /url: /kontak
+            - text: Mulai Project Sekarang
+  - main [ref=e11]:
+    - generic [ref=e13]:
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - generic [ref=e23]: One-stop creative platform
+          - heading "Karya terbaik, tanpa pusing." [level=1] [ref=e25]
+          - paragraph [ref=e26]: Dari konsep event hingga foto produk yang siap publish. Sunday Vibes menyatukan seluruh kebutuhan kreatif dan teknis Anda dalam satu ekosistem yang terintegrasi, transparan, dan profesional.
+          - generic [ref=e27]:
+            - link "Eksplorasi Layanan" [ref=e29] [cursor=pointer]:
+              - /url: /layanan
+            - link "Lihat Portfolio" [ref=e31] [cursor=pointer]:
+              - /url: /portfolio
+          - generic [ref=e32]:
+            - generic [ref=e37]: "+50"
+            - generic [ref=e38]: Dipercaya oleh 50+ klien lokal & nasional
+        - generic [ref=e39]:
+          - generic:
+            - img
+          - img "Sunday Vibes" [ref=e42]
+          - link "Digital Products Ready to publish" [ref=e43] [cursor=pointer]:
+            - /url: /layanan/digital
+            - generic [ref=e44]:
+              - img [ref=e46]
+              - generic [ref=e49]:
+                - generic [ref=e50]: Digital Products
+                - generic [ref=e51]: Ready to publish
+          - link "Photography Professional Studio" [ref=e52] [cursor=pointer]:
+            - /url: /foto
+            - generic [ref=e53]:
+              - img [ref=e55]
+              - generic [ref=e58]:
+                - generic [ref=e59]: Photography
+                - generic [ref=e60]: Professional Studio
+          - link "Web & App Custom Dev" [ref=e61] [cursor=pointer]:
+            - /url: /layanan/coding
+            - generic [ref=e62]:
+              - img [ref=e64]
+              - generic [ref=e67]:
+                - generic [ref=e68]: Web & App
+                - generic [ref=e69]: Custom Dev
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - heading "Layanan Kami" [level=2] [ref=e73]
+          - paragraph [ref=e74]: Solusi lengkap untuk kebutuhan kreatif dan digital Anda.
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - generic [ref=e78]: ✨
+            - generic [ref=e79]:
+              - generic [ref=e80]: events
+              - heading "Event Organizer" [level=3] [ref=e81]
+              - paragraph [ref=e82]: Konsep, perencanaan, dan eksekusi event pernikahan, wisuda, seminar, korporat, dan gathering di Surabaya & Tuban.
+              - link "Lihat Detail" [ref=e83] [cursor=pointer]:
+                - /url: /layanan/events
+          - generic [ref=e84]:
+            - generic [ref=e86]: ✨
+            - generic [ref=e87]:
+              - generic [ref=e88]: digital
+              - heading "Digital Product" [level=3] [ref=e89]
+              - paragraph [ref=e90]: "Pembuatan produk digital: template, preset, e-book, dan aset kreatif siap pakai."
+              - link "Lihat Detail" [ref=e91] [cursor=pointer]:
+                - /url: /layanan/digital
+          - generic [ref=e92]:
+            - generic [ref=e94]: ✨
+            - generic [ref=e95]:
+              - generic [ref=e96]: sewa-alat
+              - heading "Sewa Alat Dokumentasi" [level=3] [ref=e97]
+              - paragraph [ref=e98]: Rental kamera, lensa, drone, lighting, dan audio untuk produksi dokumentasi profesional.
+              - link "Lihat Detail" [ref=e99] [cursor=pointer]:
+                - /url: /layanan/sewa-alat
+          - generic [ref=e100]:
+            - generic [ref=e102]: ✨
+            - generic [ref=e103]:
+              - generic [ref=e104]: design
+              - heading "Design & Web Development" [level=3] [ref=e105]
+              - paragraph [ref=e106]: Jasa design grafis, branding, pembuatan website/aplikasi, dan WordPress.
+              - link "Lihat Detail" [ref=e107] [cursor=pointer]:
+                - /url: /layanan/design
+          - generic [ref=e108]:
+            - generic [ref=e110]: ✨
+            - generic [ref=e111]:
+              - generic [ref=e112]: photography
+              - heading "Photography" [level=3] [ref=e113]
+              - paragraph [ref=e114]: Fotografi wisuda, prewedding, produk, dan acara dengan hasil profesional.
+              - link "Lihat Detail" [ref=e115] [cursor=pointer]:
+                - /url: /layanan/photography
+          - generic [ref=e116]:
+            - generic [ref=e118]: ✨
+            - generic [ref=e119]:
+              - generic [ref=e120]: design
+              - heading "Coding & Aplikasi" [level=3] [ref=e121]
+              - paragraph [ref=e122]: Pengembangan aplikasi web & mobile custom sesuai kebutuhan bisnis Anda.
+              - link "Lihat Detail" [ref=e123] [cursor=pointer]:
+                - /url: /layanan/coding
+      - generic [ref=e125]:
+        - generic [ref=e126]:
+          - heading "Apa Kata Klien Kami" [level=2] [ref=e127]
+          - paragraph [ref=e128]: Testimoni dari klien yang telah menggunakan layanan kami
+        - generic [ref=e129]:
+          - generic [ref=e130]:
+            - img [ref=e131]
+            - paragraph [ref=e134]: "\"Aplikasi manajemen event-nya membantu banget. Dashboard-nya intuitif.\""
+            - generic [ref=e135]:
+              - generic [ref=e136]:
+                - generic [ref=e138]: B
+                - generic [ref=e139]:
+                  - generic [ref=e140]: Budi Santoso
+                  - generic [ref=e141]: Corp Events ID
+              - generic [ref=e142]:
+                - img [ref=e143]
+                - img [ref=e145]
+                - img [ref=e147]
+                - img [ref=e149]
+                - img [ref=e151]
+          - button "Testimoni sebelumnya" [ref=e153]:
+            - img [ref=e154]
+          - button "Testimoni selanjutnya" [ref=e156]:
+            - img [ref=e157]
+        - generic [ref=e159]:
+          - button "Go to testimonial 1" [ref=e160]
+          - button "Go to testimonial 2" [ref=e162]
+          - button "Go to testimonial 3" [ref=e164]
+          - button "Go to testimonial 4" [ref=e166]
+      - generic [ref=e170]:
+        - generic [ref=e171]:
+          - heading "Kenapa Sunday Vibes?" [level=3] [ref=e172]
+          - paragraph [ref=e173]: Booking mudah, tracking transparan, dan hasil profesional dalam satu dashboard.
+        - generic [ref=e174]:
+          - generic [ref=e175]:
+            - generic [ref=e176]: "1"
+            - generic [ref=e177]: Pilih Layanan
+          - generic [ref=e178]:
+            - generic [ref=e179]: "2"
+            - generic [ref=e180]: Briefing & Deal
+          - generic [ref=e181]:
+            - generic [ref=e182]: "3"
+            - generic [ref=e183]: Terima Hasil
+  - contentinfo [ref=e184]:
+    - generic [ref=e185]:
+      - generic [ref=e186]:
+        - generic [ref=e187]:
+          - link "Sunday Vibes Logo Sunday Vibes" [ref=e188] [cursor=pointer]:
+            - /url: /
+            - img "Sunday Vibes Logo" [ref=e189]
+            - generic [ref=e190]: Sunday Vibes
+          - paragraph [ref=e191]: One-stop creative platform. Menyatukan seluruh kebutuhan kreatif dan teknis Anda dalam satu ekosistem yang terintegrasi.
+        - generic [ref=e192]:
+          - heading "Layanan" [level=4] [ref=e193]
+          - list [ref=e194]:
+            - listitem [ref=e195]:
+              - link "Event Organizer" [ref=e196] [cursor=pointer]:
+                - /url: /layanan/events
+            - listitem [ref=e197]:
+              - link "Digital Product" [ref=e198] [cursor=pointer]:
+                - /url: /layanan/digital
+            - listitem [ref=e199]:
+              - link "Sewa Alat Dokumentasi" [ref=e200] [cursor=pointer]:
+                - /url: /layanan/sewa-alat
+            - listitem [ref=e201]:
+              - link "Design & Web Development" [ref=e202] [cursor=pointer]:
+                - /url: /layanan/design
+            - listitem [ref=e203]:
+              - link "Photography" [ref=e204] [cursor=pointer]:
+                - /url: /layanan/photography
+        - generic [ref=e205]:
+          - heading "Perusahaan" [level=4] [ref=e206]
+          - list [ref=e207]:
+            - listitem [ref=e208]:
+              - link "Tentang Kami" [ref=e209] [cursor=pointer]:
+                - /url: /tentang
+            - listitem [ref=e210]:
+              - link "Portfolio" [ref=e211] [cursor=pointer]:
+                - /url: /portfolio
+            - listitem [ref=e212]:
+              - link "Hubungi Kami" [ref=e213] [cursor=pointer]:
+                - /url: /kontak
+        - generic [ref=e214]:
+          - heading "Ikuti Kami" [level=4] [ref=e215]
+          - list [ref=e216]:
+            - listitem [ref=e217]:
+              - link "WhatsApp" [ref=e218] [cursor=pointer]:
+                - /url: https://wa.me/6285157319611
+                - img [ref=e219]
+                - text: WhatsApp
+            - listitem [ref=e222]:
+              - link "TikTok" [ref=e223] [cursor=pointer]:
+                - /url: https://tiktok.com/@sundayvibes._
+                - img [ref=e224]
+                - text: TikTok
+      - generic [ref=e226]:
+        - paragraph [ref=e227]: © 2026 Sunday Vibes. All rights reserved.
+        - generic [ref=e228]:
+          - link "Kebijakan Privasi" [ref=e229] [cursor=pointer]:
+            - /url: /privacy
+          - link "Syarat & Ketentuan" [ref=e230] [cursor=pointer]:
+            - /url: /terms
+          - link "Kebijakan Refund" [ref=e231] [cursor=pointer]:
+            - /url: /refund-policy
+  - navigation "Main navigation":
+    - generic [ref=e232]:
+      - link "Home" [ref=e233] [cursor=pointer]:
+        - /url: /
+        - img [ref=e235]
+        - generic [ref=e238]: Home
+      - link "Layanan" [ref=e239] [cursor=pointer]:
+        - /url: /layanan
+        - img [ref=e241]
+        - generic [ref=e244]: Layanan
+      - link "Foto" [ref=e245] [cursor=pointer]:
+        - /url: /foto
+        - img [ref=e247]
+        - generic [ref=e250]: Foto
+      - link "Blog" [ref=e251] [cursor=pointer]:
+        - /url: /blog
+        - img [ref=e253]
+        - generic [ref=e256]: Blog
+      - link "Kontak" [ref=e257] [cursor=pointer]:
+        - /url: /kontak
+        - img [ref=e259]
+        - generic [ref=e261]: Kontak

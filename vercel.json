@@ -1,16 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "functions": {
-    "src/app/api/checkout/route.ts": {
-      "maxDuration": 60,
-      "memory": 1024
-    },
-    "src/app/api/midtrans/notification/route.ts": {
-      "maxDuration": 60,
-      "memory": 1024
-    }
-  },
   "headers": [
     {
       "source": "/images/equipment/(.*)",

@@ -1,0 +1,301 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Sunday Vibes Logo Sunday Vibes" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Sunday Vibes Logo" [ref=e6]
+        - generic [ref=e7]: Sunday Vibes
+      - generic [ref=e8]:
+        - link "Keranjang belanja" [ref=e9] [cursor=pointer]:
+          - /url: /kontrak
+          - img [ref=e10]
+        - button "Buka menu" [ref=e14]:
+          - img [ref=e15]
+    - dialog:
+      - navigation:
+        - button:
+          - img
+        - link:
+          - /url: /layanan/events
+          - text: Event Organizer
+        - link:
+          - /url: /layanan/digital
+          - text: Digital Product
+        - link:
+          - /url: /layanan/sewa-alat
+          - text: Sewa Alat
+        - link:
+          - /url: /layanan/design
+          - text: Design & Web
+        - link:
+          - /url: /foto
+          - text: Foto Marketplace
+        - link:
+          - /url: /foto/wisuda
+          - text: Promo Foto Wisuda
+        - link:
+          - /url: /portfolio
+          - text: Portfolio
+        - link:
+          - /url: /blog
+          - text: Blog
+        - generic:
+          - generic: Tema
+          - button:
+            - img
+        - link:
+          - /url: /admin
+          - text: Login / Client Portal
+        - generic:
+          - link:
+            - /url: /kontak
+            - text: Mulai Project Sekarang
+  - main [ref=e16]:
+    - main [ref=e17]:
+      - generic [ref=e18]:
+        - generic [ref=e19]: 🎥
+        - heading "Katalog Sewa Multimedia" [level=1] [ref=e20]
+        - paragraph [ref=e21]: Sewa lighting, stabilizer, microphone, dan tripod profesional. Pickup langsung, minimum 1 hari.
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - heading "Lighting Equipment" [level=2] [ref=e25]
+          - generic [ref=e26]:
+            - generic [ref=e27]:
+              - generic [ref=e28]:
+                - heading "IL60 60W" [level=3] [ref=e29]
+                - generic [ref=e30]: "Stok: 2"
+              - paragraph [ref=e31]: Studio light portable, CRI 98
+              - generic [ref=e33]: Rp 75.000/hari
+              - link "Lihat Detail" [ref=e34] [cursor=pointer]:
+                - /url: /layanan/sewa-alat/il60-60w
+                - text: Lihat Detail
+                - img [ref=e35]
+            - generic [ref=e37]:
+              - generic [ref=e38]:
+                - heading "IL150Pro 150W" [level=3] [ref=e39]
+                - generic [ref=e40]: "Stok: 2"
+              - paragraph [ref=e41]: Studio light pro, 2700K-7500K
+              - generic [ref=e43]: Rp 125.000/hari
+              - link "Lihat Detail" [ref=e44] [cursor=pointer]:
+                - /url: /layanan/sewa-alat/il150pro-150w
+                - text: Lihat Detail
+                - img [ref=e45]
+            - generic [ref=e47]:
+              - generic [ref=e48]:
+                - heading "Softbox Kit-1" [level=3] [ref=e49]
+                - generic [ref=e50]: "Stok: 2"
+              - paragraph [ref=e51]: 1 head, entry level
+              - generic [ref=e53]: Rp 75.000/hari
+            - generic [ref=e54]:
+              - generic [ref=e55]:
+                - heading "Softbox Kit-2" [level=3] [ref=e56]
+                - generic [ref=e57]: "Stok: 2"
+              - paragraph [ref=e58]: 2 head, mid tier
+              - generic [ref=e60]: Rp 85.000/hari
+            - generic [ref=e61]:
+              - generic [ref=e62]:
+                - heading "Softbox Kit-3" [level=3] [ref=e63]
+                - generic [ref=e64]: "Stok: 2"
+              - paragraph [ref=e65]: 3 head + tripod, full kit
+              - generic [ref=e67]: Rp 100.000/hari
+            - generic [ref=e68]:
+              - generic [ref=e69]:
+                - heading "IPL17 RGB" [level=3] [ref=e70]
+                - generic [ref=e71]: "Stok: 3"
+              - paragraph [ref=e72]: RGB portable LED, battery
+              - generic [ref=e74]: Rp 35.000/hari
+            - generic [ref=e75]:
+              - generic [ref=e76]:
+                - heading "Mixio PL08" [level=3] [ref=e77]
+                - generic [ref=e78]: "Stok: 2"
+              - paragraph [ref=e79]: Mini LED panel, on-camera
+              - generic [ref=e81]: Rp 30.000/hari
+        - generic [ref=e82]:
+          - heading "Stabilizer & Microphone" [level=2] [ref=e83]
+          - generic [ref=e84]:
+            - generic [ref=e85]:
+              - generic [ref=e86]:
+                - heading "TNW-M01Pro" [level=3] [ref=e87]
+                - generic [ref=e88]: "Stok: 1"
+              - paragraph [ref=e89]: Condenser mic pro, studio grade
+              - generic [ref=e91]: Rp 200.000/hari
+            - generic [ref=e92]:
+              - generic [ref=e93]:
+                - heading "Brica B-Steady 2" [level=3] [ref=e94]
+                - generic [ref=e95]: "Stok: 1"
+              - paragraph [ref=e96]: Gimbal smartphone 3-axis
+              - generic [ref=e98]: Rp 175.000/hari
+            - generic [ref=e99]:
+              - generic [ref=e100]:
+                - heading "DJI OM7" [level=3] [ref=e101]
+                - generic [ref=e102]: "Stok: 1"
+              - paragraph [ref=e103]: Gimbal smartphone premium, magnetic
+              - generic [ref=e105]: Rp 325.000/hari
+        - generic [ref=e106]:
+          - heading "Tripod" [level=2] [ref=e107]
+          - generic [ref=e108]:
+            - generic [ref=e109]:
+              - generic [ref=e110]:
+                - heading "Tripod S" [level=3] [ref=e111]
+                - generic [ref=e112]: "Stok: 4"
+              - paragraph [ref=e113]: Entry, max 150cm
+              - generic [ref=e115]: Rp 25.000/hari
+            - generic [ref=e116]:
+              - generic [ref=e117]:
+                - heading "Tripod M" [level=3] [ref=e118]
+                - generic [ref=e119]: "Stok: 3"
+              - paragraph [ref=e120]: Mid, heavy duty, max 200cm
+              - generic [ref=e122]: Rp 35.000/hari
+            - generic [ref=e123]:
+              - generic [ref=e124]:
+                - heading "Tripod L" [level=3] [ref=e125]
+                - generic [ref=e126]: "Stok: 2"
+              - paragraph [ref=e127]: Pro, max 260cm
+              - generic [ref=e129]: Rp 50.000/hari
+        - generic [ref=e130]:
+          - heading "Drone & Aerial" [level=2] [ref=e131]
+          - generic [ref=e132]:
+            - generic [ref=e133]:
+              - generic:
+                - img "DJI Lito X1"
+              - generic [ref=e134]:
+                - heading "DJI Lito X1" [level=3] [ref=e135]
+                - generic [ref=e136]: "Stok: 1"
+              - paragraph [ref=e137]: Drone 4K/60fps HDR, 48MP, ActiveTrack, 30mnt
+              - generic [ref=e139]: Rp 220.000/hari
+              - link "Lihat Detail" [ref=e140] [cursor=pointer]:
+                - /url: /layanan/sewa-alat/dji-lito-x1
+                - text: Lihat Detail
+                - img [ref=e141]
+            - generic [ref=e143]:
+              - generic:
+                - img "DJI Neo 2"
+              - generic [ref=e144]:
+                - heading "DJI Neo 2" [level=3] [ref=e145]
+                - generic [ref=e146]: "Stok: 1"
+              - paragraph [ref=e147]: Drone 4K/60fps, 12MP, Omnidirectional Obstacle Avoidance, 19mnt
+              - generic [ref=e149]: Rp 175.000/hari
+              - link "Lihat Detail" [ref=e150] [cursor=pointer]:
+                - /url: /layanan/sewa-alat/dji-neo-2
+                - text: Lihat Detail
+                - img [ref=e151]
+      - generic [ref=e154]:
+        - generic [ref=e155]:
+          - img [ref=e157]
+          - generic [ref=e159]:
+            - heading "Kebijakan Deposit" [level=2] [ref=e160]
+            - paragraph [ref=e161]: Syarat dan ketentuan sewa alat
+        - generic [ref=e162]:
+          - generic [ref=e163]:
+            - img [ref=e164]
+            - generic [ref=e166]:
+              - paragraph [ref=e167]: "Deposit: KTP/SIM Asli"
+              - paragraph [ref=e168]: Tinggalkan identitas asli saat pickup, dikembalikan setelah alat dikembalikan
+          - generic [ref=e169]:
+            - img [ref=e170]
+            - generic [ref=e172]:
+              - paragraph [ref=e173]: Tanda Tangan Kontrak
+              - paragraph [ref=e174]: Semua penyewa wajib menandatangani kontrak rental sederhana
+          - generic [ref=e175]:
+            - img [ref=e176]
+            - generic [ref=e178]:
+              - paragraph [ref=e179]: "Minimum Sewa: 1 Hari"
+              - paragraph [ref=e180]: Pickup langsung di lokasi kami, tidak ada delivery
+          - generic [ref=e181]:
+            - img [ref=e182]
+            - generic [ref=e184]:
+              - paragraph [ref=e185]: "Late Fee: 50% per Hari"
+              - paragraph [ref=e186]: Keterlambatan pengenaan biaya tambahan 50% dari harga sewa per hari
+      - generic [ref=e188]:
+        - heading "Siap Sewa Alat?" [level=2] [ref=e189]
+        - paragraph [ref=e190]: Booking alat yang Anda butuhkan sekarang. Tim kami akan konfirmasi ketersediaan dan jadwal pickup.
+        - button "Ke Halaman Booking" [ref=e191]:
+          - link "Ke Halaman Booking" [ref=e192] [cursor=pointer]:
+            - /url: /kontrak
+  - contentinfo [ref=e193]:
+    - generic [ref=e194]:
+      - generic [ref=e195]:
+        - generic [ref=e196]:
+          - link "Sunday Vibes Logo Sunday Vibes" [ref=e197] [cursor=pointer]:
+            - /url: /
+            - img "Sunday Vibes Logo" [ref=e198]
+            - generic [ref=e199]: Sunday Vibes
+          - paragraph [ref=e200]: One-stop creative platform. Menyatukan seluruh kebutuhan kreatif dan teknis Anda dalam satu ekosistem yang terintegrasi.
+        - generic [ref=e201]:
+          - heading "Layanan" [level=4] [ref=e202]
+          - list [ref=e203]:
+            - listitem [ref=e204]:
+              - link "Event Organizer" [ref=e205] [cursor=pointer]:
+                - /url: /layanan/events
+            - listitem [ref=e206]:
+              - link "Digital Product" [ref=e207] [cursor=pointer]:
+                - /url: /layanan/digital
+            - listitem [ref=e208]:
+              - link "Sewa Alat Dokumentasi" [ref=e209] [cursor=pointer]:
+                - /url: /layanan/sewa-alat
+            - listitem [ref=e210]:
+              - link "Design & Web Development" [ref=e211] [cursor=pointer]:
+                - /url: /layanan/design
+            - listitem [ref=e212]:
+              - link "Photography" [ref=e213] [cursor=pointer]:
+                - /url: /layanan/photography
+        - generic [ref=e214]:
+          - heading "Perusahaan" [level=4] [ref=e215]
+          - list [ref=e216]:
+            - listitem [ref=e217]:
+              - link "Tentang Kami" [ref=e218] [cursor=pointer]:
+                - /url: /tentang
+            - listitem [ref=e219]:
+              - link "Portfolio" [ref=e220] [cursor=pointer]:
+                - /url: /portfolio
+            - listitem [ref=e221]:
+              - link "Hubungi Kami" [ref=e222] [cursor=pointer]:
+                - /url: /kontak
+        - generic [ref=e223]:
+          - heading "Ikuti Kami" [level=4] [ref=e224]
+          - list [ref=e225]:
+            - listitem [ref=e226]:
+              - link "WhatsApp" [ref=e227] [cursor=pointer]:
+                - /url: https://wa.me/6285157319611
+                - img [ref=e228]
+                - text: WhatsApp
+            - listitem [ref=e231]:
+              - link "TikTok" [ref=e232] [cursor=pointer]:
+                - /url: https://tiktok.com/@sundayvibes._
+                - img [ref=e233]
+                - text: TikTok
+      - generic [ref=e235]:
+        - paragraph [ref=e236]: © 2026 Sunday Vibes. All rights reserved.
+        - generic [ref=e237]:
+          - link "Kebijakan Privasi" [ref=e238] [cursor=pointer]:
+            - /url: /privacy
+          - link "Syarat & Ketentuan" [ref=e239] [cursor=pointer]:
+            - /url: /terms
+          - link "Kebijakan Refund" [ref=e240] [cursor=pointer]:
+            - /url: /refund-policy
+  - navigation "Main navigation":
+    - generic [ref=e241]:
+      - link "Home" [ref=e242] [cursor=pointer]:
+        - /url: /
+        - img [ref=e244]
+        - generic [ref=e247]: Home
+      - link "Layanan" [ref=e248] [cursor=pointer]:
+        - /url: /layanan
+        - img [ref=e250]
+        - generic [ref=e253]: Layanan
+      - link "Foto" [ref=e254] [cursor=pointer]:
+        - /url: /foto
+        - img [ref=e256]
+        - generic [ref=e259]: Foto
+      - link "Blog" [ref=e260] [cursor=pointer]:
+        - /url: /blog
+        - img [ref=e262]
+        - generic [ref=e265]: Blog
+      - link "Kontak" [ref=e266] [cursor=pointer]:
+        - /url: /kontak
+        - img [ref=e268]
+        - generic [ref=e270]: Kontak
+  - link "Keranjang belanja" [ref=e273] [cursor=pointer]:
+    - /url: /kontrak
+    - img [ref=e274]
+  - alert [ref=e278]

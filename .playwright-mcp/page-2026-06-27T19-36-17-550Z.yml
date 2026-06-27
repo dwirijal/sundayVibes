@@ -1,0 +1,233 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Sunday Vibes Logo Sunday Vibes" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Sunday Vibes Logo" [ref=e6]
+        - generic [ref=e7]: Sunday Vibes
+      - generic [ref=e8]:
+        - link "Keranjang belanja" [ref=e136] [cursor=pointer]:
+          - /url: /kontrak
+          - img [ref=e137]
+          - generic [ref=e141]: "1"
+        - button "Buka menu" [ref=e9]:
+          - img [ref=e10]
+    - dialog:
+      - navigation:
+        - button:
+          - img
+        - link:
+          - /url: /layanan/events
+          - text: Event Organizer
+        - link:
+          - /url: /layanan/digital
+          - text: Digital Product
+        - link:
+          - /url: /layanan/sewa-alat
+          - text: Sewa Alat
+        - link:
+          - /url: /layanan/design
+          - text: Design & Web
+        - link:
+          - /url: /foto
+          - text: Foto Marketplace
+        - link:
+          - /url: /foto/wisuda
+          - text: Promo Foto Wisuda
+        - link:
+          - /url: /portfolio
+          - text: Portfolio
+        - link:
+          - /url: /blog
+          - text: Blog
+        - generic:
+          - generic: Tema
+          - button:
+            - img
+        - link:
+          - /url: /admin
+          - text: Login / Client Portal
+        - generic:
+          - link:
+            - /url: /kontak
+            - text: Mulai Project Sekarang
+  - main [ref=e11]:
+    - main [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - img [ref=e16]
+          - heading "Kontrak Sewa Alat" [level=1] [ref=e19]
+          - paragraph [ref=e20]: Isi form di bawah untuk membuat kontrak rental
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - heading "Data Penyewa" [level=2] [ref=e23]
+            - generic [ref=e24]:
+              - generic [ref=e25]:
+                - generic [ref=e26]: Nama Lengkap *
+                - textbox "Nama sesuai KTP" [ref=e27]: Budi Tester
+              - generic [ref=e28]:
+                - generic [ref=e29]: No. Identitas (KTP/SIM) *
+                - textbox "Nomor KTP/SIM" [ref=e30]: "1234567890123456"
+              - generic [ref=e31]:
+                - generic [ref=e32]: No. Telepon *
+                - textbox "08xxxxxxxxxx" [ref=e33]: "081234567890"
+              - generic [ref=e34]:
+                - generic [ref=e35]: Alamat *
+                - textbox "Alamat lengkap" [ref=e36]: Jl. Test No. 123, Surabaya
+          - generic [ref=e37]:
+            - heading "Periode Sewa" [level=2] [ref=e38]
+            - generic [ref=e39]:
+              - generic [ref=e40]:
+                - generic [ref=e41]: Tanggal Mulai *
+                - textbox [ref=e42]: 2026-07-01
+              - generic [ref=e43]:
+                - generic [ref=e44]: Tanggal Selesai *
+                - textbox [ref=e45]: 2026-07-03
+            - paragraph [ref=e179]:
+              - text: "Durasi sewa:"
+              - generic [ref=e180]: 2 hari
+          - generic [ref=e46]:
+            - heading "Pilih Alat" [level=2] [ref=e47]
+            - generic [ref=e48]:
+              - generic [ref=e49]: Tambah Alat
+              - combobox [ref=e50]:
+                - option "Pilih alat..." [disabled] [selected]
+                - option "Softbox Kit-1 - Rp 75.000/hari"
+                - option "Softbox Kit-2 - Rp 85.000/hari"
+                - option "Softbox Kit-3 - Rp 100.000/hari"
+                - option "IL60 60W - Rp 75.000/hari"
+                - option "IL150Pro 150N - Rp 125.000/hari"
+                - option "IPL17 RGB - Rp 35.000/hari"
+                - option "Mixio PL08 - Rp 30.000/hari"
+                - option "TNW-M01Pro - Rp 200.000/hari"
+                - option "Brica B-Steady 2 - Rp 175.000/hari"
+                - option "DJI OM7 - Rp 325.000/hari"
+                - option "DJI Lito X1 - Rp 220.000/hari"
+                - option "DJI Neo 2 - Rp 175.000/hari"
+                - option "Tripod S - Rp 25.000/hari"
+                - option "Tripod M - Rp 35.000/hari"
+                - option "Tripod L - Rp 50.000/hari"
+            - table [ref=e143]:
+              - rowgroup [ref=e144]:
+                - row "Item Qty Harga/Hari Subtotal Aksi" [ref=e145]:
+                  - columnheader "Item" [ref=e146]
+                  - columnheader "Qty" [ref=e147]
+                  - columnheader "Harga/Hari" [ref=e148]
+                  - columnheader "Subtotal" [ref=e149]
+                  - columnheader "Aksi" [ref=e150]
+              - rowgroup [ref=e151]:
+                - row "IL60 60W 1 Rp 75.000 Rp 75.000 Hapus" [ref=e152]:
+                  - cell "IL60 60W" [ref=e153]
+                  - cell "1" [ref=e154]:
+                    - spinbutton [ref=e155]: "1"
+                  - cell "Rp 75.000" [ref=e156]
+                  - cell "Rp 75.000" [ref=e157]
+                  - cell "Hapus" [ref=e158]:
+                    - button "Hapus" [ref=e159]
+              - rowgroup [ref=e160]:
+                - row "Pakai" [ref=e161]:
+                  - cell "Pakai" [ref=e162]:
+                    - generic [ref=e163]:
+                      - textbox "Kode Promo" [ref=e164]
+                      - button "Pakai" [ref=e165]
+                  - cell [ref=e166]
+                - 'row "Total per hari: Rp 75.000" [ref=e167]':
+                  - cell "Total per hari:" [ref=e168]
+                  - cell "Rp 75.000" [ref=e169]
+                  - cell [ref=e170]
+                - 'row "Total (2 hari): Rp 150.000" [ref=e181]':
+                  - cell "Total (2 hari):" [ref=e182]
+                  - cell "Rp 150.000" [ref=e183]
+                  - cell [ref=e184]
+          - generic [ref=e52]:
+            - heading "Catatan (Opsional)" [level=2] [ref=e53]
+            - textbox "Catatan tambahan atau permintaan khusus..." [ref=e54]
+          - button "Buat Kontrak" [active] [ref=e171]
+  - contentinfo [ref=e56]:
+    - generic [ref=e57]:
+      - generic [ref=e58]:
+        - generic [ref=e59]:
+          - link "Sunday Vibes Logo Sunday Vibes" [ref=e60] [cursor=pointer]:
+            - /url: /
+            - img "Sunday Vibes Logo" [ref=e61]
+            - generic [ref=e62]: Sunday Vibes
+          - paragraph [ref=e63]: One-stop creative platform. Menyatukan seluruh kebutuhan kreatif dan teknis Anda dalam satu ekosistem yang terintegrasi.
+        - generic [ref=e64]:
+          - heading "Layanan" [level=4] [ref=e65]
+          - list [ref=e66]:
+            - listitem [ref=e67]:
+              - link "Event Organizer" [ref=e68] [cursor=pointer]:
+                - /url: /layanan/events
+            - listitem [ref=e69]:
+              - link "Digital Product" [ref=e70] [cursor=pointer]:
+                - /url: /layanan/digital
+            - listitem [ref=e71]:
+              - link "Sewa Alat Dokumentasi" [ref=e72] [cursor=pointer]:
+                - /url: /layanan/sewa-alat
+            - listitem [ref=e73]:
+              - link "Design & Web Development" [ref=e74] [cursor=pointer]:
+                - /url: /layanan/design
+            - listitem [ref=e75]:
+              - link "Photography" [ref=e76] [cursor=pointer]:
+                - /url: /layanan/photography
+        - generic [ref=e77]:
+          - heading "Perusahaan" [level=4] [ref=e78]
+          - list [ref=e79]:
+            - listitem [ref=e80]:
+              - link "Tentang Kami" [ref=e81] [cursor=pointer]:
+                - /url: /tentang
+            - listitem [ref=e82]:
+              - link "Portfolio" [ref=e83] [cursor=pointer]:
+                - /url: /portfolio
+            - listitem [ref=e84]:
+              - link "Hubungi Kami" [ref=e85] [cursor=pointer]:
+                - /url: /kontak
+        - generic [ref=e86]:
+          - heading "Ikuti Kami" [level=4] [ref=e87]
+          - list [ref=e88]:
+            - listitem [ref=e89]:
+              - link "WhatsApp" [ref=e90] [cursor=pointer]:
+                - /url: https://wa.me/6285157319611
+                - img [ref=e91]
+                - text: WhatsApp
+            - listitem [ref=e94]:
+              - link "TikTok" [ref=e95] [cursor=pointer]:
+                - /url: https://tiktok.com/@sundayvibes._
+                - img [ref=e96]
+                - text: TikTok
+      - generic [ref=e98]:
+        - paragraph [ref=e99]: © 2026 Sunday Vibes. All rights reserved.
+        - generic [ref=e100]:
+          - link "Kebijakan Privasi" [ref=e101] [cursor=pointer]:
+            - /url: /privacy
+          - link "Syarat & Ketentuan" [ref=e102] [cursor=pointer]:
+            - /url: /terms
+          - link "Kebijakan Refund" [ref=e103] [cursor=pointer]:
+            - /url: /refund-policy
+  - navigation "Main navigation":
+    - generic [ref=e104]:
+      - link "Home" [ref=e105] [cursor=pointer]:
+        - /url: /
+        - img [ref=e107]
+        - generic [ref=e110]: Home
+      - link "Layanan" [ref=e111] [cursor=pointer]:
+        - /url: /layanan
+        - img [ref=e113]
+        - generic [ref=e116]: Layanan
+      - link "Foto" [ref=e117] [cursor=pointer]:
+        - /url: /foto
+        - img [ref=e119]
+        - generic [ref=e122]: Foto
+      - link "Blog" [ref=e123] [cursor=pointer]:
+        - /url: /blog
+        - img [ref=e125]
+        - generic [ref=e128]: Blog
+      - link "Kontak" [ref=e129] [cursor=pointer]:
+        - /url: /kontak
+        - img [ref=e131]
+        - generic [ref=e133]: Kontak
+  - link "Keranjang belanja" [ref=e172] [cursor=pointer]:
+    - /url: /kontrak
+    - img [ref=e173]
+    - generic [ref=e177]: "1"
+  - alert [ref=e178]
