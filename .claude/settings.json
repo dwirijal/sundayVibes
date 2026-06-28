@@ -11,12 +11,17 @@
     "PreToolUse": [
       {
         "matcher": "Bash|Write|Edit",
-        "command": "node .claude/scripts/guardrails.js"
+        "hooks": [
+          { "type": "command", "command": "node .claude/scripts/guardrails.js" }
+        ]
       }
     ],
     "Stop": [
       {
-        "command": "npm run lint && npm run build"
+        "matcher": "",
+        "hooks": [
+          { "type": "command", "command": "npm run lint && npm run build" }
+        ]
       }
     ]
   }

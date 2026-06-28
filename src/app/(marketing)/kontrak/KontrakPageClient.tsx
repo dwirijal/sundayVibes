@@ -121,7 +121,8 @@ export default function KontrakPageClient() {
 
   const calculateTotal = () => {
     const days = calculateDays();
-    const subtotal = formData.items.reduce((sum, item) => sum + item.price * item.qty, 0) * days;
+    const source = formData.items.length > 0 ? formData.items : cartItems;
+    const subtotal = source.reduce((sum, item) => sum + item.price * item.qty, 0) * days;
     const discount = calculatePromoDiscount(promoCode, subtotal);
     return Math.max(0, subtotal - discount);
   };
@@ -138,6 +139,7 @@ export default function KontrakPageClient() {
 
     // Create booking record, then generate dynamic QRIS
     const total = calculateTotal();
+    setChargedTotal(total);
     fetch('/api/bookings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -166,8 +168,7 @@ export default function KontrakPageClient() {
   };
 
   const handleConfirmPayment = () => {
-    const total = calculateTotal(); // capture before clearCart resets promo
-    setChargedTotal(total);
+    const total = chargedTotal; // captured at submit, before clearCart resets promo
     setIsSubmitted(true);
     setShowQris(false);
     clearCart();
@@ -199,31 +200,6 @@ export default function KontrakPageClient() {
 
           {/* Contract Document */}
           <div className="bg-card border border-border rounded-3xl p-8 md:p-12 print:border-0 print:rounded-none print:p-0">
-
-      {/* QRIS Modal overlay */}
-      {showQris && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-card border border-border shadow-2xl rounded-3xl p-8 max-w-sm w-full flex flex-col items-center text-center animate-in zoom-in-95 duration-300">
-            <h3 className="text-2xl font-black mb-2">Scan QRIS</h3>
-            <p className="text-muted-foreground text-sm mb-6">Gunakan aplikasi m-banking atau e-wallet Anda.</p>
-
-            <div className="bg-white p-4 rounded-2xl mb-6 border-2 border-stone-200">
-              <QRCodeSVG value={qrisPayload} size={250} level="H" />
-            </div>
-
-            <div className="bg-primary/10 text-primary font-black text-xl px-6 py-3 rounded-xl mb-8 w-full">
-              Rp {calculateTotal().toLocaleString("id-ID")}
-            </div>
-
-            <Button size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white mb-3" onClick={handleConfirmPayment}>
-              Saya Sudah Membayar
-            </Button>
-            <Button variant="ghost" className="w-full" onClick={() => setShowQris(false)}>
-              Batal
-            </Button>
-          </div>
-        </div>
-      )}
 
       {/* Header */}
             <div className="text-center mb-8 pb-6 border-b border-border">
@@ -625,13 +601,38 @@ export default function KontrakPageClient() {
               type="submit"
               size="lg"
               className="flex-1 rounded-full h-14 text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90"
-              disabled={formData.items.length === 0}
+              disabled={formData.items.length === 0 && cartItems.length === 0}
             >
               Buat Kontrak
             </Button>
           </div>
         </form>
       </div>
+
+      {/* QRIS Modal overlay */}
+      {showQris && (
+        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-card border border-border shadow-2xl rounded-3xl p-8 max-w-sm w-full flex flex-col items-center text-center animate-in zoom-in-95 duration-300">
+            <h3 className="text-2xl font-black mb-2">Scan QRIS</h3>
+            <p className="text-muted-foreground text-sm mb-6">Gunakan aplikasi m-banking atau e-wallet Anda.</p>
+
+            <div className="bg-white p-4 rounded-2xl mb-6 border-2 border-stone-200">
+              <QRCodeSVG value={qrisPayload} size={250} level="H" />
+            </div>
+
+            <div className="bg-primary/10 text-primary font-black text-xl px-6 py-3 rounded-xl mb-8 w-full">
+              Rp {chargedTotal.toLocaleString("id-ID")}
+            </div>
+
+            <Button size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white mb-3" onClick={handleConfirmPayment}>
+              Saya Sudah Membayar
+            </Button>
+            <Button variant="ghost" className="w-full" onClick={() => setShowQris(false)}>
+              Batal
+            </Button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
