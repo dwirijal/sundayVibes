@@ -1,10 +1,19 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { auth } from '@/lib/auth'
 
-export function proxy(request: NextRequest) {
+// Neon auth middleware instance (protects /dashboard with a Neon session).
+const neonGuard = auth.middleware({ loginUrl: '/login' })
+
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // CSRF Protection for API routes
+  // Neon Auth handles its own callback/state — bypass Payload CSRF for it.
+  if (pathname.startsWith('/api/auth/')) {
+    return NextResponse.next()
+  }
+
+  // CSRF Protection for API routes (origin-only)
   if (pathname.startsWith('/api')) {
     const isWebhook = pathname.startsWith('/api/whatsapp/webhook')
 
@@ -21,20 +30,15 @@ export function proxy(request: NextRequest) {
         if (originUrl.host !== host) {
           return NextResponse.json({ error: 'CSRF validation failed' }, { status: 403 })
         }
-      } catch (e) {
+      } catch {
         return NextResponse.json({ error: 'CSRF validation failed' }, { status: 403 })
       }
     }
   }
 
-  // Payload CMS auth cookie (default name)
+  // Client dashboard → Neon Auth session (Google/magic/phone).
   if (pathname.startsWith('/dashboard')) {
-    const token = request.cookies.get('payload-token')
-    if (!token?.value) {
-      const loginUrl = new URL('/login', request.url)
-      loginUrl.searchParams.set('redirect', pathname)
-      return NextResponse.redirect(loginUrl)
-    }
+    return neonGuard(request)
   }
 
   return NextResponse.next()
