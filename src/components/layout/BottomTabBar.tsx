@@ -15,8 +15,8 @@ const tabs = [
 export function BottomTabBar() {
   return (
     <>
-      <Dock items={tabs} position="bottom" className="lg:hidden" />
-      <div className="fixed bottom-4 right-4 z-50 lg:hidden">
+      <Dock items={tabs} position="bottom" className="lg:hidden print:hidden" />
+      <div className="fixed bottom-4 right-4 z-50 lg:hidden print:hidden">
         <div className="pointer-events-auto flex items-center justify-center p-3 rounded-full bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl border border-stone-200/50 dark:border-stone-700/50 shadow-lg shadow-stone-900/10 dark:shadow-black/20">
           <CartIcon />
         </div>
