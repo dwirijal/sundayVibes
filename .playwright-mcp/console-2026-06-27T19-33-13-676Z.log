@@ -1,1 +1,0 @@
-[    4685ms] [WARNING] The resource https://sundayvibes.vercel.app/assets/logo-black-transparent.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://sundayvibes.vercel.app/layanan/sewa-alat:0
