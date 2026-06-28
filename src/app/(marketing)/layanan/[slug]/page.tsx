@@ -3,7 +3,7 @@ import { getPayload } from 'payload'
 import config from '@/../payload.config'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+// Button import removed — page renders links, not <Button>
 import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ServiceSchema } from '@/components/seo/ServiceSchema'
@@ -100,7 +100,7 @@ export default async function ServicePage({ params }: PageProps) {
               Pilihan Paket
             </h2>
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {service.packages.map((pkg: any, index: number) => (
+              {service.packages.map((pkg: { name: string; price: string; features?: Array<{ text: string }> }, index: number) => (
                 <div
                   key={index}
                   className="bg-card rounded-lg shadow-lg p-8 border border-border hover:shadow-xl transition-shadow"
@@ -112,7 +112,7 @@ export default async function ServicePage({ params }: PageProps) {
                     {pkg.price}
                   </div>
                   <ul className="space-y-3 mb-8">
-                    {pkg.features && pkg.features.map((feature: any, fIndex: number) => (
+                    {pkg.features && pkg.features.map((feature, fIndex: number) => (
                       <li key={fIndex} className="flex items-start">
                         <Check className="w-5 h-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
                         <span className="text-muted-foreground">{feature.text}</span>

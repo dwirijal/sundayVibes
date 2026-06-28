@@ -4,11 +4,35 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { trackFormSubmission } from '@/lib/analytics'
 
+const WA_NUMBER = '6285157319611'
+
+const SERVICE_LABELS: Record<string, string> = {
+  events: 'Event Organizer',
+  digital: 'Digital Product',
+  'sewa-alat': 'Sewa Alat',
+  design: 'Jasa Design',
+  coding: 'Jasa Coding',
+  wordpress: 'Jasa WordPress',
+  photography: 'Photography',
+}
+
 export function ContactFormClient() {
   const [submitted, setSubmitted] = useState(false)
+  const [form, setForm] = useState({ name: '', contact: '', service: '', message: '' })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const service = form.service ? SERVICE_LABELS[form.service] ?? form.service : '-'
+    const text =
+      `Halo Sunday Vibes! 👋\n\n` +
+      `*Nama:* ${form.name}\n` +
+      `*Kontak:* ${form.contact}\n` +
+      `*Layanan:* ${service}\n\n` +
+      `*Pesan:*\n${form.message}`
+    // ponytail: no backend persistence yet — WA deep-link delivers the message
+    // directly. Add POST /api/contact + a messages collection when inbox-in-CMS
+    // is needed.
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
     setSubmitted(true)
     trackFormSubmission('contact')
   }
@@ -31,7 +55,9 @@ export function ContactFormClient() {
           type="text"
           name="name"
           required
-          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
           placeholder="Nama Anda"
         />
       </div>
@@ -41,13 +67,20 @@ export function ContactFormClient() {
           type="text"
           name="contact"
           required
-          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+          value={form.contact}
+          onChange={(e) => setForm({ ...form, contact: e.target.value })}
+          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
           placeholder="email@example.com atau 08xx"
         />
       </div>
       <div>
         <label className="block text-sm font-medium text-foreground mb-2">Layanan yang Diminati</label>
-        <select name="service" className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+        <select
+          name="service"
+          value={form.service}
+          onChange={(e) => setForm({ ...form, service: e.target.value })}
+          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
+        >
           <option value="">Pilih layanan...</option>
           <option value="events">Event Organizer</option>
           <option value="digital">Digital Product</option>
@@ -64,7 +97,9 @@ export function ContactFormClient() {
           name="message"
           rows={4}
           required
-          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
+          value={form.message}
+          onChange={(e) => setForm({ ...form, message: e.target.value })}
+          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none transition-shadow"
           placeholder="Ceritakan kebutuhan Anda..."
         />
       </div>

@@ -44,6 +44,8 @@ export default function CodingPage() {
 
   return (
     <main className="min-h-screen pt-32 pb-24 bg-background">
+      <ServiceSchema name="Jasa Coding & Development" description="Pengembangan web app, API, dan integrasi sistem dengan Next.js dan teknologi modern." provider="Sunday Vibes" areaServed={["Surabaya", "Tuban"]} priceRange="Mulai Rp 3.000.000 - Custom" />
+      <BreadcrumbSchema items={[{ name: "Beranda", url: "/" }, { name: "Layanan", url: "/layanan" }, { name: "Jasa Coding", url: "/layanan/coding" }]} />
       <section className="container mx-auto px-6 max-w-4xl text-center mb-16">
         <div className="w-20 h-20 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">⚡</div>
         <h1 className="text-5xl md:text-6xl font-black mb-6 text-foreground">Jasa Coding & Development</h1>

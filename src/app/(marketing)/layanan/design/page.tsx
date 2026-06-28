@@ -34,6 +34,8 @@ export default function DesignPage() {
 
   return (
     <main className="min-h-screen pt-32 pb-24 bg-background">
+      <ServiceSchema name="Jasa Design" description="Jasa desain grafis: logo, brand identity, social media kit, dan print design." provider="Sunday Vibes" areaServed={["Surabaya", "Tuban"]} priceRange="Mulai Rp 150.000" />
+      <BreadcrumbSchema items={[{ name: "Beranda", url: "/" }, { name: "Layanan", url: "/layanan" }, { name: "Jasa Design", url: "/layanan/design" }]} />
       <section className="container mx-auto px-6 max-w-4xl text-center mb-24">
         <div className="w-20 h-20 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">🎨</div>
         <h1 className="text-5xl md:text-6xl font-black mb-6 text-foreground">Jasa Design</h1>

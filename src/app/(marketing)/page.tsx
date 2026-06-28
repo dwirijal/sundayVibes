@@ -3,6 +3,7 @@ import configPromise from "@payload-config";
 import type { Metadata } from "next";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { PageTransition } from "@/components/animations";
+import { WorkflowStrip } from "@/components/WorkflowStrip";
 import { ReviewSchema } from "@/components/seo/ReviewSchema";
 import { FAQSchema } from "@/components/seo/FAQSchema";
 import { HeroClient } from "./HeroClient";
@@ -34,6 +35,31 @@ export const metadata: Metadata = {
 export default async function Home() {
   const payload = await getPayload({ config: configPromise });
 
+  // Minimal shapes for just the fields consumed here (payload-types.ts is not
+  // generated locally — these avoid `any` without pretending full schema knowledge).
+  interface ServiceDoc {
+    id: string | number;
+    title: string;
+    slug: string;
+    category?: string;
+    description: string;
+    hero_image?: { url?: string } | null;
+  }
+  interface TestimonialDoc {
+    id: string | number;
+    client_name: string;
+    company?: string;
+    content: string;
+    rating?: number;
+    avatar?: { url?: string; alt?: string } | null;
+  }
+  interface FindResult<T> { docs: T[] }
+  interface HomepageGlobal {
+    heroHeadline?: string;
+    heroSubtext?: string;
+    [key: string]: unknown;
+  }
+
   // Parallelize independent queries (was sequential: services → testimonials → global)
   const [servicesResult, testimonialsResult, homepageGlobal] = await Promise.all([
     payload.find({
@@ -46,25 +72,41 @@ export default async function Home() {
       collection: "testimonials",
       limit: 10,
       depth: 1,
-    }) as Promise<any>,
-    payload.findGlobal({ slug: "homepage" }) as Promise<any>,
+    }) as unknown as Promise<FindResult<TestimonialDoc>>,
+    payload.findGlobal({ slug: "homepage" }) as unknown as Promise<HomepageGlobal>,
   ]);
 
-  const services = servicesResult.docs.map((doc: any) => ({
+  const services = (servicesResult as unknown as FindResult<ServiceDoc>).docs.map((doc) => ({
     id: doc.id,
     title: doc.title,
     slug: doc.slug,
     category: doc.category,
     description: doc.description,
-    hero_image: doc.hero_image && typeof doc.hero_image === "object" ? { url: doc.hero_image.url } : null,
+    hero_image: doc.hero_image && typeof doc.hero_image === "object" && doc.hero_image.url
+      ? { url: doc.hero_image.url }
+      : null,
   }));
-  const serializedTestimonials = testimonialsResult.docs.map((doc: any) => ({
-    id: doc.id,
+  const serializedTestimonials = testimonialsResult.docs.map((doc) => ({
+    id: String(doc.id),
     client_name: doc.client_name,
     company: doc.company,
     content: doc.content,
-    rating: doc.rating,
-    avatar: doc.avatar ? { url: doc.avatar.url, alt: doc.avatar.alt } : undefined,
+    rating: Number(doc.rating) || 0,
+    avatar: doc.avatar?.url ? { url: doc.avatar.url, alt: doc.avatar.alt } : undefined,
+  }));
+
+  // Rich-result schema: feed top testimonials as Reviews + aggregate rating.
+  const ratings: number[] = serializedTestimonials
+    .map((t) => Number(t.rating))
+    .filter((r) => r > 0);
+  const aggregateRating = ratings.length > 0
+    ? { ratingValue: ratings.reduce((a, b) => a + b, 0) / ratings.length, reviewCount: ratings.length }
+    : undefined;
+  const reviewSchemaData = serializedTestimonials.slice(0, 5).map((t) => ({
+    author: t.client_name,
+    rating: Number(t.rating),
+    reviewBody: t.content,
+    datePublished: new Date().toISOString().slice(0, 10),
   }));
 
   return (
@@ -85,30 +127,7 @@ export default async function Home() {
       )}
 
       {/* Trust & Workflow Strip */}
-      <section className="border-y border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 py-12 relative z-10">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-            <div className="md:w-1/3">
-              <h3 className="text-lg font-bold text-foreground mb-2">Kenapa Sunday Vibes?</h3>
-              <p className="text-sm text-muted-foreground">Booking mudah, tracking transparan, dan hasil profesional dalam satu dashboard.</p>
-            </div>
-            <div className="flex gap-12 text-sm font-medium text-muted-foreground">
-              <div className="flex flex-col items-center gap-2">
-                <span className="text-2xl font-black text-primary">1</span>
-                <span>Pilih Layanan</span>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <span className="text-2xl font-black text-secondary">2</span>
-                <span>Briefing & Deal</span>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <span className="text-2xl font-black text-foreground">3</span>
-                <span>Terima Hasil</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WorkflowStrip />
 
     </div>
     <FAQSchema faqs={[
@@ -117,6 +136,7 @@ export default async function Home() {
       { question: 'Bagaimana cara booking layanan?', answer: 'Isi form booking online atau hubungi via WhatsApp. Tim kami akan menghubungi dalam 1x24 jam.' },
       { question: 'Apakah bisa bayar via QRIS?', answer: 'Ya, kami menerima pembayaran via QRIS (Gopay, OVO, Dana, ShopeePay, LinkAja) dan transfer bank.' },
     ]} />
+    <ReviewSchema reviews={reviewSchemaData} aggregateRating={aggregateRating} />
     </PageTransition>
   );
 }

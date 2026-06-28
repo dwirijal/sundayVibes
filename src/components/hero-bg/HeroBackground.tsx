@@ -20,17 +20,24 @@ export default function HeroBackground() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Set canvas size
+    // DPR-aware sizing so particles stay crisp on retina/HiDPI displays.
     const resize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const w = window.innerWidth
+      const h = window.innerHeight
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      canvas.style.width = `${w}px`
+      canvas.style.height = `${h}px`
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
     resize()
 
-    // Create particles
-    const particles: Particle[] = []
-    const particleCount = 500
+    // Scale particle count by viewport so mobile isn't overworked.
+    const area = window.innerWidth * window.innerHeight
+    const particleCount = Math.min(500, Math.max(150, Math.round(area / 4000)))
 
+    const particles: Particle[] = []
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: (Math.random() - 0.5) * 2000,
@@ -42,15 +49,20 @@ export default function HeroBackground() {
     let animationId: number
     let rotationY = 0
     let rotationX = 0
+    const w0 = () => window.innerWidth
+    const h0 = () => window.innerHeight
 
     const animate = () => {
       animationId = requestAnimationFrame(animate)
 
       ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.fillRect(0, 0, w0(), h0())
 
       rotationY += 0.0005
       rotationX += 0.0002
+
+      const cw = w0()
+      const ch = h0()
 
       particles.forEach(particle => {
         // Rotate around Y axis
@@ -63,12 +75,15 @@ export default function HeroBackground() {
 
         // Project to 2D
         const perspective = 1000
+        // Skip particles behind the camera (finalZ <= -perspective) — drawing
+        // them would produce a negative/NaN radius and throw IndexSizeError.
+        if (finalZ <= -perspective) return
         const scale = perspective / (perspective + finalZ)
-        const x2d = rotatedX * scale + canvas.width / 2
-        const y2d = rotatedY * scale + canvas.height / 2
+        const x2d = rotatedX * scale + cw / 2
+        const y2d = rotatedY * scale + ch / 2
 
         // Draw particle
-        const size = 0.5 * scale
+        const size = Math.max(0, 0.5 * scale)
         const opacity = 0.6 * (1 - finalZ / 2000)
 
         ctx.fillStyle = `rgba(136, 136, 255, ${opacity})`
@@ -79,11 +94,18 @@ export default function HeroBackground() {
     }
     animate()
 
-    window.addEventListener('resize', resize)
+    // Debounce resize so rapid window drags don't thrash the canvas.
+    let resizeTimer: ReturnType<typeof setTimeout>
+    const onResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(resize, 150)
+    }
+    window.addEventListener('resize', onResize)
 
     return () => {
       cancelAnimationFrame(animationId)
-      window.removeEventListener('resize', resize)
+      clearTimeout(resizeTimer)
+      window.removeEventListener('resize', onResize)
     }
   }, [prefersReduced])
 

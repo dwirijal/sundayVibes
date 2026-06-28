@@ -164,7 +164,7 @@ export function PortfolioClient({ projects, tiktoks, youtubeVideos }: PortfolioC
                   )}
                   {project.tags && project.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-3">
-                      {project.tags.slice(0, 3).map((tag: any, index: number) => (
+                      {project.tags.slice(0, 3).map((tag: { tag: string }, index: number) => (
                         <span
                           key={index}
                           className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs"

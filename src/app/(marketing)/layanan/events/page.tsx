@@ -35,6 +35,8 @@ export default function EventsPage() {
 
   return (
     <main className="min-h-screen pt-32 pb-24 bg-background">
+      <ServiceSchema name="Event Organizer" description="Layanan event organizer profesional di Surabaya. Paket Bronze, Silver, Gold untuk acara kecil hingga besar." provider="Sunday Vibes" areaServed={["Surabaya", "Tuban"]} priceRange="Mulai Rp 5.000.000" />
+      <BreadcrumbSchema items={[{ name: "Beranda", url: "/" }, { name: "Layanan", url: "/layanan" }, { name: "Event Organizer", url: "/layanan/events" }]} />
       {/* Hero Section */}
       <section className="container mx-auto px-6 max-w-4xl text-center mb-24">
         <div className="w-20 h-20 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">🎉</div>

@@ -12,18 +12,18 @@ export async function GET(_req: NextRequest) {
 
   // Use equipment specs (known working richText) as content template
   const eq = await payload.find({ collection: "equipment", where: { slug: { equals: "dji-lito-x1" } }, limit: 1, overrideAccess: true, depth: 0 });
-  const workingSpecs = (eq.docs[0] as any)?.specs;
+  const workingSpecs = (eq.docs[0] as { specs?: unknown } | undefined)?.specs;
   log.push(`working specs type: ${typeof workingSpecs}`);
 
   try {
     const result = await payload.create({
       collection: "posts",
       overrideAccess: true,
-      data: { title: "Test Post X", slug: "test-post-x", category: "Test", content: workingSpecs, author: authorId as any },
+      data: { title: "Test Post X", slug: "test-post-x", category: "Test", content: workingSpecs, author: authorId as unknown as number },
     });
     log.push(`post created! id=${result.id}`);
-  } catch (e: any) {
-    log.push(`failed: ${e.message}`);
+  } catch (e: unknown) {
+    log.push(`failed: ${e instanceof Error ? e.message : String(e)}`);
   }
 
   return NextResponse.json({ ok: true, log });

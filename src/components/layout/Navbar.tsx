@@ -68,12 +68,12 @@ export function Navbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-8 font-medium text-sm text-stone-500 dark:text-stone-400">
-          <Link href="/layanan/events" className="hover:text-primary transition-colors py-3">Event Organizer</Link>
-          <Link href="/layanan/digital" className="hover:text-primary transition-colors py-3">Digital Product</Link>
-          <Link href="/layanan/sewa-alat" className="hover:text-primary transition-colors py-3">Sewa Alat</Link>
-          <Link href="/layanan/design" className="hover:text-primary transition-colors py-3">Design & Web</Link>
-          <Link href="/foto" className="hover:text-primary transition-colors py-3">Foto</Link>
-          <Link href="/blog" className="hover:text-primary transition-colors py-3">Blog</Link>
+          <Link href="/layanan/events" className="nav-link hover:text-primary transition-colors py-3">Event Organizer</Link>
+          <Link href="/layanan/digital" className="nav-link hover:text-primary transition-colors py-3">Digital Product</Link>
+          <Link href="/layanan/sewa-alat" className="nav-link hover:text-primary transition-colors py-3">Sewa Alat</Link>
+          <Link href="/layanan/design" className="nav-link hover:text-primary transition-colors py-3">Design & Web</Link>
+          <Link href="/foto" className="nav-link hover:text-primary transition-colors py-3">Foto</Link>
+          <Link href="/blog" className="nav-link hover:text-primary transition-colors py-3">Blog</Link>
         </nav>
 
         {/* Desktop Actions */}

@@ -29,7 +29,6 @@ export function trackEvent(name: string, params?: Record<string, unknown>): void
     // Swallow tracking errors — analytics must never break user flow.
     // `ponytail:` wire to Sentry/Logger when observability stack lands.
     if (process.env.NODE_ENV === 'development') {
-      // eslint-disable-next-line no-console
       console.warn('[analytics] trackEvent failed', err);
     }
   }

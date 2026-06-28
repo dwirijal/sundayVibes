@@ -50,10 +50,11 @@ async function main() {
       }
     })
     console.log('Post created:', post.id)
-  } catch (e: any) {
-    console.error('ERROR:', e.message)
-    if (e.data?.errors) console.error('DATA:', JSON.stringify(e.data.errors, null, 2))
-    if (e.stack) console.error(e.stack.split('\n').slice(0, 5).join('\n'))
+  } catch (e: unknown) {
+    const err = e as { message?: string; data?: { errors?: unknown }; stack?: string }
+    console.error('ERROR:', err.message ?? String(e))
+    if (err.data?.errors) console.error('DATA:', JSON.stringify(err.data.errors, null, 2))
+    if (err.stack) console.error(err.stack.split('\n').slice(0, 5).join('\n'))
   }
 
   process.exit(0)

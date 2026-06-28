@@ -8,17 +8,16 @@ const baseUrl = process.env.NEON_AUTH_BASE_URL
 const cookieSecret = process.env.NEON_AUTH_COOKIE_SECRET
 
 if (!baseUrl || !cookieSecret) {
-  // Fail fast in dev so a missing env is obvious. Never silently fall back.
-  if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line no-console
-    console.warn('[auth] NEON_AUTH_BASE_URL or NEON_AUTH_COOKIE_SECRET missing')
-  }
+  // Fail fast at boot so a missing env is obvious — mirrors the PAYLOAD_SECRET
+  // guard. In production this throws and prevents a broken-auth deploy from
+  // serving; in dev it surfaces the missing .env immediately.
+  throw new Error('NEON_AUTH_BASE_URL and NEON_AUTH_COOKIE_SECRET must be set')
 }
 
 export const auth = createNeonAuth({
-  baseUrl: baseUrl ?? '',
+  baseUrl,
   cookies: {
-    secret: cookieSecret ?? '',
+    secret: cookieSecret,
     sessionDataTtl: 300,
   },
 })

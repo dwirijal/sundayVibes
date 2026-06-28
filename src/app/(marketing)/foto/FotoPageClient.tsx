@@ -55,7 +55,7 @@ export default function FotoPageClient({ photos }: FotoPageProps) {
               key={category}
               onClick={() => setActiveCategory(category)}
               variant={activeCategory === category ? "default" : "outline"}
-              className="rounded-full px-5 py-2 text-sm font-semibold transition-[border-color,background-color,color] border-2 min-h-[44px]"
+              className="rounded-full px-5 py-2 text-sm font-semibold transition-all border-2 min-h-[44px] hover:-translate-y-0.5 hover:shadow-sm"
             >
               {category}
             </Button>

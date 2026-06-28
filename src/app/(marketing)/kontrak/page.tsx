@@ -15,5 +15,9 @@ export const metadata: Metadata = {
 };
 
 export default function KontrakPage() {
-  return <KontrakPageClient />;
+  return (
+    <Suspense fallback={<div className="container mx-auto px-6 py-24 text-muted-foreground">Memuat kontrak...</div>}>
+      <KontrakPageClient />
+    </Suspense>
+  );
 }

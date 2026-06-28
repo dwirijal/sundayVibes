@@ -236,6 +236,30 @@
   }
 }
 
+@layer components {
+  /* Underline-grow for nav links — restrained, professional, no layout shift. */
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease-out;
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+}
+
 /* Safe area utilities for notched devices */
 @supports (padding: max(0px)) {
   .safe-top {

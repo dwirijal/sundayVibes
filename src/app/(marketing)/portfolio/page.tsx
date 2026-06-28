@@ -49,7 +49,15 @@ export default async function PortfolioPage() {
     <PageTransition>
       <main className="min-h-screen pt-32 pb-24 bg-background">
         <div className="container mx-auto px-6 max-w-6xl">
-          <PortfolioClient projects={projects.docs as any[]} tiktoks={tiktoks} youtubeVideos={youtubeVideos} />
+          <PortfolioClient projects={projects.docs as unknown as Array<{
+            id: string | number;
+            title: string;
+            slug: string;
+            client?: string;
+            tags?: Array<{ tag: string }>;
+            thumbnail?: { url: string; alt?: string } | null;
+            category?: { title: string } | null;
+          }>} tiktoks={tiktoks} youtubeVideos={youtubeVideos} />
         </div>
       </main>
     </PageTransition>

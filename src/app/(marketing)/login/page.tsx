@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { AuthCardEntrance } from '@/components/animations'
 import LoginFormClient from './LoginFormClient'
 
 export const metadata = {
@@ -14,7 +15,8 @@ export const metadata = {
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
+      <AuthCardEntrance className="w-full max-w-md">
+      <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Sign In</CardTitle>
           <CardDescription>
@@ -27,6 +29,7 @@ export default function LoginPage() {
           </Suspense>
         </CardContent>
       </Card>
+      </AuthCardEntrance>
     </div>
   )
 }

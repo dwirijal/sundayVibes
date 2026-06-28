@@ -26,20 +26,20 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-foreground mb-6">Layanan</h4>
             <ul className="space-y-2 text-sm text-stone-500 dark:text-stone-400">
-              <li><Link href="/layanan/events" className="hover:text-primary transition-colors" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Event Organizer</Link></li>
-              <li><Link href="/layanan/digital" className="hover:text-primary transition-colors" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Digital Product</Link></li>
-              <li><Link href="/layanan/sewa-alat" className="hover:text-primary transition-colors" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Sewa Alat Dokumentasi</Link></li>
-              <li><Link href="/layanan/design" className="hover:text-primary transition-colors" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Design & Web Development</Link></li>
-              <li><Link href="/layanan/photography" className="hover:text-primary transition-colors" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Photography</Link></li>
+              <li><Link href="/layanan/events" className="hover:text-primary hover:-translate-y-0.5 transition-all" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Event Organizer</Link></li>
+              <li><Link href="/layanan/digital" className="hover:text-primary hover:-translate-y-0.5 transition-all" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Digital Product</Link></li>
+              <li><Link href="/layanan/sewa-alat" className="hover:text-primary hover:-translate-y-0.5 transition-all" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Sewa Alat Dokumentasi</Link></li>
+              <li><Link href="/layanan/design" className="hover:text-primary hover:-translate-y-0.5 transition-all" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Design & Web Development</Link></li>
+              <li><Link href="/layanan/photography" className="hover:text-primary hover:-translate-y-0.5 transition-all" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Photography</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold text-foreground mb-6">Perusahaan</h4>
             <ul className="space-y-2 text-sm text-stone-500 dark:text-stone-400">
-              <li><Link href="/tentang" className="hover:text-primary transition-colors" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Tentang Kami</Link></li>
-              <li><Link href="/portfolio" className="hover:text-primary transition-colors" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Portfolio</Link></li>
-              <li><Link href="/kontak" className="hover:text-primary transition-colors" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Hubungi Kami</Link></li>
+              <li><Link href="/tentang" className="hover:text-primary hover:-translate-y-0.5 transition-all" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Tentang Kami</Link></li>
+              <li><Link href="/portfolio" className="hover:text-primary hover:-translate-y-0.5 transition-all" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Portfolio</Link></li>
+              <li><Link href="/kontak" className="hover:text-primary hover:-translate-y-0.5 transition-all" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Hubungi Kami</Link></li>
             </ul>
           </div>
 
@@ -66,9 +66,9 @@ export function Footer() {
         <div className="pt-8 border-t border-stone-200 dark:border-stone-800 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-400">
           <p>© {new Date().getFullYear()} Sunday Vibes. All rights reserved.</p>
           <div className="flex flex-wrap gap-4">
-            <Link href="/privacy" className="hover:text-primary transition-colors" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Kebijakan Privasi</Link>
-            <Link href="/terms" className="hover:text-primary transition-colors" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Syarat & Ketentuan</Link>
-            <Link href="/refund-policy" className="hover:text-primary transition-colors" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Kebijakan Refund</Link>
+            <Link href="/privacy" className="hover:text-primary hover:-translate-y-0.5 transition-all" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Kebijakan Privasi</Link>
+            <Link href="/terms" className="hover:text-primary hover:-translate-y-0.5 transition-all" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Syarat & Ketentuan</Link>
+            <Link href="/refund-policy" className="hover:text-primary hover:-translate-y-0.5 transition-all" style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}>Kebijakan Refund</Link>
           </div>
         </div>
       </div>

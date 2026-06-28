@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Check, ShieldCheck, Download, Info } from "lucide-react";
+import { ArrowLeft, Check, Download } from "lucide-react";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import type { Metadata } from 'next'
@@ -140,7 +140,7 @@ export default async function PhotoDetailPage({ params }: PageProps) {
             
             {photo.tags && photo.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-8">
-                {photo.tags.map((tag: any, index: number) => (
+                {photo.tags.map((tag: { tag: string }, index: number) => (
                   <span
                     key={index}
                     className="px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium"

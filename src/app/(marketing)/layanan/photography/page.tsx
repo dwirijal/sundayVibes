@@ -10,8 +10,18 @@ export const metadata: Metadata = {
   description: "Foto produk, portrait, wedding, dan event. Paket fotografi profesional di Surabaya.",
 };
 
+interface PhotoPackage {
+  name: string;
+  price: string;
+  originalPrice?: string;
+  description: string;
+  features: string[];
+  isPopular?: boolean;
+  isPromo?: boolean;
+}
+
 export default function PhotographyPage() {
-  const packages: any[] = [
+  const packages: PhotoPackage[] = [
     {
       name: "Produk",
       price: "Mulai Rp 1.500.000",
@@ -58,6 +68,8 @@ export default function PhotographyPage() {
 
   return (
     <main className="min-h-screen pt-32 pb-24 bg-background">
+      <ServiceSchema name="Photography" description="Foto produk, portrait, wedding, dan event. Paket fotografi profesional di Surabaya." provider="Sunday Vibes" areaServed={["Surabaya", "Tuban"]} priceRange="Mulai Rp 250.000" />
+      <BreadcrumbSchema items={[{ name: "Beranda", url: "/" }, { name: "Layanan", url: "/layanan" }, { name: "Photography", url: "/layanan/photography" }]} />
       <section className="container mx-auto px-6 max-w-4xl text-center mb-16">
         <div className="w-20 h-20 rounded-2xl bg-accent text-primary flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">📸</div>
         <h1 className="text-5xl md:text-6xl font-black mb-6 text-foreground">Photography Service</h1>

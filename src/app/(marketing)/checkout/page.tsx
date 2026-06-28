@@ -7,7 +7,7 @@ export default async function CheckoutPage() {
   let waNumber = "6285157319611"; // Default fallback
   try {
     const payload = await getPayload({ config: configPromise });
-    const contactInfo = await payload.findGlobal({ slug: "contact-info" }) as any;
+    const contactInfo = await payload.findGlobal({ slug: "contact-info" }) as { whatsappNumber?: string | number } | undefined;
     if (contactInfo?.whatsappNumber) {
       waNumber = contactInfo.whatsappNumber.toString().replace(/^0/, '62');
     }

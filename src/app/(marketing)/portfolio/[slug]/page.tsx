@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ExternalLink, Calendar, User, Tag } from "lucide-react";
+import { ArrowLeft, User, Tag } from "lucide-react";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import type { Metadata } from 'next'
@@ -117,7 +117,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           {/* Tags */}
           {project.tags && project.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-8">
-              {project.tags.map((tag: any, index: number) => (
+              {project.tags.map((tag: { tag: string }, index: number) => (
                 <span
                   key={index}
                   className="px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium"
@@ -158,10 +158,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <section className="mb-16">
             <h2 className="text-3xl font-black text-foreground mb-6">Tech Stack</h2>
             <div className="flex flex-wrap gap-3">
-              {project.tech_stack.map((item: any, index: number) => (
+              {project.tech_stack.map((item: { tech: string }, index: number) => (
                 <div
                   key={index}
-                  className="px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-bold"
+                  className="px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-bold transition-all duration-300 hover:scale-110 hover:bg-primary hover:text-primary-foreground cursor-default"
                 >
                   {item.tech}
                 </div>
@@ -175,7 +175,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <section className="mb-16">
             <h2 className="text-3xl font-black text-foreground mb-6">Gallery</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {project.gallery.map((item: any, index: number) => (
+              {project.gallery.map((item: { image?: { url?: string; alt?: string } }, index: number) => (
                 item.image?.url && (
                   <div
                     key={index}

@@ -48,9 +48,12 @@ export default function KontrakPageClient() {
     fetch('/api/contact').then(res => res.json()).then(data => setWaNumber(data.whatsappNumber)).catch(() => {});
   }, []);
 
-  // Sync cart items to form (rehydrated from localStorage on mount)
+  // Sync cart items to form (rehydrated from localStorage on mount).
+  // formData.items is editable (add/remove/qty handlers below), so it can't be
+  // pure-derived from cart — this is a one-time external-store→state seed.
   useEffect(() => {
     if (cartItems.length > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData(prev => ({
         ...prev,
         items: cartItems.map(i => ({ name: i.name, price: i.price, qty: i.qty }))

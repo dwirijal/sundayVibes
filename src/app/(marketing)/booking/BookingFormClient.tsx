@@ -113,6 +113,26 @@ function BookingForm() {
         return;
       }
       setErrors({});
+      // ponytail: no backend persistence for lead-form bookings yet — WA deep-link
+      // delivers the booking to the owner instantly. Wire POST /api/bookings (lead
+      // type) when an inbox-in-CMS is wanted.
+      const budgetText =
+        formData.budget === "<5jt" ? "< Rp 5.000.000"
+        : formData.budget === "5-15jt" ? "Rp 5.000.000 - Rp 15.000.000"
+        : formData.budget === "15-30jt" ? "Rp 15.000.000 - Rp 30.000.000"
+        : formData.budget === ">30jt" ? "> Rp 30.000.000"
+        : "-";
+      const msg =
+        `Halo Admin Sunday Vibes! 👋\n\n` +
+        `*BOOKING BARU*\n\n` +
+        `*Layanan:* ${selectedServiceDetails?.label ?? formData.service}\n` +
+        `*Tanggal Mulai:* ${formData.date || "-"}\n` +
+        `*Budget:* ${budgetText}\n` +
+        `*Nama:* ${formData.name}\n` +
+        `*Kontak:* ${formData.contact}\n\n` +
+        `*Deskripsi:*\n${formData.description}\n` +
+        (formData.notes ? `\n*Catatan:* ${formData.notes}` : "");
+      window.open(`https://wa.me/6285157319611?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
       setIsSubmitted(true);
       trackBooking(formData.service);
     }

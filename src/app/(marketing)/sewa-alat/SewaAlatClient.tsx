@@ -1,8 +1,15 @@
 "use client";
 
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { getDuration, STAGGER } from "@/lib/animations";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface Equipment {
   id: string;
@@ -23,6 +30,28 @@ interface SewaAlatProps {
 }
 
 export default function SewaAlatClient({ equipment }: SewaAlatProps) {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!gridRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from('.equipment-card', {
+        scrollTrigger: {
+          trigger: gridRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none none',
+        },
+        opacity: 0,
+        y: 50,
+        scale: 0.95,
+        stagger: STAGGER.SLOW,
+        duration: getDuration(0.7),
+        ease: 'power3.out',
+      });
+    });
+    return () => ctx.revert();
+  }, { scope: gridRef });
+
   return (
     <main className="min-h-screen pt-32 pb-24 bg-background">
       {/* Hero Section */}
@@ -43,11 +72,13 @@ export default function SewaAlatClient({ equipment }: SewaAlatProps) {
             <p className="text-muted-foreground text-lg">Katalog alat sedang diperbarui.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {equipment.map((item) => (
               <div
                 key={item.id}
-                className="group flex flex-col p-6 rounded-[2rem] border border-border bg-card hover:shadow-xl transition-shadow duration-300"
+                className={`equipment-card group flex flex-col p-6 rounded-[2rem] border border-border bg-card transition-all duration-300 ${
+                  item.available > 0 ? 'hover:shadow-xl hover:-translate-y-1' : 'opacity-70'
+                }`}
               >
                 <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-white dark:bg-stone-800 mb-6 border border-stone-100 dark:border-stone-700 flex items-center justify-center p-4">
                   {item.images && item.images.length > 0 && item.images[0]?.image?.url ? (

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
+import { ContactFormClient } from "@/components/kontak/ContactFormClient";
 
 export const metadata: Metadata = {
   title: "Kontak - Sunday Vibes",
@@ -83,48 +84,7 @@ export default function KontakPage() {
 
           <div className="bg-card border border-border rounded-3xl p-8">
             <h2 className="text-2xl font-bold text-foreground mb-6">Kirim Pesan</h2>
-            <form className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Nama Lengkap</label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-                  placeholder="Nama Anda"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Email / WhatsApp</label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-                  placeholder="email@example.com atau 08xx"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Layanan yang Diminati</label>
-                <select className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
-                  <option value="">Pilih layanan...</option>
-                  <option value="events">Event Organizer</option>
-                  <option value="digital">Digital Product</option>
-                  <option value="sewa-alat">Sewa Alat</option>
-                  <option value="design">Jasa Design</option>
-                  <option value="coding">Jasa Coding</option>
-                  <option value="wordpress">Jasa WordPress</option>
-                  <option value="photography">Photography</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Pesan</label>
-                <textarea
-                  rows={4}
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
-                  placeholder="Ceritakan kebutuhan Anda..."
-                />
-              </div>
-              <Button type="submit" size="lg" className="w-full rounded-full h-12 text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90">
-                Kirim Pesan
-              </Button>
-            </form>
+            <ContactFormClient />
           </div>
         </div>
 
