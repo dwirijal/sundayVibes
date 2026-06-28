@@ -9,10 +9,18 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
+import { useCart } from "@/store/useCart";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  // Orders persisted in browser store (localStorage) until the user logs in.
+  const hasOrders = useCart((s) => s.items.length > 0);
+  const [mounted, setMounted] = useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setMounted(true), []);
+  const ctaHref = mounted && hasOrders ? "/login" : "/kontak";
+  const ctaLabel = mounted && hasOrders ? "Masuk/Daftar" : "Mulai Project";
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -71,16 +79,15 @@ export function Navbar() {
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-4">
           <ThemeToggle />
-          <Link href="/admin" className="text-sm font-medium text-foreground hover:text-primary transition-colors min-h-[44px] flex items-center px-2">Client Portal</Link>
           <CartIcon />
           <Link
-            href="/kontak"
+            href={ctaHref}
             className={cn(
               buttonVariants({ variant: "default", size: "lg" }),
               "rounded-full px-6 bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_8px_30px_-10px_rgba(245,158,11,0.5)] hover:-translate-y-0.5 transition-all duration-300"
             )}
           >
-            Mulai Project
+            {ctaLabel}
           </Link>
         </div>
 
@@ -142,17 +149,15 @@ export function Navbar() {
 
           <div className="h-px w-full bg-border my-2"></div>
 
-          <Link href="/admin" className="text-muted-foreground hover:text-primary transition-colors min-h-[44px] py-2 flex items-center">Login / Client Portal</Link>
-          
           <div className="mt-4 pb-10 mb-[env(safe-area-inset-bottom)]">
             <Link
-              href="/kontak"
+              href={ctaHref}
               className={cn(
                 buttonVariants({ variant: "default", size: "lg" }),
                 "w-full rounded-full bg-primary text-primary-foreground text-lg h-14"
               )}
             >
-              Mulai Project Sekarang
+              {ctaLabel}
             </Link>
           </div>
         </nav>
