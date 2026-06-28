@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, Printer, FileText } from "lucide-react";
+import { Printer, FileText } from "lucide-react";
 import { useCart, calculatePromoDiscount } from "@/store/useCart";
 import { QRCodeSVG } from 'qrcode.react';
 import { generateDynamicQRIS } from '@/lib/qris';
@@ -24,6 +24,7 @@ export default function KontrakPageClient() {
     endDate: "",
     items: [] as RentalItem[],
     notes: "",
+    collateral: "KTP" as "KTP" | "SIM" | "KARTU PELAJAR" | "PASPOR",
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -31,6 +32,9 @@ export default function KontrakPageClient() {
   const [qrisPayload, setQrisPayload] = useState("");
   const [waNumber, setWaNumber] = useState("6285157319611");
   const [chargedTotal, setChargedTotal] = useState(0);
+  const [contractNo] = useState(
+    () => "KSA-" + new Date().getFullYear() + "-" + Math.random().toString(36).slice(2, 6).toUpperCase()
+  );
   const BASE_QRIS = "00020101021126610014COM.GO-JEK.WWW01189360091439738305930210G9738305930303UMI51440014ID.CO.QRIS.WWW0215ID10243394679450303UMI5204733353033605802ID5919LEV. SPACE, Jakarta6005TUBAN61056238262070703A0163049B3A";
   const cartItems = useCart((state) => state.items);
   const promoCode = useCart((state) => state.promoCode);
@@ -187,155 +191,148 @@ export default function KontrakPageClient() {
   };
 
   if (isSubmitted) {
+    const fmtDate = (d: string) =>
+      d ? new Date(d + "T00:00:00").toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" }) : "—";
+
     return (
-      <main className="min-h-screen pt-32 pb-24 bg-background print:pt-0">
-        <div className="container mx-auto px-6 max-w-4xl">
+      <main className="min-h-screen pt-32 pb-24 bg-background print:pt-0 print:pb-0">
+        <div className="container mx-auto px-6 max-w-[820px]">
           {/* Print Button - Hidden on print */}
           <div className="flex justify-end mb-6 print:hidden">
             <Button onClick={handlePrint} className="rounded-full px-6">
               <Printer className="w-4 h-4 mr-2" />
-              Print Kontrak
+              Print / Simpan PDF
             </Button>
           </div>
 
-          {/* Contract Document */}
-          <div className="bg-card border border-border rounded-3xl p-8 md:p-12 print:border-0 print:rounded-none print:p-0">
+          {/* ============ CONTRACT SHEET (printed) ============ */}
+          <div className="contract-sheet bg-card border border-border rounded-2xl p-8 md:p-10 print:border-0 print:rounded-none print:p-0 text-foreground">
 
-      {/* Header */}
-            <div className="text-center mb-8 pb-6 border-b border-border">
-              <h1 className="text-3xl font-black text-foreground mb-2">KONTRAK SEWA ALAT</h1>
-              <p className="text-muted-foreground">Sunday Vibes - Platform Kreatif</p>
-            </div>
-
-            {/* Customer Info */}
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-foreground mb-4">Data Penyewa</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground">Nama Lengkap</p>
-                  <p className="font-semibold text-foreground">{formData.customerName}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">No. Identitas (KTP/SIM)</p>
-                  <p className="font-semibold text-foreground">{formData.customerId}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">No. Telepon</p>
-                  <p className="font-semibold text-foreground">{formData.customerPhone}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Alamat</p>
-                  <p className="font-semibold text-foreground">{formData.customerAddress}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Rental Period */}
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-foreground mb-4">Periode Sewa</h2>
-              <div className="grid md:grid-cols-3 gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground">Tanggal Mulai</p>
-                  <p className="font-semibold text-foreground">{formData.startDate}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Tanggal Selesai</p>
-                  <p className="font-semibold text-foreground">{formData.endDate}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Durasi</p>
-                  <p className="font-semibold text-foreground">{calculateDays()} hari</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Items */}
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-foreground mb-4">Alat yang Disewa</h2>
-              <div className="border border-border rounded-xl overflow-hidden">
-                <table className="w-full">
-                  <thead className="bg-muted/50">
-                    <tr>
-                      <th className="text-left p-3 text-sm font-semibold text-foreground">Item</th>
-                      <th className="text-center p-3 text-sm font-semibold text-foreground">Qty</th>
-                      <th className="text-right p-3 text-sm font-semibold text-foreground">Harga/Hari</th>
-                      <th className="text-right p-3 text-sm font-semibold text-foreground">Subtotal</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {formData.items.map((item) => (
-                      <tr key={item.name} className="border-t border-border">
-                        <td className="p-3 text-foreground">{item.name}</td>
-                        <td className="p-3 text-center text-foreground">{item.qty}</td>
-                        <td className="p-3 text-right text-foreground">
-                          Rp {item.price.toLocaleString("id-ID")}
-                        </td>
-                        <td className="p-3 text-right text-foreground">
-                          Rp {(item.price * item.qty).toLocaleString("id-ID")}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                  <tfoot className="bg-muted/50 border-t-2 border-border">
-                    <tr>
-                      <td colSpan={3} className="p-3 text-right font-bold text-foreground">
-                        Total ({calculateDays()} hari):
-                      </td>
-                      <td className="p-3 text-right font-black text-foreground text-lg">
-                        Rp {chargedTotal.toLocaleString("id-ID")}
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            </div>
-
-            {/* Terms */}
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-foreground mb-4">Syarat & Ketentuan</h2>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                  <span>Penyewa wajib meninggalkan KTP/SIM asli sebagai deposit</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                  <span>Alat harus dikembalikan sesuai jadwal, keterlambatan dikenakan biaya 50% per hari</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                  <span>Kerusakan atau kehilangan menjadi tanggung jawab penyewa</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                  <span>Alat harus dikembalikan dalam kondisi bersih dan berfungsi baik</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Notes */}
-            {formData.notes && (
-              <div className="mb-8">
-                <h2 className="text-xl font-bold text-foreground mb-2">Catatan</h2>
-                <p className="text-muted-foreground">{formData.notes}</p>
-              </div>
-            )}
-
-            {/* Signatures */}
-            <div className="grid md:grid-cols-2 gap-12 mt-12 pt-8 border-t border-border">
+            {/* --- Masthead --- */}
+            <div className="flex items-start justify-between rule-double">
               <div>
-                <p className="text-sm text-muted-foreground mb-16">Penyewa</p>
-                <div className="border-b border-border pb-2">
-                  <p className="font-semibold text-foreground">{formData.customerName}</p>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">Tanda tangan & tanggal</p>
+                <p className="doc-title text-lg leading-tight">SUNDAY VIBES</p>
+                <p className="ink-mute text-[10px]">Platform Kreatif · Tuban</p>
+              </div>
+              <div className="text-right">
+                <p className="sec-label ink-mute">No. Kontrak</p>
+                <p className="font-mono text-xs">{contractNo}</p>
+              </div>
+            </div>
+
+            <h1 className="doc-title text-center text-xl tracking-wide mt-3 mb-3">KONTRAK SEWA ALAT</h1>
+
+            {/* --- Parties + Collateral (compact 2-col) --- */}
+            <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] rule-t border-b border-black/80 print:border-black">
+              <div className="p-3 border-b md:border-b-0 md:border-r border-black/40 print:border-black/40">
+                <p className="sec-label ink-mute mb-2">Pihak Penyewa</p>
+                <dl className="text-xs space-y-1">
+                  <div className="flex gap-2"><dt className="ink-mute w-16 shrink-0">Nama</dt><dd className="font-semibold">{formData.customerName || "—"}</dd></div>
+                  <div className="flex gap-2"><dt className="ink-mute w-16 shrink-0">No. ID</dt><dd>{formData.customerId || "—"}</dd></div>
+                  <div className="flex gap-2"><dt className="ink-mute w-16 shrink-0">Telp</dt><dd>{formData.customerPhone || "—"}</dd></div>
+                  <div className="flex gap-2"><dt className="ink-mute w-16 shrink-0">Alamat</dt><dd>{formData.customerAddress || "—"}</dd></div>
+                </dl>
+              </div>
+              <div className="p-3">
+                <p className="sec-label ink-mute mb-2">Penjaminan (pilih satu)</p>
+                <ul className="text-xs space-y-1">
+                  {(["KTP", "SIM", "KARTU PELAJAR", "PASPOR"] as const).map((c) => (
+                    <li key={c} className="flex items-center gap-1.5">
+                      <span className="inline-flex h-3 w-3 items-center justify-center rounded-full border border-black print:border-black">
+                        {formData.collateral === c && <span className="h-1.5 w-1.5 rounded-full bg-black print:bg-black" />}
+                      </span>
+                      <span className={formData.collateral === c ? "font-semibold" : "ink-mute"}>{c}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* --- Pemilik + Periode (one row) --- */}
+            <div className="grid grid-cols-2 rule-t border-b border-black/80 print:border-black">
+              <div className="p-3 border-r border-black/40 print:border-black/40">
+                <p className="sec-label ink-mute mb-1">Pihak Pemilik</p>
+                <p className="text-xs font-semibold">Dwi Rijal Giri Prabowo</p>
+                <p className="ink-mute text-[10px]">Sunday Vibes</p>
+              </div>
+              <div className="p-3">
+                <p className="sec-label ink-mute mb-1">Periode Sewa</p>
+                <p className="text-xs">{fmtDate(formData.startDate)} — {fmtDate(formData.endDate)}</p>
+                <p className="ink-mute text-[10px]">Durasi: {calculateDays()} hari</p>
+              </div>
+            </div>
+
+            {/* --- Items table --- */}
+            <div className="rule-t border-b border-black/80 print:border-black p-3">
+              <p className="sec-label ink-mute mb-2">Alat yang Disewa</p>
+              <table className="w-full text-xs">
+                <thead>
+                  <tr>
+                    <th className="text-left">Item</th>
+                    <th className="text-center w-10">Qty</th>
+                    <th className="text-right w-24">Harga/Hari</th>
+                    <th className="text-right w-24">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {formData.items.map((item) => (
+                    <tr key={item.name}>
+                      <td>{item.name}</td>
+                      <td className="text-center">{item.qty}</td>
+                      <td className="text-right">Rp {item.price.toLocaleString("id-ID")}</td>
+                      <td className="text-right">Rp {(item.price * item.qty).toLocaleString("id-ID")}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan={3} className="text-right font-bold">TOTAL ({calculateDays()} hari)</td>
+                    <td className="text-right font-bold text-sm">Rp {chargedTotal.toLocaleString("id-ID")}</td>
+                  </tr>
+                </tfoot>
+              </table>
+              {formData.notes && (
+                <p className="ink-mute text-[10px] mt-2"><span className="font-semibold text-black/80">Catatan:</span> {formData.notes}</p>
+              )}
+            </div>
+
+            {/* --- Signatures --- */}
+            <div className="grid grid-cols-2 gap-8 mt-6 avoid-break">
+              <div>
+                <p className="sec-label ink-mute mb-1">Penyewa</p>
+                <p className="ink-mute text-[10px] mb-1">{formData.customerName || "—"}</p>
+                <div className="sig-line" />
+                <p className="ink-mute text-[9px] mt-1">Tanda tangan &amp; tanggal</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground mb-16">Sunday Vibes</p>
-                <div className="border-b border-border pb-2">
-                  <p className="font-semibold text-foreground">Admin</p>
+                <p className="sec-label ink-mute mb-1">Pemilik</p>
+                <p className="ink-mute text-[10px] mb-1">Dwi Rijal Giri Prabowo</p>
+                <div className="sig-line" />
+                <p className="ink-mute text-[9px] mt-1">Tanda tangan &amp; tanggal</p>
+              </div>
+            </div>
+
+            {/* ============ PAGE 2: Terms ============ */}
+            <div className="page-break pt-2">
+              <h2 className="doc-title text-sm tracking-wide mb-3">KETENTUAN PENYEWAAN</h2>
+              <ol className="text-[10px] space-y-2 list-decimal pl-4">
+                <li>Penyewa wajib menyerahkan dokumen jaminan ({formData.collateral}) asli kepada Pemilik selama masa sewa berlangsung.</li>
+                <li>Alat wajib dikembalikan tepat pada tanggal selesai. Keterlambatan dikenakan biaya 50% (lima puluh persen) dari tarif harian per hari keterlambatan.</li>
+                <li>Kerusakan, kehilangan, atau penyalahgunaan alat selama masa sewa sepenuhnya menjadi tanggung jawab Penyewa dan wajib diganti sesuai nilai penggantian.</li>
+                <li>Alat wajib dikembalikan dalam kondisi bersih, kering, dan berfungsi baik. Biaya pembersihan dapat dikenakan apabila alat dikembalikan dalam kondisi kotor.</li>
+                <li>Pembayaran dilakukan di muka melalui QRIS. Kontrak dianggap sah setelah pembayaran diterima dan kontrak ini ditandatangani kedua belah pihak.</li>
+                <li>Dokumen jaminan dikembalikan kepada Penyewa setelah alat diterima kembali dalam kondisi sesuai dan seluruh kewajiban dilunasi.</li>
+                <li>Apabila terjadi sengketa, kedua belah pihak sepakat menyelesaikan secara musyawarah; jika tidak tercapai, diselesaikan melalui jalur hukum di wilayah Tuban.</li>
+              </ol>
+              <div className="grid grid-cols-2 gap-8 mt-8 avoid-break">
+                <div>
+                  <div className="sig-line" />
+                  <p className="ink-mute text-[9px] mt-1">{formData.customerName || "Penyewa"} — T.T. &amp; Tgl</p>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">Tanda tangan & tanggal</p>
+                <div>
+                  <div className="sig-line" />
+                  <p className="ink-mute text-[9px] mt-1">Dwi Rijal Giri Prabowo — T.T. &amp; Tgl</p>
+                </div>
               </div>
             </div>
           </div>
@@ -416,6 +413,38 @@ export default function KontrakPageClient() {
                 />
               </div>
             </div>
+
+            {/* Collateral / Penjaminan */}
+            <fieldset className="mt-6">
+              <legend className="block text-sm font-semibold text-foreground mb-3">
+                Dokumen Penjaminan * <span className="text-muted-foreground font-normal">(dijaminkan selama sewa)</span>
+              </legend>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {(["KTP", "SIM", "KARTU PELAJAR", "PASPOR"] as const).map((c) => {
+                  const checked = formData.collateral === c;
+                  return (
+                    <label
+                      key={c}
+                      className={`flex items-center gap-2 rounded-xl border px-4 py-3 cursor-pointer min-h-[44px] transition-colors ${
+                        checked
+                          ? "border-primary bg-primary/10 text-foreground"
+                          : "border-border bg-background text-foreground hover:border-primary/50"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="collateral"
+                        value={c}
+                        checked={checked}
+                        onChange={() => setFormData({ ...formData, collateral: c })}
+                        className="h-4 w-4 accent-primary"
+                      />
+                      <span className="text-sm font-medium">{c}</span>
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
           </div>
 
           {/* Rental Period */}

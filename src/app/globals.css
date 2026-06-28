@@ -311,21 +311,109 @@
   }
 }
 
-/* Print styles */
+/* ===== Print: A4 rental contract ===== */
+@page contract {
+  size: A4;
+  margin: 14mm 14mm 12mm;
+}
+
 @media print {
-  .no-print {
+  /* Hide everything that is not the contract document */
+  .no-print,
+  .print\:hidden {
     display: none !important;
   }
 
+  html,
   body {
-    background: white !important;
-    color: black !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 10.5px;
+    line-height: 1.35;
+  }
+
+  /* The contract sheet is the only printed flow */
+  .contract-sheet {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+    width: auto !important;
+    background: #fff !important;
+    color: #111 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    font-family: var(--font-sans), system-ui, sans-serif;
+  }
+
+  /* Force ink-on-paper overrides inside the sheet, ignoring dark mode */
+  .contract-sheet,
+  .contract-sheet * {
+    color: #111 !important;
+    background: transparent !important;
+    border-color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  .contract-sheet .ink-mute,
+  .contract-sheet .ink-mute * {
+    color: #555 !important;
+  }
+
+  /* Masthead serif + uppercase section labels */
+  .contract-sheet .doc-title {
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    font-weight: 700;
+  }
+  .contract-sheet .sec-label {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 9px;
+  }
+
+  /* Hairline rules for a legal feel */
+  .contract-sheet .rule-t {
+    border-top: 0.5px solid #000;
+  }
+  .contract-sheet .rule-double {
+    border-top: 1px solid #000;
+    border-bottom: 0.5px solid #000;
+    padding-block: 2px;
+  }
+  .contract-sheet table {
+    border-collapse: collapse;
+  }
+  .contract-sheet th,
+  .contract-sheet td {
+    border: 0.5px solid #000 !important;
+    padding: 4px 6px !important;
+  }
+
+  /* Page breaks */
+  .page-break {
+    break-before: page;
+    page-break-before: always;
+  }
+  .avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Signature underline space */
+  .sig-line {
+    border-bottom: 0.75px solid #000;
+    height: 26px;
+  }
+
+  /* Reset radii / shadows from the on-screen card styling */
+  .contract-sheet * {
+    border-radius: 0 !important;
   }
 
   a {
     text-decoration: underline;
   }
-
   img {
     page-break-inside: avoid;
   }
