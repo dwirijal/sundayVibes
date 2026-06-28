@@ -66,8 +66,8 @@ export default function TentangPage() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {values.map((val) => (
-            <div key={val.title} className="p-6 rounded-3xl border border-border bg-card flex flex-col items-start">
-              <div className="text-3xl mb-4">{val.icon}</div>
+            <div key={val.title} className="group p-6 rounded-3xl border border-border bg-card flex flex-col items-start transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/30">
+              <div className="text-3xl mb-4 transition-transform duration-300 group-hover:scale-110">{val.icon}</div>
               <h3 className="text-xl font-bold text-foreground mb-2">{val.title}</h3>
               <p className="text-sm text-muted-foreground">{val.description}</p>
             </div>
@@ -79,7 +79,7 @@ export default function TentangPage() {
       <section className="container mx-auto px-6 py-16 border-t border-b border-border mb-24">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto text-center">
           {stats.map((stat) => (
-            <div key={stat.label}>
+            <div key={stat.label} className="transition-transform duration-300 hover:scale-110">
               <div className="text-4xl md:text-5xl font-black text-primary mb-2">{stat.value}</div>
               <div className="text-sm md:text-base font-medium text-muted-foreground uppercase tracking-wider">{stat.label}</div>
             </div>

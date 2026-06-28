@@ -37,6 +37,14 @@ export const Bookings: CollectionConfig = {
   },
   fields: [
     {
+      name: 'order_id',
+      type: 'text',
+      unique: true,
+      admin: {
+        description: 'Order ID (e.g. ORD-1234567890-abcd)',
+      },
+    },
+    {
       name: 'service_type',
       type: 'relationship',
       relationTo: 'services',

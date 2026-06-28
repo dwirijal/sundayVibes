@@ -7,10 +7,10 @@ import { cn } from '@/lib/utils'
 
 interface DashboardSidebarProps {
   user: {
-    id: string
+    id: string | number
     name?: string | null
-    email: string
-  } | any
+    email?: string | null
+  }
 }
 
 export function DashboardSidebar({ user }: DashboardSidebarProps) {
@@ -25,7 +25,7 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
   ]
 
   return (
-    <aside className="w-64 border-r border-border bg-card">
+    <aside className="w-64 border-r border-border bg-card print:hidden">
       <div className="flex h-full flex-col">
         {/* Logo */}
         <div className="border-b border-border p-6">

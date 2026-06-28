@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { PricingCard } from "@/components/PricingCard";
+import { ServiceSchema } from "@/components/seo/ServiceSchema";
+import { BreadcrumbSchema } from "@/components/seo/BreadcrumbSchema";
 
 export const metadata: Metadata = {
   title: "Digital Products - Sunday Vibes",
@@ -55,6 +57,8 @@ export default function DigitalPage() {
 
   return (
     <main className="min-h-screen pt-32 pb-24 bg-background">
+      <ServiceSchema name="Digital Products" description="Template, preset, dan tools digital: Lightroom Presets, Notion OS Template, Social Media Bundle." provider="Sunday Vibes" areaServed={["Surabaya", "Tuban"]} priceRange="Rp 149.000 - Rp 249.000" />
+      <BreadcrumbSchema items={[{ name: "Beranda", url: "/" }, { name: "Layanan", url: "/layanan" }, { name: "Digital Products", url: "/layanan/digital" }]} />
       {/* Hero Section */}
       <section className="container mx-auto px-6 max-w-4xl text-center mb-24">
         <div className="w-20 h-20 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">
@@ -75,32 +79,16 @@ export default function DigitalPage() {
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {products.map((product) => (
-            <div
+            <PricingCard
               key={product.name}
-              className={`relative flex flex-col p-8 rounded-3xl border ${
-                product.isPopular
-                  ? "border-secondary shadow-xl shadow-secondary/10 bg-card"
-                  : "border-border bg-muted/50"
-              }`}
+              name={product.name}
+              description={product.description}
+              price={product.price}
+              features={product.features}
+              highlighted={product.isPopular}
+              badge={product.isPopular ? "Bestseller" : undefined}
+              checkColor="text-secondary"
             >
-              {product.isPopular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-secondary text-secondary-foreground px-4 py-1 rounded-full text-sm font-bold">
-                  Bestseller
-                </div>
-              )}
-              <h3 className="text-2xl font-bold text-foreground mb-2">{product.name}</h3>
-              <p className="text-muted-foreground mb-6 text-sm flex-grow">{product.description}</p>
-              <div className="text-3xl font-black text-foreground mb-8">{product.price}</div>
-
-              <ul className="space-y-4 mb-8">
-                {product.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-3 text-muted-foreground">
-                    <Check className="w-5 h-5 text-secondary shrink-0" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
               <Button
                 size="lg"
                 variant={product.isPopular ? "default" : "outline"}
@@ -114,7 +102,7 @@ export default function DigitalPage() {
                   Beli Sekarang
                 </Link>
               </Button>
-            </div>
+            </PricingCard>
           ))}
         </div>
       </section>
@@ -128,7 +116,7 @@ export default function DigitalPage() {
           </p>
           <Button
             size="lg"
-            className="rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 text-lg font-medium transition-all"
+            className="rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 text-lg font-medium transition-[background-color]"
           >
             <Link href="/kontak">Hubungi Kami</Link>
           </Button>

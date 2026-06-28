@@ -5,9 +5,22 @@ import configPromise from '@payload-config'
 import { Calendar, User, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import type { Metadata } from 'next'
+import { JsonLd } from '@/components/seo/JsonLd'
 
 interface PageProps {
   params: Promise<{ slug: string }>
+}
+
+async function getPost(slug: string) {
+  const payload = await getPayload({ config: configPromise })
+  const { docs: posts } = await payload.find({
+    collection: 'posts',
+    where: { slug: { equals: slug } },
+    limit: 1,
+    depth: 1,
+  })
+  return posts[0] || null
 }
 
 export async function generateStaticParams() {
@@ -22,25 +35,57 @@ export async function generateStaticParams() {
   }))
 }
 
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params
+  const post = await getPost(slug)
+  if (!post) return {}
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sundayvibes.id'
+  const title = post.seo?.metaTitle || post.title
+  const description = post.seo?.metaDescription || post.title
+  const images = post.thumbnail?.url ? [{ url: post.thumbnail.url }] : undefined
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `${baseUrl}/blog/${post.slug}` },
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      url: `${baseUrl}/blog/${post.slug}`,
+      images,
+      publishedTime: post.createdAt,
+      modifiedTime: post.updatedAt,
+      authors: typeof post.author === 'object' ? [post.author?.name].filter(Boolean) : undefined,
+    },
+    twitter: { title, description, images },
+  }
+}
+
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params
-  const payload = await getPayload({ config: configPromise })
+  const post = await getPost(slug)
+  if (!post) notFound()
 
-  const { docs: posts } = await payload.find({
-    collection: 'posts',
-    where: { slug: { equals: slug } },
-    limit: 1,
-    depth: 1,
-  })
-
-  if (posts.length === 0) {
-    notFound()
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sundayvibes.id'
+  const authorName = typeof post.author === 'object' ? post.author?.name : undefined
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.seo?.metaDescription || post.title,
+    image: post.thumbnail?.url || undefined,
+    datePublished: post.createdAt,
+    dateModified: post.updatedAt || post.createdAt,
+    author: authorName ? { '@type': 'Person', name: authorName } : undefined,
+    publisher: { '@type': 'Organization', name: 'Sunday Vibes', url: baseUrl },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${baseUrl}/blog/${post.slug}` },
   }
-
-  const post = posts[0]
 
   return (
     <article className="min-h-screen bg-background">
+      <JsonLd data={articleSchema} />
       {/* Back Button */}
       <div className="container mx-auto px-4 py-8">
         <Link
@@ -87,6 +132,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 src={post.thumbnail.url}
                 alt={post.thumbnail.alt || post.title}
                 fill
+                sizes="(max-width: 896px) 100vw, 896px"
                 className="object-cover"
                 priority
               />

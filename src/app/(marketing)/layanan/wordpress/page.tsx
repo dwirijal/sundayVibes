@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { Button } from "@/components/ui/button";
+// Button import removed — page renders links, not <Button>
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { ServiceSchema } from "@/components/seo/ServiceSchema";
+import { BreadcrumbSchema } from "@/components/seo/BreadcrumbSchema";
 
 export const metadata: Metadata = {
   title: "Jasa WordPress - Sunday Vibes",
@@ -33,6 +35,8 @@ export default function WordPressPage() {
 
   return (
     <main className="min-h-screen pt-32 pb-24 bg-background">
+      <ServiceSchema name="Jasa WordPress" description="Setup, kustomisasi, dan maintenance website WordPress. Paket Starter, Business, Ecommerce." provider="Sunday Vibes" areaServed={["Surabaya", "Tuban"]} priceRange="Mulai Rp 2.500.000" />
+      <BreadcrumbSchema items={[{ name: "Beranda", url: "/" }, { name: "Layanan", url: "/layanan" }, { name: "Jasa WordPress", url: "/layanan/wordpress" }]} />
       <section className="container mx-auto px-6 max-w-4xl text-center mb-24">
         <div className="w-20 h-20 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">⚙️</div>
         <h1 className="text-5xl md:text-6xl font-black mb-6 text-foreground">Jasa WordPress</h1>

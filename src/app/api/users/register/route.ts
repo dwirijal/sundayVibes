@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '../../../../../payload.config'
+import { logger } from '@/lib/logger'
+import { rateLimit, getClientIp } from '@/lib/rateLimit'
 
 export async function POST(req: NextRequest) {
   try {
+    if (!rateLimit(getClientIp(req), 5, 60_000)) {
+      return NextResponse.json(
+        { error: 'Terlalu banyak percobaan. Coba lagi dalam 1 menit.' },
+        { status: 429 }
+      )
+    }
+
+    // Only accept non-privileged fields — role is forced server-side.
     const { name, email, phone, password } = await req.json()
 
     if (!name || !email || !phone || !password) {
@@ -36,7 +46,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Create new user
+    // Create new user — role forced to 'client', never from request body.
     const user = await payload.create({
       collection: 'users',
       data: {
@@ -50,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ user }, { status: 201 })
   } catch (error) {
-    console.error('Registration error:', error)
+    logger.error('Registration error', { error: String(error) })
     return NextResponse.json(
       { error: 'Registration failed' },
       { status: 500 }

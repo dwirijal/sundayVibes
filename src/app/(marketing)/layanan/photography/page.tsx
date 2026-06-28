@@ -1,15 +1,27 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { PricingCard } from "@/components/PricingCard";
+import { ServiceSchema } from "@/components/seo/ServiceSchema";
+import { BreadcrumbSchema } from "@/components/seo/BreadcrumbSchema";
 
 export const metadata: Metadata = {
   title: "Jasa Photography - Sunday Vibes",
   description: "Foto produk, portrait, wedding, dan event. Paket fotografi profesional di Surabaya.",
 };
 
+interface PhotoPackage {
+  name: string;
+  price: string;
+  originalPrice?: string;
+  description: string;
+  features: string[];
+  isPopular?: boolean;
+  isPromo?: boolean;
+}
+
 export default function PhotographyPage() {
-  const packages: any[] = [
+  const packages: PhotoPackage[] = [
     {
       name: "Produk",
       price: "Mulai Rp 1.500.000",
@@ -56,6 +68,8 @@ export default function PhotographyPage() {
 
   return (
     <main className="min-h-screen pt-32 pb-24 bg-background">
+      <ServiceSchema name="Photography" description="Foto produk, portrait, wedding, dan event. Paket fotografi profesional di Surabaya." provider="Sunday Vibes" areaServed={["Surabaya", "Tuban"]} priceRange="Mulai Rp 250.000" />
+      <BreadcrumbSchema items={[{ name: "Beranda", url: "/" }, { name: "Layanan", url: "/layanan" }, { name: "Photography", url: "/layanan/photography" }]} />
       <section className="container mx-auto px-6 max-w-4xl text-center mb-16">
         <div className="w-20 h-20 rounded-2xl bg-accent text-primary flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">📸</div>
         <h1 className="text-5xl md:text-6xl font-black mb-6 text-foreground">Photography Service</h1>
@@ -86,39 +100,21 @@ export default function PhotographyPage() {
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {packages.map((pkg) => (
-            <div key={pkg.name} className={`relative flex flex-col p-8 rounded-3xl border ${pkg.isPopular ? 'border-primary shadow-xl shadow-primary/10 bg-card' : 'border-border bg-muted/50'}`}>
-              {pkg.isPopular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-bold">
-                  Paling Diminati
-                </div>
-              )}
-              {pkg.isPromo && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-secondary text-secondary-foreground px-4 py-1 rounded-full text-sm font-bold">
-                  Promo Spesial
-                </div>
-              )}
-              <h3 className="text-2xl font-bold text-foreground mb-2">{pkg.name}</h3>
-              <p className="text-muted-foreground mb-6 text-sm flex-grow">{pkg.description}</p>
-              <div className="flex flex-col mb-8">
-                {pkg.originalPrice && (
-                  <span className="text-sm text-muted-foreground line-through decoration-destructive decoration-2">{pkg.originalPrice}</span>
-                )}
-                <div className="text-3xl font-black text-foreground">{pkg.price}</div>
-              </div>
-
-              <ul className="space-y-4 mb-8">
-                {pkg.features.map((feature: string, i: number) => (
-                  <li key={i} className="flex items-start gap-3 text-muted-foreground">
-                    <Check className={`w-5 h-5 shrink-0 ${pkg.isPromo ? 'text-secondary' : 'text-primary'}`} />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
+            <PricingCard
+              key={pkg.name}
+              name={pkg.name}
+              description={pkg.description}
+              price={pkg.price}
+              features={pkg.features}
+              highlighted={pkg.isPopular}
+              badge={pkg.isPopular ? "Paling Diminati" : pkg.isPromo ? "Promo Spesial" : undefined}
+              originalPrice={pkg.originalPrice}
+              checkColor={pkg.isPromo ? "text-secondary" : "text-primary"}
+            >
               <Button size="lg" variant={pkg.isPopular ? "default" : pkg.isPromo ? "secondary" : "outline"} className={`w-full rounded-full ${(!pkg.isPopular && !pkg.isPromo) ? 'border-2' : ''}`}>
                 <Link href="/booking?service=photography">Pilih Paket</Link>
               </Button>
-            </div>
+            </PricingCard>
           ))}
         </div>
       </section>

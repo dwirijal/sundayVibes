@@ -19,15 +19,23 @@ export default async function Page() {
 
   // Extract docs and assert them to the expected Client type implicitly by serializing and destructuring if needed,
   // or pass down via mapping to strip off complex backend payload Types.
-  const serializedProducts = products.docs.map((doc: any) => ({
+  const serializedProducts = (products.docs as unknown as Array<{
+    id: string;
+    title: string;
+    slug: string;
+    type?: string;
+    price: number;
+    license_type?: string;
+    preview?: { url?: string; alt?: string };
+  }>).map((doc) => ({
     id: doc.id,
     title: doc.title,
     slug: doc.slug,
-    type: doc.type,
+    type: doc.type ?? '',
     price: doc.price,
-    license_type: doc.license_type,
+    license_type: doc.license_type ?? '',
     preview: doc.preview ? {
-      url: doc.preview.url,
+      url: doc.preview.url ?? '',
       alt: doc.preview.alt,
     } : undefined
   }));

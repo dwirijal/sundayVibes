@@ -55,7 +55,7 @@ export default function FotoPageClient({ photos }: FotoPageProps) {
               key={category}
               onClick={() => setActiveCategory(category)}
               variant={activeCategory === category ? "default" : "outline"}
-              className="rounded-full px-5 py-2 text-sm font-semibold transition-all border-2"
+              className="rounded-full px-5 py-2 text-sm font-semibold transition-all border-2 min-h-[44px] hover:-translate-y-0.5 hover:shadow-sm"
             >
               {category}
             </Button>
@@ -83,6 +83,7 @@ export default function FotoPageClient({ photos }: FotoPageProps) {
                     src={photo.preview_watermark?.url || photo.file_hires.url}
                     alt={photo.file_hires.alt || photo.title}
                     fill
+                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 ) : (
@@ -105,7 +106,7 @@ export default function FotoPageClient({ photos }: FotoPageProps) {
                 </div>
 
                 {/* Hover Effect Overlay */}
-                <div className="absolute inset-0 bg-foreground/60 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-1 z-20">
+                <div className="absolute inset-0 bg-foreground/60 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-1 z-20">
                   <span className="bg-background text-foreground text-xs font-bold px-4 py-2 rounded-full shadow-md hover:scale-105 transition-transform">
                     Lihat Detail
                   </span>

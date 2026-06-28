@@ -3,8 +3,7 @@ import { getPayload } from 'payload'
 import config from '@/../payload.config'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Download } from 'lucide-react'
+import { InvoiceDownloadButton } from '@/components/dashboard/InvoiceDownloadButton'
 
 export default async function InvoicesPage() {
   const headersList = await headers()
@@ -34,7 +33,7 @@ export default async function InvoicesPage() {
         </p>
       </div>
 
-      <Card>
+      <Card className="invoice-print">
         <CardHeader>
           <CardTitle>Payment History</CardTitle>
         </CardHeader>
@@ -86,10 +85,7 @@ export default async function InvoicesPage() {
                         </td>
                         <td className="py-3 px-4 text-center">
                           {booking.payment_status === 'paid' && (
-                            <Button variant="ghost" size="sm" disabled>
-                              <Download className="h-4 w-4 mr-1" />
-                              Download
-                            </Button>
+                            <InvoiceDownloadButton />
                           )}
                         </td>
                       </tr>

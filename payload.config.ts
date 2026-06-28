@@ -1,6 +1,7 @@
 import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
@@ -47,7 +48,13 @@ export default buildConfig({
     Homepage,
   ],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: (() => {
+    const s = process.env.PAYLOAD_SECRET
+    if (!s || s.length < 32) {
+      throw new Error('PAYLOAD_SECRET must be set and at least 32 characters')
+    }
+    return s
+  })(),
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
@@ -57,4 +64,10 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
+  plugins: [
+    vercelBlobStorage({
+      collections: { media: true },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
+  ],
 })

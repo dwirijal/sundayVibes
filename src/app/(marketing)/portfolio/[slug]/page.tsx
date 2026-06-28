@@ -2,12 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ExternalLink, Calendar, User, Tag } from "lucide-react";
+import { ArrowLeft, User, Tag } from "lucide-react";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import type { Metadata } from 'next'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+async function getProject(slug: string) {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'projects',
+    where: { slug: { equals: slug } },
+    limit: 1,
+    depth: 1,
+    overrideAccess: true,
+  })
+  return docs[0] || null
 }
 
 export async function generateStaticParams() {
@@ -15,26 +29,43 @@ export async function generateStaticParams() {
   const projects = await payload.find({
     collection: 'projects',
     limit: 100,
+    overrideAccess: true,
   })
   return projects.docs.map((project) => ({ slug: project.slug }))
 }
 
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params
+  const project = await getProject(slug)
+  if (!project) return {}
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sundayvibes.id'
+  const categoryTitle = typeof project.category === 'object' ? project.category?.title : undefined
+  const title = `${project.title} - Sunday Vibes Portfolio`
+  const description = `Proyek ${project.title}${project.client ? ` untuk ${project.client}` : ''}${categoryTitle ? ` (${categoryTitle})` : ''}.`
+  const images = project.thumbnail?.url ? [{ url: project.thumbnail.url }] : undefined
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `${baseUrl}/portfolio/${project.slug}` },
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      url: `${baseUrl}/portfolio/${project.slug}`,
+      images,
+    },
+    twitter: { title, description, images },
+  }
+}
+
 export default async function ProjectDetailPage({ params }: PageProps) {
   const { slug } = await params;
+  const project = await getProject(slug);
+  if (!project) notFound();
+
   const payload = await getPayload({ config: configPromise })
-
-  const projectResult = await payload.find({
-    collection: 'projects',
-    where: { slug: { equals: slug } },
-    limit: 1,
-    depth: 1,
-  })
-
-  if (projectResult.docs.length === 0) {
-    notFound();
-  }
-
-  const project = projectResult.docs[0];
 
   // Get related projects from same category
   const relatedResult = await payload.find({
@@ -86,7 +117,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           {/* Tags */}
           {project.tags && project.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-8">
-              {project.tags.map((tag: any, index: number) => (
+              {project.tags.map((tag: { tag: string }, index: number) => (
                 <span
                   key={index}
                   className="px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium"
@@ -105,6 +136,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               src={project.thumbnail.url}
               alt={project.thumbnail.alt || project.title}
               fill
+              sizes="100vw"
               className="object-cover"
               priority
             />
@@ -116,7 +148,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <section className="mb-16">
             <h2 className="text-3xl font-black text-foreground mb-6">Tentang Proyek</h2>
             <div className="prose prose-lg max-w-none text-muted-foreground">
-              {project.description}
+              <RichText data={project.description} />
             </div>
           </section>
         )}
@@ -126,10 +158,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <section className="mb-16">
             <h2 className="text-3xl font-black text-foreground mb-6">Tech Stack</h2>
             <div className="flex flex-wrap gap-3">
-              {project.tech_stack.map((item: any, index: number) => (
+              {project.tech_stack.map((item: { tech: string }, index: number) => (
                 <div
                   key={index}
-                  className="px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-bold"
+                  className="px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-bold transition-all duration-300 hover:scale-110 hover:bg-primary hover:text-primary-foreground cursor-default"
                 >
                   {item.tech}
                 </div>
@@ -143,7 +175,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <section className="mb-16">
             <h2 className="text-3xl font-black text-foreground mb-6">Gallery</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {project.gallery.map((item: any, index: number) => (
+              {project.gallery.map((item: { image?: { url?: string; alt?: string } }, index: number) => (
                 item.image?.url && (
                   <div
                     key={index}
@@ -153,6 +185,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                       src={item.image.url}
                       alt={item.image.alt || `${project.title} - ${index + 1}`}
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover hover:scale-105 transition-transform duration-500"
                     />
                   </div>
@@ -167,7 +200,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <section className="mb-16">
             <h2 className="text-3xl font-black text-foreground mb-6">Hasil</h2>
             <div className="prose prose-lg max-w-none text-muted-foreground bg-primary/5 p-8 rounded-3xl border border-primary/20">
-              {project.result}
+              <RichText data={project.result} />
             </div>
           </section>
         )}
@@ -194,12 +227,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   href={`/portfolio/${related.slug}`}
                   className="group"
                 >
-                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm group-hover:shadow-xl transition-all duration-300 mb-4">
+                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm group-hover:shadow-xl transition-shadow duration-300 mb-4">
                     {related.thumbnail?.url ? (
                       <Image
                         src={related.thumbnail.url}
                         alt={related.thumbnail.alt || related.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     ) : (

@@ -1,0 +1,9 @@
+# Default owners
+* @dwirijal
+
+# CMS / collections
+src/collections/ @dwirijal
+payload.config.ts @dwirijal
+
+# CI / workflows
+.github/ @dwirijal

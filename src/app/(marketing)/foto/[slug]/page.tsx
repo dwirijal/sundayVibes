@@ -2,12 +2,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Check, ShieldCheck, Download, Info } from "lucide-react";
+import { ArrowLeft, Check, Download } from "lucide-react";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import type { Metadata } from 'next'
+import { JsonLd } from '@/components/seo/JsonLd'
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+async function getPhoto(slug: string) {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'photos',
+    where: { slug: { equals: slug } },
+    limit: 1,
+    depth: 1,
+  })
+  return docs[0] || null
 }
 
 export async function generateStaticParams() {
@@ -19,31 +32,62 @@ export async function generateStaticParams() {
   return photos.docs.map((p) => ({ slug: p.slug }))
 }
 
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params
+  const photo = await getPhoto(slug)
+  if (!photo) return {}
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sundayvibes.id'
+  const title = `${photo.title} - Sunday Vibes Foto`
+  const description = `Foto profesional ${photo.title}${photo.category ? ` (${photo.category})` : ''}. Lisensi mulai Rp ${photo.price_standard.toLocaleString('id-ID')}.`
+  const images = (photo.preview_watermark?.url || photo.file_hires?.url) ? [{ url: photo.preview_watermark?.url || photo.file_hires.url }] : undefined
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `${baseUrl}/foto/${photo.slug}` },
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      url: `${baseUrl}/foto/${photo.slug}`,
+      images,
+    },
+    twitter: { title, description, images },
+  }
+}
+
 export default async function PhotoDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const payload = await getPayload({ config: configPromise })
+  const photo = await getPhoto(slug);
+  if (!photo) notFound();
 
-  const photoResult = await payload.find({
-    collection: 'photos',
-    where: { slug: { equals: slug } },
-    limit: 1,
-    depth: 1,
-  })
-
-  if (photoResult.docs.length === 0) {
-    notFound();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sundayvibes.id'
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: photo.title,
+    image: photo.file_hires?.url || undefined,
+    description: `Foto profesional${photo.category ? ` - ${photo.category}` : ''}`,
+    category: photo.category || undefined,
+    offers: {
+      '@type': 'Offer',
+      price: photo.price_standard,
+      priceCurrency: 'IDR',
+      availability: 'https://schema.org/InStock',
+      url: `${baseUrl}/foto/${photo.slug}`,
+    },
   }
 
-  const photo = photoResult.docs[0];
-
-  const aspectClass = photo.orientation === 'portrait' 
-    ? 'aspect-[3/4]' 
-    : photo.orientation === 'square' 
-      ? 'aspect-square' 
+  const aspectClass = photo.orientation === 'portrait'
+    ? 'aspect-[3/4]'
+    : photo.orientation === 'square'
+      ? 'aspect-square'
       : 'aspect-[4/3]';
 
   return (
     <main className="min-h-screen pt-32 pb-24 bg-background">
+      <JsonLd data={productSchema} />
       <div className="container mx-auto px-6 max-w-6xl">
         <Link
           href="/foto"
@@ -62,6 +106,7 @@ export default async function PhotoDetailPage({ params }: PageProps) {
                   src={photo.preview_watermark?.url || photo.file_hires.url}
                   alt={photo.file_hires.alt || photo.title}
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                   priority
                 />
@@ -95,7 +140,7 @@ export default async function PhotoDetailPage({ params }: PageProps) {
             
             {photo.tags && photo.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-8">
-                {photo.tags.map((tag: any, index: number) => (
+                {photo.tags.map((tag: { tag: string }, index: number) => (
                   <span
                     key={index}
                     className="px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium"

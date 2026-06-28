@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getPayload } from 'payload'
+import { getPayload, APIError } from 'payload'
 import config from '../../../../../payload.config'
+import { logger } from '@/lib/logger'
+import { rateLimit, getClientIp } from '@/lib/rateLimit'
 
 export async function POST(req: NextRequest) {
   try {
+    if (!rateLimit(getClientIp(req), 5, 60_000)) {
+      return NextResponse.json(
+        { error: 'Terlalu banyak percobaan. Coba lagi dalam 1 menit.' },
+        { status: 429 }
+      )
+    }
+
     const { email, password } = await req.json()
 
     if (!email || !password) {
@@ -39,7 +48,15 @@ export async function POST(req: NextRequest) {
 
     return response
   } catch (error) {
-    console.error('Login error:', error)
+    // Payload throws APIError (AuthenticationError etc.) with a status —
+    // surface it (e.g. bad creds) instead of masking as 500.
+    if (error instanceof APIError) {
+      return NextResponse.json(
+        { error: error.message || 'Authentication failed' },
+        { status: error.status || 400 }
+      )
+    }
+    logger.error('Login error', { error: String(error) })
     return NextResponse.json(
       { error: 'Login failed' },
       { status: 500 }

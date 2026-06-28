@@ -40,7 +40,7 @@ export default async function BlogPage() {
                 href={`/blog/${post.slug}`}
                 className="group block"
               >
-                <article className="bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg transition-shadow">
+                <article className="bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                   {post.thumbnail?.url && (
                     <div className="aspect-video relative overflow-hidden">
                       <Image
@@ -72,7 +72,7 @@ export default async function BlogPage() {
                         <span>{new Date(post.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                       </div>
                     </div>
-                    <div className="flex items-center text-primary font-medium group-hover:gap-2 transition-all">
+                    <div className="flex items-center text-primary font-medium group-hover:gap-2 transition-[gap]">
                       Baca selengkapnya
                       <ArrowRight className="w-4 h-4 ml-1" />
                     </div>

@@ -4,6 +4,7 @@ export const Media: CollectionConfig = {
   slug: 'media',
   upload: {
     staticDir: 'public/media',
+    disableLocalStorage: true,
     imageSizes: [
       {
         name: 'thumbnail',

@@ -2,6 +2,16 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+interface BookingDetails {
+  service: string
+  date: string
+  duration: number
+  totalPrice: number
+  customerName?: string
+  email?: string
+  phone?: string
+}
+
 async function sendEmail(to: string, subject: string, html: string) {
   try {
     const { data, error } = await resend.emails.send({
@@ -21,7 +31,7 @@ async function sendEmail(to: string, subject: string, html: string) {
   }
 }
 
-export async function sendBookingConfirmation(email: string, d: any) {
+export async function sendBookingConfirmation(email: string, d: BookingDetails) {
   return sendEmail(email, 'Booking Confirmation - Sunday Vibes', `
     <h1>Booking Confirmed!</h1>
     <p>Thank you for booking with Sunday Vibes.</p>
@@ -36,7 +46,7 @@ export async function sendBookingConfirmation(email: string, d: any) {
   `)
 }
 
-export async function sendAdminNotification(d: any) {
+export async function sendAdminNotification(d: BookingDetails) {
   return sendEmail('admin@sundayvibes.com', 'New Booking Received', `
     <h1>New Booking Received</h1>
     <h2>Booking Details:</h2>

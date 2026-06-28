@@ -30,7 +30,7 @@ export function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) 
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
+    }, 8000);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, testimonials.length]);
@@ -65,7 +65,7 @@ export function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) 
 
         <div className="relative">
           {/* Main Testimonial Card */}
-          <div className="bg-card rounded-3xl p-8 md:p-12 shadow-lg border border-border">
+          <div className="bg-card rounded-3xl p-8 md:p-12 shadow-lg border border-border" aria-live="polite" aria-atomic="true">
             <Quote className="w-12 h-12 text-primary/20 mb-6" />
 
             <p className="text-xl md:text-2xl text-foreground leading-relaxed mb-8">
@@ -123,15 +123,15 @@ export function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) 
             <>
               <button
                 onClick={goToPrevious}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-card border border-border rounded-full p-3 shadow-lg hover:bg-muted transition-colors"
-                aria-label="Previous testimonial"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-card border border-border rounded-full p-3 shadow-lg hover:bg-muted transition-colors flex items-center justify-center min-w-[44px] min-h-[44px]"
+                aria-label="Testimoni sebelumnya"
               >
                 <ChevronLeft className="w-6 h-6 text-foreground" />
               </button>
               <button
                 onClick={goToNext}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-card border border-border rounded-full p-3 shadow-lg hover:bg-muted transition-colors"
-                aria-label="Next testimonial"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-card border border-border rounded-full p-3 shadow-lg hover:bg-muted transition-colors flex items-center justify-center min-w-[44px] min-h-[44px]"
+                aria-label="Testimoni selanjutnya"
               >
                 <ChevronRight className="w-6 h-6 text-foreground" />
               </button>
@@ -149,14 +149,17 @@ export function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) 
                   setIsAutoPlaying(false);
                   setCurrentIndex(index);
                 }}
-                className={cn(
-                  "w-2 h-2 rounded-full transition-all",
-                  index === currentIndex
-                    ? "bg-primary w-8"
-                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                )}
+                className="flex items-center justify-center"
+                style={{ width: '44px', height: '44px', minWidth: '44px', minHeight: '44px' }}
                 aria-label={`Go to testimonial ${index + 1}`}
-              />
+              >
+                <span className={cn(
+                  "block rounded-full transition-all",
+                  index === currentIndex
+                    ? "bg-primary w-8 h-2"
+                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50 w-2 h-2"
+                )} />
+              </button>
             ))}
           </div>
         )}

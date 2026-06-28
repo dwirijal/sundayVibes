@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Check, Shield } from "lucide-react";
+import { Check, Shield, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Sewa Alat Dokumentasi - Sunday Vibes",
@@ -13,11 +14,11 @@ export default function SewaAlatPage() {
     {
       name: "Lighting Equipment",
       items: [
+        { name: "IL60 60W", slug: "il60-60w", desc: "Studio light portable, CRI 98", price: 75000, stock: 2 },
+        { name: "IL150Pro 150W", slug: "il150pro-150w", desc: "Studio light pro, 2700K-7500K", price: 125000, stock: 2 },
         { name: "Softbox Kit-1", desc: "1 head, entry level", price: 75000, stock: 2 },
         { name: "Softbox Kit-2", desc: "2 head, mid tier", price: 85000, stock: 2 },
         { name: "Softbox Kit-3", desc: "3 head + tripod, full kit", price: 100000, stock: 2 },
-        { name: "IL60 60W", desc: "Studio light portable, CRI 98", price: 75000, stock: 2 },
-        { name: "IL150Pro 150W", desc: "Studio light pro, 2700K-7500K", price: 125000, stock: 2 },
         { name: "IPL17 RGB", desc: "RGB portable LED, battery", price: 35000, stock: 3 },
         { name: "Mixio PL08", desc: "Mini LED panel, on-camera", price: 30000, stock: 2 },
       ],
@@ -38,6 +39,13 @@ export default function SewaAlatPage() {
         { name: "Tripod L", desc: "Pro, max 260cm", price: 50000, stock: 2 },
       ],
     },
+    {
+      name: "Drone & Aerial",
+      items: [
+        { name: "DJI Lito X1", slug: "dji-lito-x1", desc: "Drone 4K/60fps HDR, 48MP, ActiveTrack, 30mnt", price: 220000, stock: 1, image: "/images/equipment/dji-lito-x1-4.jpg" },
+        { name: "DJI Neo 2", slug: "dji-neo-2", desc: "Drone 4K/60fps, 12MP, Omnidirectional Obstacle Avoidance, 19mnt", price: 175000, stock: 1, image: "/images/equipment/dji-neo-2-3.jpg" },
+      ],
+    }
   ];
 
   return (
@@ -58,21 +66,35 @@ export default function SewaAlatPage() {
             <div key={category.name}>
               <h2 className="text-3xl font-bold text-foreground mb-8">{category.name}</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {category.items.map((item) => (
-                  <div key={item.name} className="flex flex-col p-6 rounded-2xl border border-border bg-card hover:shadow-lg transition-shadow">
-                    <div className="flex justify-between items-start mb-3">
+                {category.items.map((item: { name: string; slug?: string; desc: string; price: number; stock: number; image?: string; }) => (
+                  
+                  <div key={item.name} className="flex flex-col p-6 rounded-2xl border border-border bg-card hover:shadow-lg transition-shadow group overflow-hidden relative">
+                    
+                    {/* Add Image if available */}
+                    {item.image && (
+                      <div className="absolute top-0 right-0 w-32 h-32 opacity-20 group-hover:opacity-40 transition-opacity -mt-4 -mr-4 pointer-events-none">
+                        <Image src={item.image} alt={item.name} fill sizes="128px" className="object-contain" />
+                      </div>
+                    )}
+                    
+                    <div className="flex justify-between items-start mb-3 relative z-10">
                       <h3 className="text-xl font-bold text-foreground">{item.name}</h3>
                       <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-full">
                         Stok: {item.stock}
                       </span>
                     </div>
                     <p className="text-sm text-muted-foreground mb-4 flex-grow">{item.desc}</p>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mt-auto">
                       <div className="text-2xl font-black text-foreground">
                         Rp {item.price.toLocaleString("id-ID")}
                         <span className="text-sm font-normal text-muted-foreground">/hari</span>
                       </div>
                     </div>
+                    {item.slug && (
+                      <Link href={`/layanan/sewa-alat/${item.slug}`} className="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-xl border-2 border-border font-bold text-sm hover:border-primary hover:bg-primary/5 transition-colors group-hover:border-primary/30">
+                        Lihat Detail <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    )}
                   </div>
                 ))}
               </div>
@@ -135,7 +157,7 @@ export default function SewaAlatPage() {
             Booking alat yang Anda butuhkan sekarang. Tim kami akan konfirmasi ketersediaan dan jadwal pickup.
           </p>
           <Button size="lg" className="rounded-full px-8 bg-primary text-primary-foreground hover:bg-primary/90 h-14 text-lg">
-            <Link href="/booking?service=sewa-alat">Booking Sekarang</Link>
+            <Link href="/kontrak">Ke Halaman Booking</Link>
           </Button>
         </div>
       </section>

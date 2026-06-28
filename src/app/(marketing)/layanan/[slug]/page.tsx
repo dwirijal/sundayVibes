@@ -3,9 +3,11 @@ import { getPayload } from 'payload'
 import config from '@/../payload.config'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+// Button import removed — page renders links, not <Button>
 import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { ServiceSchema } from '@/components/seo/ServiceSchema'
+import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -45,6 +47,18 @@ export default async function ServicePage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-background">
+      <ServiceSchema
+        name={service.title}
+        description={service.description}
+        provider="Sunday Vibes"
+        areaServed={['Surabaya', 'Tuban']}
+        priceRange="Rp 25.000 - Rp 5.000.000"
+      />
+      <BreadcrumbSchema items={[
+        { name: 'Beranda', url: '/' },
+        { name: 'Layanan', url: '/layanan' },
+        { name: service.title, url: `/layanan/${slug}` },
+      ]} />
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         {service.heroImage && (
@@ -53,6 +67,7 @@ export default async function ServicePage({ params }: PageProps) {
               src={service.heroImage.url || ''}
               alt={service.title}
               fill
+              sizes="100vw"
               className="object-cover"
               priority
             />
@@ -69,7 +84,7 @@ export default async function ServicePage({ params }: PageProps) {
             </p>
             <Link
               href={`/booking?service=${slug}`}
-              className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/80"
+              className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/80 min-h-[44px]"
             >
               Mulai Project
             </Link>
@@ -85,7 +100,7 @@ export default async function ServicePage({ params }: PageProps) {
               Pilihan Paket
             </h2>
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {service.packages.map((pkg: any, index: number) => (
+              {service.packages.map((pkg: { name: string; price: string; features?: Array<{ text: string }> }, index: number) => (
                 <div
                   key={index}
                   className="bg-card rounded-lg shadow-lg p-8 border border-border hover:shadow-xl transition-shadow"
@@ -97,7 +112,7 @@ export default async function ServicePage({ params }: PageProps) {
                     {pkg.price}
                   </div>
                   <ul className="space-y-3 mb-8">
-                    {pkg.features && pkg.features.map((feature: any, fIndex: number) => (
+                    {pkg.features && pkg.features.map((feature, fIndex: number) => (
                       <li key={fIndex} className="flex items-start">
                         <Check className="w-5 h-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
                         <span className="text-muted-foreground">{feature.text}</span>
@@ -107,7 +122,7 @@ export default async function ServicePage({ params }: PageProps) {
                   <Link
                     href={`/booking?service=${slug}&package=${pkg.name}`}
                     className={cn(
-                      "w-full inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium",
+                      "w-full inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-medium min-h-[44px]",
                       index === 1
                         ? "bg-primary text-primary-foreground hover:bg-primary/80"
                         : "border border-border bg-background hover:bg-muted hover:text-foreground"
@@ -131,16 +146,16 @@ export default async function ServicePage({ params }: PageProps) {
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Hubungi kami untuk konsultasi gratis dan dapatkan penawaran terbaik untuk project Anda
           </p>
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-4 justify-center flex-wrap">
             <Link
               href={`/booking?service=${slug}`}
-              className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/80"
+              className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/80 min-h-[44px]"
             >
               Booking Sekarang
             </Link>
             <Link
               href="/kontak"
-              className="inline-flex items-center justify-center rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-muted hover:text-foreground"
+              className="inline-flex items-center justify-center rounded-lg border border-border bg-background px-6 py-3 text-sm font-medium hover:bg-muted hover:text-foreground min-h-[44px]"
             >
               Hubungi Kami
             </Link>

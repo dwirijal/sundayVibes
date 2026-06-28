@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { PricingCard } from "@/components/PricingCard";
+import { ServiceSchema } from "@/components/seo/ServiceSchema";
+import { BreadcrumbSchema } from "@/components/seo/BreadcrumbSchema";
 
 export const metadata: Metadata = {
   title: "Jasa Design - Sunday Vibes",
@@ -32,6 +34,8 @@ export default function DesignPage() {
 
   return (
     <main className="min-h-screen pt-32 pb-24 bg-background">
+      <ServiceSchema name="Jasa Design" description="Jasa desain grafis: logo, brand identity, social media kit, dan print design." provider="Sunday Vibes" areaServed={["Surabaya", "Tuban"]} priceRange="Mulai Rp 150.000" />
+      <BreadcrumbSchema items={[{ name: "Beranda", url: "/" }, { name: "Layanan", url: "/layanan" }, { name: "Jasa Design", url: "/layanan/design" }]} />
       <section className="container mx-auto px-6 max-w-4xl text-center mb-24">
         <div className="w-20 h-20 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">🎨</div>
         <h1 className="text-5xl md:text-6xl font-black mb-6 text-foreground">Jasa Design</h1>
@@ -47,27 +51,18 @@ export default function DesignPage() {
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {packages.map((pkg) => (
-            <div key={pkg.name} className={`relative flex flex-col p-8 rounded-3xl border ${pkg.isPopular ? 'border-secondary shadow-xl shadow-secondary/10 bg-card' : 'border-border bg-muted/50'}`}>
-              {pkg.isPopular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-secondary text-secondary-foreground px-4 py-1 rounded-full text-sm font-bold">
-                  Paling Diminati
-                </div>
-              )}
-              <h3 className="text-2xl font-bold text-foreground mb-2">{pkg.name}</h3>
-              <p className="text-muted-foreground mb-6 text-sm flex-grow">{pkg.description}</p>
-              <div className="text-3xl font-black text-foreground mb-8">{pkg.price}</div>
-
-              <ul className="space-y-4 mb-8">
-                {pkg.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-3 text-muted-foreground">
-                    <Check className="w-5 h-5 text-secondary shrink-0" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Link href="/booking?service=design" className={`inline-flex items-center justify-center h-10 gap-1.5 px-8 w-full rounded-full transition-all outline-none text-sm font-medium focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${pkg.isPopular ? 'bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-sm' : 'border-2 border-border bg-background hover:bg-muted hover:text-foreground'}`}>Pilih Paket</Link>
-            </div>
+            <PricingCard
+              key={pkg.name}
+              name={pkg.name}
+              description={pkg.description}
+              price={pkg.price}
+              features={pkg.features}
+              highlighted={pkg.isPopular}
+              badge={pkg.isPopular ? "Paling Diminati" : undefined}
+              checkColor="text-secondary"
+            >
+              <Link href="/booking?service=design" className={`inline-flex items-center justify-center h-11 gap-1.5 px-8 w-full rounded-full transition-[background-color,color,box-shadow,border-color] outline-none text-sm font-medium focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${pkg.isPopular ? 'bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-sm' : 'border-2 border-border bg-background hover:bg-muted hover:text-foreground'}`}>Pilih Paket</Link>
+            </PricingCard>
           ))}
         </div>
       </section>
@@ -78,7 +73,7 @@ export default function DesignPage() {
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
             Ceritakan kebutuhan visual Anda dan unggah referensi style yang diinginkan. Kami siap mewujudkannya.
           </p>
-          <Link href="/booking?service=design" className="inline-flex items-center justify-center rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 text-lg font-medium transition-all outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 shadow-sm">Isi Brief Sekarang</Link>
+          <Link href="/booking?service=design" className="inline-flex items-center justify-center rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 text-lg font-medium transition-[background-color] outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 shadow-sm">Isi Brief Sekarang</Link>
         </div>
       </section>
     </main>

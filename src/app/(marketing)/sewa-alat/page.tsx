@@ -17,13 +17,20 @@ export default async function Page() {
     depth: 1,
   })
 
-  const serializedEquipment = equipment.docs.map((doc: any) => ({
+  const serializedEquipment = (equipment.docs as unknown as Array<{
+    id: string;
+    name: string;
+    slug: string;
+    price_per_day: number;
+    available: number;
+    images?: Array<{ image?: { url?: string; alt?: string } }>;
+  }>).map((doc) => ({
     id: doc.id,
     name: doc.name,
     slug: doc.slug,
     price_per_day: doc.price_per_day,
     available: doc.available,
-    images: doc.images?.map((img: any) => ({
+    images: doc.images?.map((img) => ({
       image: {
         url: img.image?.url || '',
         alt: img.image?.alt,

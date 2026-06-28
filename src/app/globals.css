@@ -85,28 +85,28 @@
   /* Dark mode interpretation of Sunday Vibes */
   --background: #1C1917; /* stone-900 */
   --foreground: #F5F5F4; /* stone-100 */
-  
+
   --card: #292524; /* stone-800 */
   --card-foreground: #F5F5F4;
-  
+
   --popover: #292524;
   --popover-foreground: #F5F5F4;
-  
+
   --primary: #F59E0B;
   --primary-foreground: #1C1917;
-  
+
   --secondary: #8B5CF6; /* violet-500 for better dark contrast */
   --secondary-foreground: #FFFFFF;
-  
+
   --muted: #292524;
   --muted-foreground: #A8A29E; /* stone-400 */
-  
+
   --accent: #451A03; /* Deep amber */
   --accent-foreground: #F5F5F4;
-  
+
   --destructive: #F87171;
   --destructive-foreground: #1C1917;
-  
+
   --border: #44403C; /* stone-700 */
   --input: #44403C;
   --ring: #F59E0B;
@@ -116,7 +116,329 @@
   * {
     @apply border-border outline-ring/50;
   }
+
+  /* Cross-browser base styles */
+  html {
+    /* Firefox scrollbar */
+    scrollbar-color: var(--border) var(--background);
+    scrollbar-width: thin;
+
+    /* iOS text size adjust */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+
+    /* Prevent pull-to-refresh on mobile */
+    overscroll-behavior-y: contain;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
+
+    /* iOS tap highlight removal */
+    -webkit-tap-highlight-color: transparent;
+
+    /* Better font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Color scheme for native elements */
+    color-scheme: light dark;
+  }
+
+  /* Webkit scrollbar (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
+
+  /* Focus visible for keyboard navigation */
+  :focus-visible {
+    @apply outline-2 outline-ring outline-offset-2;
+  }
+
+  /* Remove focus outline for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* iOS input zoom prevention */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  @media (min-width: 768px) {
+    input,
+    select,
+    textarea {
+      font-size: inherit;
+    }
+  }
+
+  /* Prevent iOS input rounding */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  textarea,
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: var(--radius);
+  }
+
+  /* iOS button fix */
+  button,
+  [role="button"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  /* Smooth image rendering */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  /* Prevent text selection on interactive elements */
+  button,
+  [role="button"],
+  a {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Allow text selection on form elements */
+  input,
+  textarea {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+}
+
+@layer components {
+  /* Underline-grow for nav links — restrained, professional, no layout shift. */
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease-out;
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Safe area utilities for notched devices */
+@supports (padding: max(0px)) {
+  .safe-top {
+    padding-top: max(0.5rem, env(safe-area-inset-top));
+  }
+
+  .safe-bottom {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+
+  .safe-left {
+    padding-left: max(0.5rem, env(safe-area-inset-left));
+  }
+
+  .safe-right {
+    padding-right: max(0.5rem, env(safe-area-inset-right));
+  }
+}
+
+/* React Bits: ShinyText shimmer */
+.shiny-text {
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 30%,
+    var(--shine-color, rgba(255,255,255,0.8)) 50%,
+    rgba(255,255,255,0) 70%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shiny-text 3s linear infinite;
+}
+.dark .shiny-text {
+  background: linear-gradient(
+    120deg,
+    rgba(0,0,0,0) 30%,
+    var(--shine-color, rgba(255,255,255,0.6)) 50%,
+    rgba(0,0,0,0) 70%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shiny-text 3s linear infinite;
+}
+@keyframes shiny-text {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border: #000000;
+    --foreground: #000000;
+  }
+
+  .dark {
+    --border: #ffffff;
+    --foreground: #ffffff;
+  }
+}
+
+/* ===== Print: A4 rental contract ===== */
+@page contract {
+  size: A4;
+  margin: 14mm 14mm 12mm;
+}
+
+@media print {
+  /* Hide everything that is not the contract document */
+  .no-print,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 10.5px;
+    line-height: 1.35;
+  }
+
+  /* The contract sheet is the only printed flow */
+  .contract-sheet {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+    width: auto !important;
+    background: #fff !important;
+    color: #111 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    font-family: var(--font-sans), system-ui, sans-serif;
+  }
+
+  /* Force ink-on-paper overrides inside the sheet, ignoring dark mode */
+  .contract-sheet,
+  .contract-sheet * {
+    color: #111 !important;
+    background: transparent !important;
+    border-color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  .contract-sheet .ink-mute,
+  .contract-sheet .ink-mute * {
+    color: #555 !important;
+  }
+
+  /* Masthead serif + uppercase section labels */
+  .contract-sheet .doc-title {
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    font-weight: 700;
+  }
+  .contract-sheet .sec-label {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 9px;
+  }
+
+  /* Hairline rules for a legal feel */
+  .contract-sheet .rule-t {
+    border-top: 0.5px solid #000;
+  }
+  .contract-sheet .rule-double {
+    border-top: 1px solid #000;
+    border-bottom: 0.5px solid #000;
+    padding-block: 2px;
+  }
+  .contract-sheet table {
+    border-collapse: collapse;
+  }
+  .contract-sheet th,
+  .contract-sheet td {
+    border: 0.5px solid #000 !important;
+    padding: 4px 6px !important;
+  }
+
+  /* Page breaks */
+  .page-break {
+    break-before: page;
+    page-break-before: always;
+  }
+  .avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Signature underline space */
+  .sig-line {
+    border-bottom: 0.75px solid #000;
+    height: 26px;
+  }
+
+  /* Reset radii / shadows from the on-screen card styling */
+  .contract-sheet * {
+    border-radius: 0 !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+  img {
+    page-break-inside: avoid;
   }
 }
