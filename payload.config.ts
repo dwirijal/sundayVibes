@@ -48,7 +48,13 @@ export default buildConfig({
     Homepage,
   ],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: (() => {
+    const s = process.env.PAYLOAD_SECRET
+    if (!s || s.length < 32) {
+      throw new Error('PAYLOAD_SECRET must be set and at least 32 characters')
+    }
+    return s
+  })(),
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

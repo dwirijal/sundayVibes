@@ -34,6 +34,17 @@ export const Users: CollectionConfig = {
     },
     delete: ({ req: { user } }) => user?.role === 'admin',
   },
+  hooks: {
+    // Defense-in-depth: even if a non-admin reaches create/update with role:'admin'
+    // in the body (direct REST, register route, etc.), force 'client'. Admins via
+    // the CMS (overrideAccess) bypass this hook.
+    beforeChange: [
+      ({ req, data }) => {
+        if (req.user?.role === 'admin') return data;
+        return { ...data, role: 'client' };
+      },
+    ],
+  },
   fields: [
     {
       name: 'name',

@@ -9,7 +9,7 @@ export function proxy(request: NextRequest) {
     const isWebhook = pathname.startsWith('/api/whatsapp/webhook')
 
     if (!isWebhook && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method)) {
-      const origin = request.headers.get('origin') ?? request.headers.get('referer')
+      const origin = request.headers.get('origin')
       const host = request.headers.get('host')
 
       if (!origin || !host) {
