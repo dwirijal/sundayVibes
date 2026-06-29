@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "seed:admin": "tsx seed-admin.ts",
+    "jules": "tsx scripts/jules.ts",
     "vercel:build": "next build",
     "vercel:deploy": "vercel --prod"
   },
