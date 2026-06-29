@@ -399,7 +399,7 @@ export default function KontrakPageClient() {
                   value={formData.customerPhone}
                   onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
                   className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-                  placeholder="08xxxxxxxxxx"
+                  placeholder="0812 3456 7890"
                 />
               </div>
               <div>
