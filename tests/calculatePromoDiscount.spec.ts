@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { calculatePromoDiscount, PROMO_DICTIONARY } from '../src/store/useCart';
+import { calculatePromoDiscount } from '../src/store/useCart';
 
 test.describe('calculatePromoDiscount', () => {
   test('returns 0 when code is null or empty', () => {
