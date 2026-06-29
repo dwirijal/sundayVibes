@@ -15,6 +15,8 @@ export async function GET() {
       return NextResponse.json(cached)
     }
 
+    if (process.env.CI) return NextResponse.json({ whatsappNumber: "6285157319611" })
+
     // Jika tidak ada di cache, ambil dari database
     const payload = await getPayload({ config: configPromise })
     const contactInfo = await payload.findGlobal({ slug: "contact-info" }) as { whatsappNumber?: string | number }

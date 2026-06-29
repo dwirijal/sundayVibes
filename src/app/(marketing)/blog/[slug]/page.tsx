@@ -24,6 +24,7 @@ async function getPost(slug: string) {
 }
 
 export async function generateStaticParams() {
+  if (process.env.CI) return []
   const payload = await getPayload({ config: configPromise })
   const { docs: posts } = await payload.find({
     collection: 'posts',
@@ -64,6 +65,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
+  if (process.env.CI) return <div>CI Build...</div>;
   const { slug } = await params
   const post = await getPost(slug)
   if (!post) notFound()

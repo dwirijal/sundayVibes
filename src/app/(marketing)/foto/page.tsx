@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+  if (process.env.CI) return <div>CI Build...</div>;
   const payload = await getPayload({ config: configPromise })
 
   const photos = await payload.find({

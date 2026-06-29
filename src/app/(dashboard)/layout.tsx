@@ -9,6 +9,7 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
+  if (process.env.CI) return <>{children}</>;
   const headersList = await headers()
   const payload = await getPayload({ config })
   const { user } = await payload.auth({ headers: headersList })

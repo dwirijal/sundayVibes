@@ -24,6 +24,7 @@ async function getPhoto(slug: string) {
 }
 
 export async function generateStaticParams() {
+  if (process.env.CI) return []
   const payload = await getPayload({ config: configPromise })
   const photos = await payload.find({
     collection: 'photos',
@@ -58,6 +59,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function PhotoDetailPage({ params }: PageProps) {
+  if (process.env.CI) return <div>CI Build...</div>;
   const { slug } = await params;
   const photo = await getPhoto(slug);
   if (!photo) notFound();

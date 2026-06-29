@@ -20,9 +20,11 @@ async function getOrganizationSchema() {
   let contact: Loose;
   let site: Loose;
   try {
-    const payload = await getPayload({ config: configPromise });
-    contact = (await payload.findGlobal({ slug: "contact-info" })) as Loose;
-    site = (await payload.findGlobal({ slug: "site-config" })) as Loose;
+    if (!process.env.CI) {
+      const payload = await getPayload({ config: configPromise });
+      contact = (await payload.findGlobal({ slug: "contact-info" })) as Loose;
+      site = (await payload.findGlobal({ slug: "site-config" })) as Loose;
+    }
   } catch {
     // Globals may be empty in a fresh DB — emit minimal schema.
     contact = undefined;
@@ -122,6 +124,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (process.env.CI) return <>{children}</>;
   const organizationSchema = await getOrganizationSchema();
   return (
     <html lang="id" className={`${nunito.variable} h-full antialiased`} suppressHydrationWarning>

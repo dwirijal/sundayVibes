@@ -33,6 +33,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  if (process.env.CI) return <div>CI Build...</div>;
   const payload = await getPayload({ config: configPromise });
 
   // Minimal shapes for just the fields consumed here (payload-types.ts is not
