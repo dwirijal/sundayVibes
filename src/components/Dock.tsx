@@ -20,7 +20,6 @@ export interface DockProps {
 
 const BASE_SIZE = 48;
 const MAX_SCALE = 1.5;
-// ponytail: NEIGHBOR_SCALE removed — was unused. Re-add when neighbor-magnet effect lands.
 const EFFECT_RADIUS = 150;
 
 function smoothScale(distance: number): number {

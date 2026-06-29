@@ -5,14 +5,21 @@ import configPromise from '@payload-config'
 import { Calendar, User, ArrowRight } from 'lucide-react'
 
 export default async function BlogPage() {
-  const payload = await getPayload({ config: configPromise })
+  let posts: any[] = []
 
-  const { docs: posts } = await payload.find({
-    collection: 'posts',
-    limit: 12,
-    depth: 1,
-    sort: '-createdAt',
-  })
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const result = await payload.find({
+      collection: 'posts',
+      limit: 12,
+      depth: 1,
+      sort: '-createdAt',
+    })
+    posts = result.docs
+  } catch (error) {
+    console.error('Failed to fetch posts:', error)
+  }
 
   return (
     <div className="min-h-screen bg-background">

@@ -24,15 +24,20 @@ async function getPost(slug: string) {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const { docs: posts } = await payload.find({
-    collection: 'posts',
-    limit: 100,
-  })
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const { docs: posts } = await payload.find({
+      collection: 'posts',
+      limit: 100,
+    })
 
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
+    return posts.map((post) => ({
+      slug: post.slug,
+    }))
+  } catch (error) {
+    // Gracefully fallback to empty params during build if DB is not available
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

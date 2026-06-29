@@ -33,8 +33,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const payload = await getPayload({ config: configPromise });
-
   // Minimal shapes for just the fields consumed here (payload-types.ts is not
   // generated locally — these avoid `any` without pretending full schema knowledge).
   interface ServiceDoc {
@@ -60,40 +58,52 @@ export default async function Home() {
     [key: string]: unknown;
   }
 
-  // Parallelize independent queries (was sequential: services → testimonials → global)
-  const [servicesResult, testimonialsResult, homepageGlobal] = await Promise.all([
-    payload.find({
-      collection: "services",
-      sort: "createdAt",
-      limit: 6,
-      depth: 1,
-    }),
-    payload.find({
-      collection: "testimonials",
-      limit: 10,
-      depth: 1,
-    }) as unknown as Promise<FindResult<TestimonialDoc>>,
-    payload.findGlobal({ slug: "homepage" }) as unknown as Promise<HomepageGlobal>,
-  ]);
+  let services: any[] = [];
+  let serializedTestimonials: any[] = [];
+  let homepageGlobal: HomepageGlobal = {};
 
-  const services = (servicesResult as unknown as FindResult<ServiceDoc>).docs.map((doc) => ({
-    id: doc.id,
-    title: doc.title,
-    slug: doc.slug,
-    category: doc.category,
-    description: doc.description,
-    hero_image: doc.hero_image && typeof doc.hero_image === "object" && doc.hero_image.url
-      ? { url: doc.hero_image.url }
-      : null,
-  }));
-  const serializedTestimonials = testimonialsResult.docs.map((doc) => ({
-    id: String(doc.id),
-    client_name: doc.client_name,
-    company: doc.company,
-    content: doc.content,
-    rating: Number(doc.rating) || 0,
-    avatar: doc.avatar?.url ? { url: doc.avatar.url, alt: doc.avatar.alt } : undefined,
-  }));
+  try {
+    const payload = await getPayload({ config: configPromise });
+
+    // Parallelize independent queries (was sequential: services → testimonials → global)
+    const [servicesResult, testimonialsResult, globalConfig] = await Promise.all([
+      payload.find({
+        collection: "services",
+        sort: "createdAt",
+        limit: 6,
+        depth: 1,
+      }),
+      payload.find({
+        collection: "testimonials",
+        limit: 10,
+        depth: 1,
+      }) as unknown as Promise<FindResult<TestimonialDoc>>,
+      payload.findGlobal({ slug: "homepage" }) as unknown as Promise<HomepageGlobal>,
+    ]);
+
+    homepageGlobal = globalConfig;
+
+    services = (servicesResult as unknown as FindResult<ServiceDoc>).docs.map((doc) => ({
+      id: doc.id,
+      title: doc.title,
+      slug: doc.slug,
+      category: doc.category,
+      description: doc.description,
+      hero_image: doc.hero_image && typeof doc.hero_image === "object" && doc.hero_image.url
+        ? { url: doc.hero_image.url }
+        : null,
+    }));
+    serializedTestimonials = testimonialsResult.docs.map((doc) => ({
+      id: String(doc.id),
+      client_name: doc.client_name,
+      company: doc.company,
+      content: doc.content,
+      rating: Number(doc.rating) || 0,
+      avatar: doc.avatar?.url ? { url: doc.avatar.url, alt: doc.avatar.alt } : undefined,
+    }));
+  } catch (error) {
+    console.error('Failed to fetch payload data:', error);
+  }
 
   // Rich-result schema: feed top testimonials as Reviews + aggregate rating.
   const ratings: number[] = serializedTestimonials

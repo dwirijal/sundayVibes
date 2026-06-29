@@ -23,7 +23,8 @@ async function getOrganizationSchema() {
     const payload = await getPayload({ config: configPromise });
     contact = (await payload.findGlobal({ slug: "contact-info" })) as Loose;
     site = (await payload.findGlobal({ slug: "site-config" })) as Loose;
-  } catch {
+  } catch (error) {
+    console.error('Failed to fetch contact info or site config:', error)
     // Globals may be empty in a fresh DB — emit minimal schema.
     contact = undefined;
     site = undefined;

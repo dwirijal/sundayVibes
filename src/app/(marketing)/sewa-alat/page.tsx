@@ -9,13 +9,18 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const payload = await getPayload({ config: configPromise })
+  let equipment: any = { docs: [] }
+  try {
+    const payload = await getPayload({ config: configPromise })
 
-  const equipment = await payload.find({
-    collection: 'equipment',
-    limit: 100,
-    depth: 1,
-  })
+    equipment = await payload.find({
+      collection: 'equipment',
+      limit: 100,
+      depth: 1,
+    })
+  } catch (error) {
+    console.error('Failed to fetch equipment:', error)
+  }
 
   const serializedEquipment = (equipment.docs as unknown as Array<{
     id: string;
