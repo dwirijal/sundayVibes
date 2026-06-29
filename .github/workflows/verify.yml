@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '24'
         
     - name: Install Dependencies
       run: npm ci
@@ -29,5 +29,8 @@ jobs:
       env:
         # Dummy vars for build checking
         DATABASE_URI: postgresql://dummy:dummy@localhost:5432/dummy?sslmode=disable
-        PAYLOAD_SECRET: dummy-secret-for-build-only
+        PAYLOAD_SECRET: dummy-secret-for-build-only-12345
+        RESEND_API_KEY: dummy_re_1234
+        NEON_AUTH_BASE_URL: http://localhost:3000
+        NEON_AUTH_COOKIE_SECRET: dummy-cookie-secret-for-build-only-12345
         NEXT_PUBLIC_SITE_URL: http://localhost:3000
