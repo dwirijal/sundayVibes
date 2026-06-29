@@ -142,9 +142,19 @@ async function msg(args: string[]): Promise<void> {
   console.log(green('sent'))
 }
 
+interface Activity {
+  originator?: string
+  description?: string
+  createTime?: string
+  planGenerated?: { plan?: { steps?: { index: number; title: string }[] } }
+  agentMessaged?: { agentMessage?: string }
+  sessionFailed?: { reason?: string }
+  artifacts?: { bashOutput?: { command?: string; output?: string } }[]
+}
+
 async function activities(id: string): Promise<void> {
   if (!id) die('usage: jules activities <sessionId>')
-  const r = await req<{ activities: any[] }>(`/sessions/${id}/activities?pageSize=100`)
+  const r = await req<{ activities: Activity[] }>(`/sessions/${id}/activities?pageSize=100`)
   if (!r.activities?.length) return console.log(dim('no activities'))
   for (const a of r.activities) {
     const who = a.originator ?? '?'
@@ -163,7 +173,9 @@ async function activities(id: string): Promise<void> {
 }
 
 async function sources(): Promise<void> {
-  const r = await req<{ sources: any[] }>('/sources?pageSize=100')
+  const r = await req<{
+    sources: { name: string; githubRepo?: { owner?: string; repo?: string; defaultBranch?: { displayName?: string } } }[]
+  }>('/sources?pageSize=100')
   for (const s of r.sources ?? []) {
     const gh = s.githubRepo ?? {}
     console.log(`${bold(s.name)}  ${gh.owner ?? ''}/${gh.repo ?? ''}  ${dim(gh.defaultBranch?.displayName ?? '')}`)
