@@ -1,3 +1,5 @@
+import { logger } from './logger';
+
 /**
  * Analytics utility — supports GTM, GA4 (gtag), and Umami.
  * All calls are safe server-side (noop when `window` is undefined).
@@ -27,10 +29,7 @@ export function trackEvent(name: string, params?: Record<string, unknown>): void
     }
   } catch (err) {
     // Swallow tracking errors — analytics must never break user flow.
-    // `ponytail:` wire to Sentry/Logger when observability stack lands.
-    if (process.env.NODE_ENV === 'development') {
-      console.warn('[analytics] trackEvent failed', err);
-    }
+    logger.warn('[analytics] trackEvent failed', { error: err instanceof Error ? err.message : String(err) });
   }
 }
 
