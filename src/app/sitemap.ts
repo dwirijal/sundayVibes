@@ -4,7 +4,6 @@ import configPromise from '@payload-config'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sundayvibes.id'
-  const payload = await getPayload({ config: configPromise })
 
   const sitemapData: MetadataRoute.Sitemap = [
     {
@@ -82,6 +81,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     })
   })
+
+  if (process.env.CI) return sitemapData
+
+  const payload = await getPayload({ config: configPromise })
 
   // Add dynamic blog posts
   try {

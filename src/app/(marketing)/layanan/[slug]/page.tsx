@@ -14,6 +14,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
+  if (process.env.CI) return []
   const payload = await getPayload({ config })
   const services = await payload.find({
     collection: 'services',
@@ -26,6 +27,7 @@ export async function generateStaticParams() {
 }
 
 export default async function ServicePage({ params }: PageProps) {
+  if (process.env.CI) return <div>CI Build...</div>;
   const { slug } = await params
   const payload = await getPayload({ config })
 

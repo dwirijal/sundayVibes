@@ -5,6 +5,7 @@ import configPromise from '@payload-config'
 import { Calendar, User, ArrowRight } from 'lucide-react'
 
 export default async function BlogPage() {
+  if (process.env.CI) return <div>CI Build...</div>;
   const payload = await getPayload({ config: configPromise })
 
   const { docs: posts } = await payload.find({

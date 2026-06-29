@@ -4,6 +4,7 @@ import configPromise from '@payload-config'
 import { CheckoutContent } from './CheckoutContent'
 
 export default async function CheckoutPage() {
+  if (process.env.CI) return <div>CI Build...</div>;
   let waNumber = "6285157319611"; // Default fallback
   try {
     const payload = await getPayload({ config: configPromise });

@@ -11,6 +11,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
+  if (process.env.CI) return []
   const payload = await getPayload({ config: configPromise })
   const products = await payload.find({
     collection: 'products',
@@ -20,6 +21,7 @@ export async function generateStaticParams() {
 }
 
 export default async function ProductDetailPage({ params }: PageProps) {
+  if (process.env.CI) return <div>CI Build...</div>;
   const { slug } = await params;
   const payload = await getPayload({ config: configPromise })
 

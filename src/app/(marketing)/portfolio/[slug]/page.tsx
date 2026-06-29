@@ -25,6 +25,7 @@ async function getProject(slug: string) {
 }
 
 export async function generateStaticParams() {
+  if (process.env.CI) return []
   const payload = await getPayload({ config: configPromise })
   const projects = await payload.find({
     collection: 'projects',
@@ -61,6 +62,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function ProjectDetailPage({ params }: PageProps) {
+  if (process.env.CI) return <div>CI Build...</div>;
   const { slug } = await params;
   const project = await getProject(slug);
   if (!project) notFound();

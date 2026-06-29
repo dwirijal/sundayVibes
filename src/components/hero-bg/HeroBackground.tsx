@@ -64,14 +64,21 @@ export default function HeroBackground() {
       const cw = w0()
       const ch = h0()
 
+      // Hoist trigonometric calculations outside the loop
+      // to improve performance by reducing expensive Math operations
+      const cosY = Math.cos(rotationY)
+      const sinY = Math.sin(rotationY)
+      const cosX = Math.cos(rotationX)
+      const sinX = Math.sin(rotationX)
+
       particles.forEach(particle => {
         // Rotate around Y axis
-        const rotatedX = particle.x * Math.cos(rotationY) - particle.z * Math.sin(rotationY)
-        const rotatedZ = particle.x * Math.sin(rotationY) + particle.z * Math.cos(rotationY)
+        const rotatedX = particle.x * cosY - particle.z * sinY
+        const rotatedZ = particle.x * sinY + particle.z * cosY
 
         // Rotate around X axis
-        const rotatedY = particle.y * Math.cos(rotationX) - rotatedZ * Math.sin(rotationX)
-        const finalZ = particle.y * Math.sin(rotationX) + rotatedZ * Math.cos(rotationX)
+        const rotatedY = particle.y * cosX - rotatedZ * sinX
+        const finalZ = particle.y * sinX + rotatedZ * cosX
 
         // Project to 2D
         const perspective = 1000
