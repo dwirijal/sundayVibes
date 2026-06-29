@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
           name: customer.name,
           phone: customer.phone || '',
           role: 'client',
-          password: Math.random().toString(36).slice(-12) + 'A1!',
+          password: crypto.randomUUID() + 'A1!',
         },
         overrideAccess: true,
       })
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
     serviceId = relatedService.docs.length > 0 ? relatedService.docs[0].id : null
 
     // Generate order ID
-    const orderId = `ORD-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+    const orderId = `ORD-${Date.now()}-${crypto.randomUUID().split('-')[0]}`
 
     // Create booking
     const booking = await payload.create({
