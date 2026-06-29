@@ -1,0 +1,3 @@
+## 2026-06-29 - Particle System Loop Optimizations
+**Learning:** When implementing particle systems or large loops in `requestAnimationFrame`, trigonometric or complex math calculations that rely on frame-level constants (like time or rotation) can become significant bottlenecks if they are computed inside the loop. In `src/components/hero-bg/HeroBackground.tsx`, `Math.cos` and `Math.sin` for fixed rotations were calculated for every particle in every frame.
+**Action:** Always hoist calculations that only depend on loop-invariant variables outside the particle loop. This drastically reduces the number of operations per frame.
