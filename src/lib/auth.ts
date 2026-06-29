@@ -4,8 +4,8 @@ import { createNeonAuth } from '@neondatabase/auth/next/server'
 // activated in the Neon dashboard. This instance drives the client-facing
 // auth: catch-all API route + dashboard middleware. Payload auth (/admin)
 // stays separate for staff.
-const baseUrl = process.env.NEON_AUTH_BASE_URL || 'http://localhost:3000'
-const cookieSecret = process.env.NEON_AUTH_COOKIE_SECRET || 'dummy-cookie-secret-1234567890-abcdefg'
+const baseUrl = process.env.NEON_AUTH_BASE_URL
+const cookieSecret = process.env.NEON_AUTH_COOKIE_SECRET
 
 if (!baseUrl || !cookieSecret) {
   // Fail fast at boot so a missing env is obvious — mirrors the PAYLOAD_SECRET
