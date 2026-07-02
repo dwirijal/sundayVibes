@@ -187,12 +187,14 @@ export function PortfolioClient({ projects, tiktoks, youtubeVideos }: PortfolioC
         <div className="tiktoks-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {tiktoks.map((tt, i) => (
             <div key={i} className="tiktok-card group relative aspect-[9/16] bg-muted rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-border">
+              {/* ⚡ Bolt: Added loading="lazy" to defer off-screen iframe loading and improve initial page load performance */}
               <iframe
                 src={`https://www.tiktok.com/embed/v2/${tt.id}?lang=en-US`}
                 className="w-full h-full border-0 absolute top-[-45px] scale-[1.05]"
                 title="TikTok Video"
                 allow="encrypted-media"
                 sandbox="allow-popups allow-popups-to-escape-sandbox allow-scripts allow-top-navigation allow-same-origin"
+                loading="lazy"
               />
               <a
                 href={tt.url}
@@ -217,12 +219,14 @@ export function PortfolioClient({ projects, tiktoks, youtubeVideos }: PortfolioC
           <div className="youtube-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {youtubeVideos.map((video, i) => (
               <div key={i} className="youtube-card group relative aspect-video bg-muted rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-border">
+                {/* ⚡ Bolt: Added loading="lazy" to defer off-screen iframe loading and improve initial page load performance */}
                 <iframe
                   src={`https://www.youtube.com/embed/${video.id}`}
                   className="absolute inset-0 w-full h-full border-0"
                   title={video.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
+                  loading="lazy"
                 />
               </div>
             ))}
