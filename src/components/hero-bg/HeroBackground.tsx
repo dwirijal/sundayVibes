@@ -52,7 +52,11 @@ export default function HeroBackground() {
     const w0 = () => window.innerWidth
     const h0 = () => window.innerHeight
 
+    let isVisible = true
+
     const animate = () => {
+      if (!isVisible) return
+
       animationId = requestAnimationFrame(animate)
 
       ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
@@ -92,7 +96,23 @@ export default function HeroBackground() {
         ctx.fill()
       })
     }
-    animate()
+
+    // Intersection Observer to pause animation when out of view
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          isVisible = entry.isIntersecting
+          if (isVisible) {
+            // Resume animation if it was paused
+            cancelAnimationFrame(animationId)
+            animate()
+          }
+        })
+      },
+      { threshold: 0 }
+    )
+
+    observer.observe(canvas)
 
     // Debounce resize so rapid window drags don't thrash the canvas.
     let resizeTimer: ReturnType<typeof setTimeout>
@@ -103,6 +123,7 @@ export default function HeroBackground() {
     window.addEventListener('resize', onResize)
 
     return () => {
+      observer.disconnect()
       cancelAnimationFrame(animationId)
       clearTimeout(resizeTimer)
       window.removeEventListener('resize', onResize)

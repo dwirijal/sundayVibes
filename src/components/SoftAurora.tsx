@@ -54,7 +54,11 @@ export function SoftAurora({
       phase: Math.random() * Math.PI * 2,
     }));
 
+    let isVisible = true;
+
     const animate = () => {
+      if (!isVisible) return;
+
       animationId = requestAnimationFrame(animate);
       time += 0.01 * speed;
 
@@ -84,10 +88,25 @@ export function SoftAurora({
       });
     };
 
-    animate();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          isVisible = entry.isIntersecting;
+          if (isVisible) {
+            cancelAnimationFrame(animationId);
+            animate();
+          }
+        });
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(canvas);
+
     window.addEventListener('resize', resize);
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(animationId);
       window.removeEventListener('resize', resize);
     };
