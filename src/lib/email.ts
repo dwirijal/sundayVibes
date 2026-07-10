@@ -1,6 +1,6 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 interface BookingDetails {
   service: string
@@ -13,6 +13,11 @@ interface BookingDetails {
 }
 
 async function sendEmail(to: string, subject: string, html: string) {
+  if (!resend) {
+    console.warn('RESEND_API_KEY is not set. Email would have been sent to', to, 'with subject:', subject);
+    return { success: false, error: new Error('RESEND_API_KEY not configured') };
+  }
+
   try {
     const { data, error } = await resend.emails.send({
       from: 'Sunday Vibes <noreply@sundayvibes.com>',
