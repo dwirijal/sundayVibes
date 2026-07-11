@@ -1,0 +1,3 @@
+## 2024-07-11 - Layout Thrashing in Interactive Components
+**Learning:** Performing DOM reads (like `getBoundingClientRect()`) and DOM writes (like `style.setProperty()`) within the same loop for multiple items causes Forced Synchronous Layout (Layout Thrashing). This forces the browser to recalculate layout for each item sequentially, degrading performance on every animation frame.
+**Action:** When animating or applying styles to multiple elements based on layout calculations (like in the Dock component), always batch DOM reads first into an array or variable, and then perform all DOM writes in a separate subsequent loop.
