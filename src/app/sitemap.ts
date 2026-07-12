@@ -4,7 +4,14 @@ import configPromise from '@payload-config'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sundayvibes.id'
-  const payload = await getPayload({ config: configPromise })
+  let payload: any = null;
+  try {
+    if (process.env.NEXT_PHASE !== 'phase-production-build' || process.env.DATABASE_URI) {
+      payload = await getPayload({ config: configPromise })
+    }
+  } catch (error) {
+    console.error('Failed to get payload for sitemap', error)
+  }
 
   const sitemapData: MetadataRoute.Sitemap = [
     {
@@ -85,76 +92,84 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Add dynamic blog posts
   try {
-    const posts = await payload.find({
-      collection: 'posts',
-      limit: 100,
-    })
-
-    posts.docs.forEach((post) => {
-      sitemapData.push({
-        url: `${baseUrl}/blog/${post.slug}`,
-        lastModified: new Date(post.updatedAt || post.createdAt),
-        changeFrequency: 'weekly',
-        priority: 0.6,
+    if (payload) {
+      const posts = await payload.find({
+        collection: 'posts',
+        limit: 100,
       })
-    })
+
+      posts.docs.forEach((post: any) => {
+        sitemapData.push({
+          url: `${baseUrl}/blog/${post.slug}`,
+          lastModified: new Date(post.updatedAt || post.createdAt),
+          changeFrequency: 'weekly',
+          priority: 0.6,
+        })
+      })
+    }
   } catch (error) {
     console.error('Failed to fetch posts for sitemap:', error)
   }
 
   // Add dynamic projects
   try {
-    const projects = await payload.find({
-      collection: 'projects',
-      limit: 100,
-    })
-
-    projects.docs.forEach((project) => {
-      sitemapData.push({
-        url: `${baseUrl}/portfolio/${project.slug}`,
-        lastModified: new Date(project.updatedAt || project.createdAt),
-        changeFrequency: 'monthly',
-        priority: 0.7,
+    if (payload) {
+      const projects = await payload.find({
+        collection: 'projects',
+        limit: 100,
       })
-    })
+
+      projects.docs.forEach((project: any) => {
+        sitemapData.push({
+          url: `${baseUrl}/portfolio/${project.slug}`,
+          lastModified: new Date(project.updatedAt || project.createdAt),
+          changeFrequency: 'monthly',
+          priority: 0.7,
+        })
+      })
+    }
   } catch (error) {
     console.error('Failed to fetch projects for sitemap:', error)
   }
 
   // Add dynamic photos
   try {
-    const photos = await payload.find({
-      collection: 'photos',
-      limit: 500,
-    })
-
-    photos.docs.forEach((photo) => {
-      sitemapData.push({
-        url: `${baseUrl}/foto/${photo.slug}`,
-        lastModified: new Date(photo.updatedAt || photo.createdAt),
-        changeFrequency: 'monthly',
-        priority: 0.6,
+    if (payload) {
+      const photos = await payload.find({
+        collection: 'photos',
+        limit: 500,
       })
-    })
+
+      photos.docs.forEach((photo: any) => {
+        sitemapData.push({
+          url: `${baseUrl}/foto/${photo.slug}`,
+          lastModified: new Date(photo.updatedAt || photo.createdAt),
+          changeFrequency: 'monthly',
+          priority: 0.6,
+        })
+      })
+    }
   } catch (error) {
     console.error('Failed to fetch photos for sitemap:', error)
   }
 
   // Add dynamic digital products
   try {
-    const products = await payload.find({
-      collection: 'products',
-      limit: 100,
-    })
-
-    products.docs.forEach((product) => {
-      sitemapData.push({
-        url: `${baseUrl}/produk-digital/${product.slug}`,
-        lastModified: new Date(product.updatedAt || product.createdAt),
-        changeFrequency: 'monthly',
-        priority: 0.7,
+    if (payload) {
+      const products = await payload.find({
+        collection: 'products',
+        limit: 100,
       })
-    })
+
+      products.docs.forEach((product: any) => {
+        sitemapData.push({
+          url: `${baseUrl}/produk-digital/${product.slug}`,
+          lastModified: new Date(product.updatedAt || product.createdAt),
+          changeFrequency: 'monthly',
+          priority: 0.7,
+        })
+      })
+    }
   } catch (error) {
     console.error('Failed to fetch products for sitemap:', error)
   }

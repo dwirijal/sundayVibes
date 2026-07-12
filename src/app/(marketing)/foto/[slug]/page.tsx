@@ -24,12 +24,18 @@ async function getPhoto(slug: string) {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const photos = await payload.find({
-    collection: 'photos',
-    limit: 100,
-  })
-  return photos.docs.map((p) => ({ slug: p.slug }))
+  if (process.env.NEXT_PHASE === 'phase-production-build' && !process.env.DATABASE_URI) return []
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const photos = await payload.find({
+      collection: 'photos',
+      limit: 100,
+    })
+    return photos.docs.map((p) => ({ slug: p.slug }))
+  } catch (e) {
+    console.error('generateStaticParams failed (foto)', e)
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

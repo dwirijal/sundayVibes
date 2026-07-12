@@ -1,0 +1,3 @@
+## 2024-07-12 - [Layout Thrashing Prevention in Interactive Components]
+**Learning:** In interactive components like the Dock that animate multiple elements based on layout calculations on every mouse/touch move, interleaving DOM reads (`getBoundingClientRect()`) and DOM writes (`style.setProperty()`) causes severe layout thrashing (Forced Synchronous Layout). The browser is forced to recalculate layout repeatedly within a single frame, significantly degrading animation performance.
+**Action:** When animating or applying styles to multiple elements based on layout calculations, always batch all DOM reads first to compute the necessary values, and only then perform all DOM writes.

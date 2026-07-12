@@ -25,13 +25,19 @@ async function getProject(slug: string) {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const projects = await payload.find({
-    collection: 'projects',
-    limit: 100,
-    overrideAccess: true,
-  })
-  return projects.docs.map((project) => ({ slug: project.slug }))
+  if (process.env.NEXT_PHASE === 'phase-production-build' && !process.env.DATABASE_URI) return []
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const projects = await payload.find({
+      collection: 'projects',
+      limit: 100,
+      overrideAccess: true,
+    })
+    return projects.docs.map((project) => ({ slug: project.slug }))
+  } catch (e) {
+    console.error('generateStaticParams failed (portfolio)', e)
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
