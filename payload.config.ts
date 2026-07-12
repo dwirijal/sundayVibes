@@ -49,6 +49,12 @@ export default buildConfig({
   ],
   editor: lexicalEditor(),
   secret: (() => {
+    // If we're building and the environment variable isn't present,
+    // fallback to a dummy secret to let the Next.js static build finish.
+    if (process.env.NEXT_PHASE === 'phase-production-build' && !process.env.DATABASE_URI) {
+      return process.env.PAYLOAD_SECRET || 'dummy-secret-for-build-only-this-needs-to-be-32-chars-long';
+    }
+
     const s = process.env.PAYLOAD_SECRET
     if (!s || s.length < 32) {
       throw new Error('PAYLOAD_SECRET must be set and at least 32 characters')
