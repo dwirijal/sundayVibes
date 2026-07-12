@@ -24,15 +24,21 @@ async function getPost(slug: string) {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const { docs: posts } = await payload.find({
-    collection: 'posts',
-    limit: 100,
-  })
+  if (process.env.NEXT_PHASE === 'phase-production-build' && !process.env.DATABASE_URI) return []
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const { docs: posts } = await payload.find({
+      collection: 'posts',
+      limit: 100,
+    })
 
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
+    return posts.map((post) => ({
+      slug: post.slug,
+    }))
+  } catch (e) {
+    console.error('generateStaticParams failed (blog)', e)
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

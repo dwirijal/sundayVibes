@@ -10,14 +10,22 @@ export const metadata: Metadata = {
 };
 
 export default async function PortfolioPage() {
-  const payload = await getPayload({ config: configPromise })
+  let projects = { docs: [] } as any;
 
-  const projects = await payload.find({
-    collection: 'projects',
-    limit: 12,
-    depth: 1,
-    sort: '-createdAt',
-  })
+  try {
+    if (process.env.NEXT_PHASE !== 'phase-production-build' || process.env.DATABASE_URI) {
+      const payload = await getPayload({ config: configPromise })
+
+      projects = await payload.find({
+        collection: 'projects',
+        limit: 12,
+        depth: 1,
+        sort: '-createdAt',
+      })
+    }
+  } catch (error) {
+    console.error('Failed to fetch projects:', error);
+  }
 
   const tiktoks = [
     { url: "https://www.tiktok.com/@sundayvibes._/video/7648357287551192341", id: "7648357287551192341" },

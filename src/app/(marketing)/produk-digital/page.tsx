@@ -9,13 +9,21 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const payload = await getPayload({ config: configPromise })
+  let products = { docs: [] } as any;
 
-  const products = await payload.find({
-    collection: 'products',
-    limit: 100,
-    depth: 1,
-  })
+  try {
+    if (process.env.NEXT_PHASE !== 'phase-production-build' || process.env.DATABASE_URI) {
+      const payload = await getPayload({ config: configPromise })
+
+      products = await payload.find({
+        collection: 'products',
+        limit: 100,
+        depth: 1,
+      })
+    }
+  } catch (error) {
+    console.error('Failed to fetch digital products:', error);
+  }
 
   // Extract docs and assert them to the expected Client type implicitly by serializing and destructuring if needed,
   // or pass down via mapping to strip off complex backend payload Types.

@@ -1,6 +1,7 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Provide a dummy API key during build time if it's missing (e.g. Next.js static page collection)
+const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_for_build')
 
 interface BookingDetails {
   service: string

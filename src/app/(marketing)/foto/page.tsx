@@ -9,13 +9,21 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const payload = await getPayload({ config: configPromise })
+  let photos = { docs: [] } as any;
 
-  const photos = await payload.find({
-    collection: 'photos',
-    limit: 100,
-    depth: 1,
-  })
+  try {
+    if (process.env.NEXT_PHASE !== 'phase-production-build' || process.env.DATABASE_URI) {
+      const payload = await getPayload({ config: configPromise })
+
+      photos = await payload.find({
+        collection: 'photos',
+        limit: 100,
+        depth: 1,
+      })
+    }
+  } catch (error) {
+    console.error('Failed to fetch photos:', error);
+  }
 
   const serializedPhotos = (photos.docs as unknown as Array<{
     id: string;

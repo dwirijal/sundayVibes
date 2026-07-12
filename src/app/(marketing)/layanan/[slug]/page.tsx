@@ -14,15 +14,21 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config })
-  const services = await payload.find({
-    collection: 'services',
-    limit: 100,
-  })
+  if (process.env.NEXT_PHASE === 'phase-production-build' && !process.env.DATABASE_URI) return []
+  try {
+    const payload = await getPayload({ config })
+    const services = await payload.find({
+      collection: 'services',
+      limit: 100,
+    })
 
-  return services.docs.map((service) => ({
-    slug: service.slug,
-  }))
+    return services.docs.map((service) => ({
+      slug: service.slug,
+    }))
+  } catch (e) {
+    console.error('generateStaticParams failed (layanan)', e)
+    return []
+  }
 }
 
 export default async function ServicePage({ params }: PageProps) {
