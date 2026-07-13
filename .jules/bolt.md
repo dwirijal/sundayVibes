@@ -1,3 +1,0 @@
-## 2024-05-19 - [Fix Layout Thrashing in `Dock.tsx`]
-**Learning:** Found O(N) forced synchronous layout (layout thrashing) in `Dock.tsx`'s `calculateMagnification` function. In a `requestAnimationFrame` loop on `mousemove`, the code alternated between reading `getBoundingClientRect()` of an element and immediately writing to its inline `style`. This forced the browser to recalculate the layout repeatedly for every element in the dock on every frame!
-**Action:** When animating multiple items together (e.g. mapping over refs), ALWAYS separate DOM reads and writes into two independent loops to maintain 60FPS. Batch all `.getBoundingClientRect()` or `.scrollWidth` readings first, then loop through elements again to write styles via `.style.setProperty()`.
