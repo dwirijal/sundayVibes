@@ -31,3 +31,6 @@ jobs:
         DATABASE_URI: postgresql://dummy:dummy@localhost:5432/dummy?sslmode=disable
         PAYLOAD_SECRET: dummy-secret-for-build-only
         NEXT_PUBLIC_SITE_URL: http://localhost:3000
+        RESEND_API_KEY: dummy-resend-key
+        NEON_AUTH_BASE_URL: http://localhost:3000
+        NEON_AUTH_COOKIE_SECRET: dummy-cookie-secret-for-build-only
