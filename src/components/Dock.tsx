@@ -53,12 +53,16 @@ export function Dock({ items, className, position = 'bottom' }: DockProps) {
       const x = clientX - rect.left;
 
       // ⚡ Bolt: Prevent layout thrashing by batching DOM reads first
-      const scales = items.map((item) => {
-        if (!item) return 1;
+      const scales: number[] = [];
+      items.forEach((item) => {
+        if (!item) {
+          scales.push(1);
+          return;
+        }
         const itemRect = item.getBoundingClientRect();
         const itemCenter = itemRect.left - rect.left + itemRect.width / 2;
         const distance = Math.abs(x - itemCenter);
-        return smoothScale(distance);
+        scales.push(smoothScale(distance));
       });
 
       // ⚡ Bolt: Then perform all DOM writes in a separate loop
