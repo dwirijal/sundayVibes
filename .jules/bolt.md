@@ -1,0 +1,3 @@
+## 2024-11-20 - [Prevent Layout Thrashing in React Components]
+**Learning:** [When animating multiple elements based on layout calculations inside requestAnimationFrame (like mouse interactions), mixing DOM reads (e.g., `getBoundingClientRect`) and DOM writes (e.g., `style.setProperty`) in the same loop causes Layout Thrashing (Forced Synchronous Layout). This forces the browser to recalculate the layout repeatedly and drastically drops frame rates.]
+**Action:** [Batch all DOM reads first into an array or variable, and then perform all DOM writes in a separate loop to ensure the browser only calculates the layout once.]
