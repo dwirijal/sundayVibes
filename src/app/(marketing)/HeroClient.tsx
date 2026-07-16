@@ -105,17 +105,11 @@ export function HeroClient({ homepageGlobal }: HeroClientProps) {
       ticking = true;
 
       requestAnimationFrame(() => {
-        // Batch DOM reads
-        const cardMeasurements = Array.from(cards).map((card) => {
+        cards.forEach((card, i) => {
           const rect = card.getBoundingClientRect();
           const centerX = rect.left + rect.width / 2;
           const centerY = rect.top + rect.height / 2;
-          return { centerX, centerY };
-        });
 
-        // Batch DOM writes
-        cards.forEach((card, i) => {
-          const { centerX, centerY } = cardMeasurements[i];
           const deltaX = (e.clientX - centerX) * 0.02 * (i + 1);
           const deltaY = (e.clientY - centerY) * 0.02 * (i + 1);
 
