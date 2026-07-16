@@ -49,17 +49,23 @@ export function Dock({ items, className, position = 'bottom' }: DockProps) {
 
     const calculateMagnification = (clientX: number) => {
       const items = itemRefs.current;
+
+      // Batch DOM reads
       const rect = container.getBoundingClientRect();
       const x = clientX - rect.left;
 
-      items.forEach((item) => {
-        if (!item) return;
+      const scales = items.map((item) => {
+        if (!item) return 1;
         const itemRect = item.getBoundingClientRect();
         const itemCenter = itemRect.left - rect.left + itemRect.width / 2;
         const distance = Math.abs(x - itemCenter);
-        const scale = smoothScale(distance);
+        return smoothScale(distance);
+      });
 
-        item.style.setProperty('--dock-scale', String(scale));
+      // Batch DOM writes
+      items.forEach((item, i) => {
+        if (!item) return;
+        item.style.setProperty('--dock-scale', String(scales[i]));
       });
     };
 
