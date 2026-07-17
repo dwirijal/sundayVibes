@@ -29,7 +29,7 @@ jobs:
       env:
         # Dummy vars for build checking
         DATABASE_URI: postgresql://dummy:dummy@localhost:5432/dummy?sslmode=disable
-        PAYLOAD_SECRET: dummy-secret-for-build-only
+        PAYLOAD_SECRET: dummy-secret-for-build-only-must-be-at-least-32-chars
         NEXT_PUBLIC_SITE_URL: http://localhost:3000
         RESEND_API_KEY: "re_dummy"
         NEON_AUTH_BASE_URL: "http://localhost:3000"
