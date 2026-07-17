@@ -52,14 +52,20 @@ export function Dock({ items, className, position = 'bottom' }: DockProps) {
       const rect = container.getBoundingClientRect();
       const x = clientX - rect.left;
 
-      items.forEach((item) => {
-        if (!item) return;
+      // Batch DOM reads
+      const scales = items.map((item) => {
+        if (!item) return 1;
         const itemRect = item.getBoundingClientRect();
         const itemCenter = itemRect.left - rect.left + itemRect.width / 2;
         const distance = Math.abs(x - itemCenter);
-        const scale = smoothScale(distance);
+        return smoothScale(distance);
+      });
 
-        item.style.setProperty('--dock-scale', String(scale));
+      // Batch DOM writes
+      items.forEach((item, index) => {
+        if (item) {
+          item.style.setProperty('--dock-scale', String(scales[index]));
+        }
       });
     };
 
