@@ -105,14 +105,21 @@ export function HeroClient({ homepageGlobal }: HeroClientProps) {
       ticking = true;
 
       requestAnimationFrame(() => {
-        cards.forEach((card, i) => {
+        // Phase 1: DOM Reads
+        const calculations = Array.from(cards).map((card, i) => {
           const rect = card.getBoundingClientRect();
           const centerX = rect.left + rect.width / 2;
           const centerY = rect.top + rect.height / 2;
 
-          const deltaX = (e.clientX - centerX) * 0.02 * (i + 1);
-          const deltaY = (e.clientY - centerY) * 0.02 * (i + 1);
+          return {
+            card,
+            deltaX: (e.clientX - centerX) * 0.02 * (i + 1),
+            deltaY: (e.clientY - centerY) * 0.02 * (i + 1),
+          };
+        });
 
+        // Phase 2: DOM Writes (GSAP animations)
+        calculations.forEach(({ card, deltaX, deltaY }) => {
           gsap.to(card, {
             x: deltaX,
             y: deltaY,

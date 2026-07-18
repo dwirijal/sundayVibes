@@ -1,0 +1,3 @@
+## 2024-05-24 - Layout Thrashing in React Ref Layouts
+**Learning:** Interleaving DOM reads (e.g., `getBoundingClientRect()`) and DOM writes (e.g., `style.setProperty()` or `gsap.to()`) within loops, especially inside `requestAnimationFrame` or frequent event handlers (like mouse move), forces the browser to recalculate layout synchronously in each iteration. This is a common performance bottleneck in interactive UI components.
+**Action:** Always batch DOM measurements (reads) into an array or object in a first phase, and apply those measurements (writes) in a distinct, separate second phase. This ensures layout calculation happens only once per frame.
