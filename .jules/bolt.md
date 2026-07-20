@@ -1,0 +1,3 @@
+## 2024-07-20 - Layout Thrashing in Parallax Mouse Animations
+**Learning:** Found layout thrashing in `src/components/Dock.tsx` and `src/app/(marketing)/HeroClient.tsx`. Code was interleaving DOM reads (`getBoundingClientRect()`) with DOM writes (`style.setProperty()` or `gsap.to()`) inside `forEach` loops triggered by `requestAnimationFrame` on `mousemove`. This forces the browser to synchronously recalculate layout on every frame during user interaction, significantly dropping FPS on lower-end devices.
+**Action:** When animating multiple elements on mouse movement or scroll, always batch DOM reads by mapping over elements first, and then run a separate loop for DOM writes.
