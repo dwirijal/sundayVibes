@@ -30,12 +30,12 @@ jobs:
 
       - name: Build application
         env:
-          DATABASE_URI: ${{ secrets.DATABASE_URI }}
-          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
-          RESEND_API_KEY: re_dummy1234567890123456789012345678
-          NEON_AUTH_BASE_URL: http://localhost
-          NEON_AUTH_COOKIE_SECRET: dummysecretdummysecretdummysecretdummysecret
+          DATABASE_URI: ${{ secrets.DATABASE_URI || 'postgresql://dummy:dummy@localhost:5432/dummy?sslmode=disable' }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET || 'dummy-secret-for-build-only-1234567890' }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000' }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY || 're_dummy1234567890123456789012345678' }}
+          NEON_AUTH_BASE_URL: ${{ secrets.NEON_AUTH_BASE_URL || 'http://localhost' }}
+          NEON_AUTH_COOKIE_SECRET: ${{ secrets.NEON_AUTH_COOKIE_SECRET || 'dummysecretdummysecretdummysecretdummysecret' }}
         run: npm run build
 
       - name: Deploy to Vercel (Production)
