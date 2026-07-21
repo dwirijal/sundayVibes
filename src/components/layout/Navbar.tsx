@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,52 +8,67 @@ import { CartIcon } from "./CartIcon";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { useCart } from "@/store/useCart";
+
+function useMounted() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+}
+
+const LAYANAN_ITEMS = [
+  {
+    href: "/layanan/events",
+    title: "Event Organizer",
+    desc: "Penyelenggara acara & dokumentasi",
+  },
+  {
+    href: "/layanan/digital",
+    title: "Digital Product",
+    desc: "Undangan & solusi digital",
+  },
+  {
+    href: "/layanan/design",
+    title: "Design & Web",
+    desc: "Jasa pembuatan website & grafis",
+  },
+  {
+    href: "/layanan/sewa-alat",
+    title: "Sewa Alat",
+    desc: "Rental kamera & perlengkapan",
+  },
+] as const;
+
+const EXPLORE_ITEMS = [
+  { href: "/open-trip/bromo", title: "Open Trip Bromo" },
+  { href: "/foto", title: "Galeri Foto" },
+] as const;
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileLayanan, setMobileLayanan] = useState(false);
+  const [mobileExplore, setMobileExplore] = useState(false);
   const pathname = usePathname();
-  // Orders persisted in browser store (localStorage) until the user logs in.
+
   const hasOrders = useCart((s) => s.items.length > 0);
-  const [mounted, setMounted] = useState(false);
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
   const ctaHref = mounted && hasOrders ? "/login" : "/kontak";
   const ctaLabel = mounted && hasOrders ? "Masuk/Daftar" : "Mulai Project";
 
-  // Close mobile menu when route changes
   useEffect(() => {
-    const timeoutId = setTimeout(() => setIsOpen(false), 0);
-    return () => clearTimeout(timeoutId);
+    Promise.resolve().then(() => setIsOpen(false));
   }, [pathname]);
 
-  // Prevent scrolling when mobile menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [isOpen]);
-
-  // Close mobile menu on Escape
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen]);
-
   return (
-    <header className={cn("fixed top-0 w-full bg-white/95 dark:bg-stone-900/95 supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:dark:bg-stone-900/60 backdrop-blur-xl border-b border-stone-200 dark:border-stone-800 safe-top transition-[z-index] duration-300 print:hidden", isOpen ? "z-[100]" : "z-50")}>
-      <div className="container mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+    <header className="fixed top-0 inset-x-0 w-full z-50 bg-white/95 dark:bg-stone-900/95 backdrop-blur-md border-b border-stone-200 dark:border-stone-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group cursor-pointer z-50" style={{ minHeight: '44px' }}>
-          <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center border border-primary/20 group-hover:scale-105 transition-transform">
+        <Link href="/" className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center border border-primary/20">
             <Image
               src="/assets/logo-black-transparent.webp"
               alt="Sunday Vibes Logo"
@@ -63,105 +78,183 @@ export function Navbar() {
               priority
             />
           </div>
-          <span className="font-bold text-xl tracking-tight text-foreground">Sunday Vibes</span>
+          <span className="font-bold text-xl tracking-tight text-foreground">
+            Sunday Vibes
+          </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-8 font-medium text-sm text-stone-500 dark:text-stone-400">
-          <Link href="/layanan/events" className="nav-link hover:text-primary transition-colors py-3">Event Organizer</Link>
-          <Link href="/layanan/digital" className="nav-link hover:text-primary transition-colors py-3">Digital Product</Link>
-          <Link href="/layanan/sewa-alat" className="nav-link hover:text-primary transition-colors py-3">Sewa Alat</Link>
-          <Link href="/layanan/design" className="nav-link hover:text-primary transition-colors py-3">Design & Web</Link>
-          <Link href="/foto" className="nav-link hover:text-primary transition-colors py-3">Foto</Link>
-          <Link href="/blog" className="nav-link hover:text-primary transition-colors py-3">Blog</Link>
+        {/* Desktop Navigation with 100% Pure CSS Hover Dropdown */}
+        <nav className="hidden lg:flex items-center gap-2 font-medium text-sm text-stone-600 dark:text-stone-300">
+          
+          {/* Layanan Menu */}
+          <div className="relative group py-5">
+            <button
+              type="button"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full group-hover:bg-stone-100 dark:group-hover:bg-stone-800 transition-colors cursor-pointer"
+            >
+              <span>Layanan</span>
+              <ChevronDown className="size-4 opacity-60 group-hover:rotate-180 transition-transform duration-200" />
+            </button>
+
+            {/* Seamless Mega Menu Panel via CSS group-hover */}
+            <div className="absolute top-full left-0 w-[420px] pt-1 z-50 hidden group-hover:block group-focus-within:block animate-in fade-in-50 zoom-in-95 duration-150">
+              <div className="p-3 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-2xl grid grid-cols-2 gap-2">
+                {LAYANAN_ITEMS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="flex flex-col p-3 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+                  >
+                    <span className="text-stone-900 dark:text-stone-100 font-semibold text-sm">
+                      {item.title}
+                    </span>
+                    <span className="text-xs text-stone-500 line-clamp-2 mt-0.5">
+                      {item.desc}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Explore Menu */}
+          <div className="relative group py-5">
+            <button
+              type="button"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full group-hover:bg-stone-100 dark:group-hover:bg-stone-800 transition-colors cursor-pointer"
+            >
+              <span>Explore</span>
+              <ChevronDown className="size-4 opacity-60 group-hover:rotate-180 transition-transform duration-200" />
+            </button>
+
+            <div className="absolute top-full left-0 w-56 pt-1 z-50 hidden group-hover:block group-focus-within:block animate-in fade-in-50 zoom-in-95 duration-150">
+              <div className="p-2 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-2xl flex flex-col gap-1">
+                {EXPLORE_ITEMS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-900 dark:text-stone-100 text-sm font-medium transition-colors"
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <Link
+            href="/blog"
+            className="px-4 py-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+          >
+            Journal
+          </Link>
         </nav>
 
-        {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-4">
+        {/* Desktop CTA */}
+        <div className="hidden lg:flex items-center gap-3">
           <ThemeToggle />
           <CartIcon />
           <Link
-            href={ctaHref}
+            href="/kontrak"
             className={cn(
-              buttonVariants({ variant: "default", size: "lg" }),
-              "rounded-full px-6 bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_8px_30px_-10px_rgba(245,158,11,0.5)] hover:-translate-y-0.5 transition-all duration-300"
+              buttonVariants({ variant: "ghost", size: "sm" }),
+              "text-stone-600 dark:text-stone-300",
             )}
+          >
+            Kontrak
+          </Link>
+          <Link
+            href={ctaHref}
+            className={cn(buttonVariants({ size: "sm" }), "font-semibold")}
           >
             {ctaLabel}
           </Link>
         </div>
 
-        {/* Mobile Cart - hamburger removed, using bottom tab bar instead */}
-        <div className="flex lg:hidden items-center gap-2 sm:gap-4 z-50">
+        {/* Mobile toggle */}
+        <div className="flex lg:hidden items-center gap-2">
+          <ThemeToggle />
           <CartIcon />
           <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full border border-border bg-card shadow-sm hover:bg-muted transition-colors"
-            aria-label={isOpen ? "Tutup menu" : "Buka menu"}
-            aria-expanded={isOpen}
-            aria-controls="mobile-menu"
+            type="button"
+            onClick={() => setIsOpen((v) => !v)}
+            className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+            aria-label="Toggle menu"
           >
-            {isOpen ? (
-              <X className="w-5 h-5 text-foreground" />
-            ) : (
-              <Menu className="w-5 h-5 text-foreground" />
-            )}
+            {isOpen ? <X className="size-6" /> : <Menu className="size-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <div
-        id="mobile-menu"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Menu navigasi mobile"
-        aria-hidden={!isOpen}
-        className={cn(
-          "fixed inset-0 top-16 sm:top-20 z-[60] bg-background lg:hidden transition-all duration-300 ease-in-out flex flex-col",
-          isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
-        )}
-      >
-        <nav className="flex flex-col gap-2 p-6 sm:p-8 text-xl font-bold overflow-y-auto safe-bottom">
-          <button
-            onClick={() => setIsOpen(false)}
-            className="self-end flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full border border-border bg-card shadow-sm hover:bg-muted transition-colors mb-2"
-            aria-label="Tutup menu"
-            tabIndex={isOpen ? 0 : -1}
-          >
-            <X className="w-5 h-5 text-foreground" />
-          </button>
-          <Link href="/layanan/events" className="hover:text-primary transition-colors min-h-[44px] py-2 flex items-center">Event Organizer</Link>
-          <Link href="/layanan/digital" className="hover:text-primary transition-colors min-h-[44px] py-2 flex items-center">Digital Product</Link>
-          <Link href="/layanan/sewa-alat" className="hover:text-primary transition-colors min-h-[44px] py-2 flex items-center">Sewa Alat</Link>
-          <Link href="/layanan/design" className="hover:text-primary transition-colors min-h-[44px] py-2 flex items-center">Design & Web</Link>
-          <Link href="/foto" className="hover:text-primary transition-colors min-h-[44px] py-2 flex items-center">Foto Marketplace</Link>
-          <Link href="/foto/wisuda" className="hover:text-primary transition-colors min-h-[44px] py-2 flex items-center">Promo Foto Wisuda</Link>
-          <Link href="/portfolio" className="hover:text-primary transition-colors min-h-[44px] py-2 flex items-center">Portfolio</Link>
-          <Link href="/blog" className="hover:text-primary transition-colors min-h-[44px] py-2 flex items-center">Blog</Link>
-
-          <div className="h-px w-full bg-border my-2"></div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-muted-foreground">Tema</span>
-            <ThemeToggle />
-          </div>
-
-          <div className="h-px w-full bg-border my-2"></div>
-
-          <div className="mt-4 pb-10 mb-[env(safe-area-inset-bottom)]">
-            <Link
-              href={ctaHref}
-              className={cn(
-                buttonVariants({ variant: "default", size: "lg" }),
-                "w-full rounded-full bg-primary text-primary-foreground text-lg h-14"
-              )}
+      {/* Mobile drawer */}
+      {isOpen && (
+        <div className="lg:hidden bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 px-6 py-6 flex flex-col gap-3 max-h-[80vh] overflow-y-auto">
+          <div>
+            <button
+              type="button"
+              onClick={() => setMobileLayanan((v) => !v)}
+              className="flex items-center justify-between w-full py-2 font-semibold text-lg"
             >
-              {ctaLabel}
-            </Link>
+              <span>Layanan</span>
+              <ChevronDown className={cn("size-5 transition-transform", mobileLayanan && "rotate-180")} />
+            </button>
+            {mobileLayanan && (
+              <div className="pl-4 mt-2 flex flex-col gap-2 border-l-2 border-primary/30">
+                {LAYANAN_ITEMS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="py-1.5 text-stone-600 dark:text-stone-400 font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
-        </nav>
-      </div>
+
+          <div>
+            <button
+              type="button"
+              onClick={() => setMobileExplore((v) => !v)}
+              className="flex items-center justify-between w-full py-2 font-semibold text-lg"
+            >
+              <span>Explore</span>
+              <ChevronDown className={cn("size-5 transition-transform", mobileExplore && "rotate-180")} />
+            </button>
+            {mobileExplore && (
+              <div className="pl-4 mt-2 flex flex-col gap-2 border-l-2 border-primary/30">
+                {EXPLORE_ITEMS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="py-1.5 text-stone-600 dark:text-stone-400 font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link href="/blog" className="py-2 font-semibold text-lg" onClick={() => setIsOpen(false)}>
+            Journal
+          </Link>
+          <Link href="/kontrak" className="py-2 font-semibold text-lg" onClick={() => setIsOpen(false)}>
+            Kontrak
+          </Link>
+
+          <Link
+            href={ctaHref}
+            className={cn(buttonVariants({ size: "lg" }), "mt-4 justify-center font-bold")}
+            onClick={() => setIsOpen(false)}
+          >
+            {ctaLabel}
+          </Link>
+        </div>
+      )}
     </header>
   );
 }

@@ -3,15 +3,100 @@ import { getPayload } from 'payload'
 import config from '../../../../payload.config'
 import { logger } from '@/lib/logger'
 import { sendBookingConfirmation, sendAdminNotification } from '@/lib/email'
+import { rateLimit, getClientIp } from '@/lib/rateLimit'
+
+type BookingBody = {
+  productId?: string | number
+  type?: string
+  license?: string
+  customer?: { email?: string; name?: string; phone?: string }
+  service?: string
+  date?: string
+  notes?: string
+  // amount intentionally ignored — priced server-side
+}
+
+async function resolveAmount(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  body: BookingBody,
+): Promise<{ amount: number; itemName: string; bookingNotes: string; serviceId: string | number | null }> {
+  const { productId, type, license, service, date, notes } = body
+  let itemName = 'General Booking'
+  let bookingNotes = notes || ''
+  let amount = 0
+  let serviceId: string | number | null = null
+
+  if ((type === 'product' || type === 'photo') && productId != null) {
+    const collection = type === 'photo' ? 'photos' : 'products'
+    const product = await payload
+      .findByID({ collection, id: String(productId), overrideAccess: true })
+      .catch(() => null)
+
+    if (!product) {
+      throw Object.assign(new Error('Product not found'), { status: 404 })
+    }
+
+    itemName = product.title || 'Product'
+    if (type === 'photo') {
+      const lic = license === 'extended' ? 'extended' : 'standard'
+      amount =
+        lic === 'extended'
+          ? Number(product.price_extended) || 0
+          : Number(product.price_standard) || 0
+      bookingNotes = `Item: ${itemName}\nType: photo\nLicense: ${lic}`
+    } else {
+      amount = Number(product.price) || 0
+      bookingNotes = `Item: ${itemName}\nType: product\n${license ? `License: ${license}` : ''}`
+    }
+  }
+
+  if (type === 'booking') {
+    bookingNotes = `Service: ${service}\nProject Date: ${date}\n${notes || ''}`
+    // Manual/WA bookings: amount 0 until admin sets it
+    amount = 0
+  }
+
+  const serviceSlugMap: Record<string, string> = {
+    events: 'events',
+    digital: 'digital',
+    'sewa-alat': 'sewa-alat',
+    design: 'design',
+    coding: 'coding',
+    wordpress: 'wordpress',
+    photography: 'photography',
+  }
+  const lookupSlug =
+    type === 'photo' || type === 'product'
+      ? 'photography'
+      : serviceSlugMap[service || ''] || service || 'events'
+
+  const relatedService = await payload.find({
+    collection: 'services',
+    where: { slug: { equals: lookupSlug } },
+    limit: 1,
+    overrideAccess: true,
+  })
+  serviceId = relatedService.docs.length > 0 ? relatedService.docs[0].id : null
+
+  if ((type === 'product' || type === 'photo') && amount <= 0) {
+    throw Object.assign(new Error('Invalid product price'), { status: 400 })
+  }
+
+  return { amount, itemName, bookingNotes, serviceId }
+}
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json()
-    const { productId, type, license, customer, amount, service, date, notes } = body
+    if (!rateLimit(getClientIp(req), 10, 60_000)) {
+      return NextResponse.json(
+        { error: 'Terlalu banyak percobaan. Coba lagi dalam 1 menit.' },
+        { status: 429 },
+      )
+    }
 
-    const payload = await getPayload({ config })
+    const body = (await req.json()) as BookingBody
+    const { productId, type, license, customer, service, date, notes } = body
 
-    // Validate required fields
     if (!customer?.email || !customer?.name) {
       return NextResponse.json(
         { error: 'Customer name and email are required' },
@@ -19,7 +104,9 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Find or create user (override access — public endpoint)
+    const payload = await getPayload({ config })
+
+    // Find or create user (public checkout — override access)
     let userId: string | number
     const existingUsers = await payload.find({
       collection: 'users',
@@ -45,52 +132,17 @@ export async function POST(req: NextRequest) {
       userId = newUser.id
     }
 
-    // Determine product/service info
-    let itemName = 'General Booking'
-    let bookingNotes = notes || ''
-
-    if (type === 'product' || type === 'photo') {
-      // Digital product or photo purchase
-      const collection = type === 'photo' ? 'photos' : 'products'
-      const product = await payload.findByID({
-        collection,
-        id: productId,
-      }).catch(() => null)
-
-      if (product) {
-        itemName = product.title || 'Product'
-        bookingNotes = `Item: ${itemName}\nType: ${type}\n${license ? `License: ${license}` : ''}`
-      }
-    }
-
-    if (type === 'booking') {
-      bookingNotes = `Service: ${service}\nProject Date: ${date}\n${notes || ''}`
-    }
-
-    // Find matching service slug
-    let serviceId: string | number | null = null
-    const serviceSlugMap: Record<string, string> = {
-      events: 'events',
-      digital: 'digital',
-      'sewa-alat': 'sewa-alat',
-      design: 'design',
-      coding: 'coding',
-      wordpress: 'wordpress',
-      photography: 'photography',
-    }
-    const lookupSlug = serviceSlugMap[service] || service || 'events'
-    const relatedService = await payload.find({
-      collection: 'services',
-      where: { slug: { equals: lookupSlug } },
-      limit: 1,
-      overrideAccess: true,
+    const { amount, itemName, bookingNotes, serviceId } = await resolveAmount(payload, {
+      productId,
+      type,
+      license,
+      service,
+      date,
+      notes,
     })
-    serviceId = relatedService.docs.length > 0 ? relatedService.docs[0].id : null
 
-    // Generate order ID
     const orderId = `ORD-${Date.now()}-${crypto.randomUUID().split('-')[0]}`
 
-    // Create booking
     const booking = await payload.create({
       collection: 'bookings',
       data: {
@@ -98,7 +150,7 @@ export async function POST(req: NextRequest) {
         ...(serviceId && { service_type: serviceId }),
         client: userId,
         date: date || new Date().toISOString(),
-        amount: amount || 0,
+        amount,
         notes: bookingNotes,
         status: 'pending',
         payment_status: 'unpaid',
@@ -106,13 +158,12 @@ export async function POST(req: NextRequest) {
       overrideAccess: true,
     })
 
-    // Send notification emails (non-blocking)
     try {
       await sendBookingConfirmation(customer.email, {
         service: itemName,
         date: date || new Date().toISOString(),
         duration: 1,
-        totalPrice: amount || 0,
+        totalPrice: amount,
         customerName: customer.name,
         email: customer.email,
         phone: customer.phone || '',
@@ -121,7 +172,7 @@ export async function POST(req: NextRequest) {
         service: itemName,
         date: date || new Date().toISOString(),
         duration: 1,
-        totalPrice: amount || 0,
+        totalPrice: amount,
         customerName: customer.name,
         email: customer.email,
         phone: customer.phone || '',
@@ -130,12 +181,16 @@ export async function POST(req: NextRequest) {
       logger.error('Email notification failed (non-blocking)', { error: String(emailErr) })
     }
 
-    return NextResponse.json({ booking, order_id: orderId }, { status: 201 })
+    return NextResponse.json({ booking, order_id: orderId, amount }, { status: 201 })
   } catch (error) {
+    const status = (error as { status?: number })?.status
+    if (status === 404 || status === 400) {
+      return NextResponse.json(
+        { error: error instanceof Error ? error.message : 'Bad request' },
+        { status },
+      )
+    }
     logger.error('Booking creation error', { error: String(error) })
-    return NextResponse.json(
-      { error: 'Failed to create booking' },
-      { status: 500 },
-    )
+    return NextResponse.json({ error: 'Failed to create booking' }, { status: 500 })
   }
 }

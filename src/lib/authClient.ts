@@ -2,6 +2,6 @@
 
 import { createAuthClient } from '@neondatabase/auth/next'
 
-// Browser-side Neon Auth client. `signIn.social` triggers the Google popup
-// / redirect configured in the Neon dashboard.
+// ponytail: unused by login UI until Neon→Payload bridge ships.
+// Client dashboard auth is Payload email/password only.
 export const authClient = createAuthClient()

@@ -1,9 +1,16 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, publicRead } from '@/lib/access'
 
 export const Equipment: CollectionConfig = {
   slug: 'equipment',
   admin: {
     useAsTitle: 'name',
+  },
+  access: {
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {
@@ -48,8 +55,8 @@ export const Equipment: CollectionConfig = {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
-        }
-      ]
-    }
+        },
+      ],
+    },
   ],
 }

@@ -1,9 +1,16 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, publicRead } from '@/lib/access'
 
 export const Photos: CollectionConfig = {
   slug: 'photos',
   admin: {
     useAsTitle: 'title',
+  },
+  access: {
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {
@@ -31,8 +38,8 @@ export const Photos: CollectionConfig = {
         {
           name: 'tag',
           type: 'text',
-        }
-      ]
+        },
+      ],
     },
     {
       name: 'price_standard',
@@ -64,6 +71,6 @@ export const Photos: CollectionConfig = {
         { label: 'Square', value: 'square' },
       ],
       defaultValue: 'landscape',
-    }
+    },
   ],
 }

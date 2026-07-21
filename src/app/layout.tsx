@@ -1,18 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Nunito } from "next/font/google";
+import { Nunito, Inter } from "next/font/google";
 import Script from "next/script";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
-const nunito = Nunito({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 async function getOrganizationSchema() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sundayvibes.id";
@@ -67,9 +63,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Sunday Vibes | One-Stop Creative Platform",
-  description: "Platform digital multifungsi di Surabaya yang menyatukan layanan event organizer, sewa alat kamera, pembuatan website/aplikasi, produk digital, dan fotografi profesional.",
-  keywords: ["event organizer surabaya", "sewa kamera surabaya", "sewa drone surabaya", "jasa pembuatan website", "jasa coding", "jasa foto wisuda", "sunday vibes"],
+  title: "Sunday Vibes | Premium Growth & Systems Agency",
+  description: "Mitra strategis digital growth dan systems automation. Kami melayani optimasi konversi, sistem AI bisnis, visual branding, custom Next.js/WordPress development, dan infrastruktur IT.",
+  keywords: ["digital agency surabaya", "growth agency surabaya", "otomatisasi sistem bisnis", "jasa ai chatbot", "jasa seo surabaya", "jasa pembuatan website Next.js", "sunday vibes agency", "event organizer surabaya", "sewa kamera surabaya"],
   authors: [{ name: "Sunday Vibes Team" }],
   creator: "Sunday Vibes",
   publisher: "Sunday Vibes",
@@ -93,8 +89,8 @@ export const metadata: Metadata = {
     apple: "/assets/logo-black-transparent.webp", // Will act as Apple Touch Icon
   },
   openGraph: {
-    title: "Sunday Vibes | One-Stop Creative Platform",
-    description: "Platform digital multifungsi yang menyatukan seluruh layanan kreatif dan teknis dalam satu ekosistem terintegrasi.",
+    title: "Sunday Vibes | Premium Growth & Systems Agency",
+    description: "Mitra strategis optimasi konversi, otomatisasi sistem bisnis berbasis AI, & pengembangan infrastruktur IT modern.",
     url: "/",
     siteName: "Sunday Vibes",
     images: [
@@ -110,8 +106,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sunday Vibes | One-Stop Creative Platform",
-    description: "Layanan kreatif dan teknis (Event, Foto, Web Dev, Sewa Alat) dalam satu ekosistem terintegrasi.",
+    title: "Sunday Vibes | Premium Growth & Systems Agency",
+    description: "Optimasi konversi, sistem AI bisnis, visual branding, custom web dev, & infrastruktur IT dalam satu ekosistem terintegrasi.",
     images: ["/assets/og-default.png"],
   },
   category: "technology",
@@ -124,7 +120,7 @@ export default async function RootLayout({
 }>) {
   const organizationSchema = await getOrganizationSchema();
   return (
-    <html lang="id" className={`${nunito.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="id" className={cn("h-full", "antialiased", "font-sans", inter.variable)} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

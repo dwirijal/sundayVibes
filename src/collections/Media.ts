@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, publicRead } from '@/lib/access'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -29,7 +30,10 @@ export const Media: CollectionConfig = {
     mimeTypes: ['image/*', 'application/pdf', 'application/zip'],
   },
   access: {
-    read: () => true,
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {

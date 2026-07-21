@@ -20,7 +20,9 @@ export const Users: CollectionConfig = {
       }
       return false;
     },
-    create: () => true, // Registration endpoint handles this, or Admins via CMS
+    // Public registration goes through /api/users/register (overrideAccess).
+    // Block unauthenticated REST create spam.
+    create: ({ req: { user } }) => user?.role === 'admin',
     update: ({ req: { user } }) => {
       if (user?.role === 'admin') return true;
       if (user) {

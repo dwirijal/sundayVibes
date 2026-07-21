@@ -7,13 +7,13 @@ export const SEODefaults: GlobalConfig = {
       name: 'defaultMetaTitle',
       type: 'text',
       required: true,
-      defaultValue: 'Sunday Vibes | One-Stop Creative Platform',
+      defaultValue: 'Sunday Vibes | Premium Growth & Systems Agency',
     },
     {
       name: 'defaultMetaDescription',
       type: 'textarea',
       required: true,
-      defaultValue: 'Platform digital multifungsi yang menyatukan seluruh layanan kreatif dan teknis dalam satu ekosistem terintegrasi.',
+      defaultValue: 'Mitra strategis optimasi konversi, otomatisasi sistem bisnis berbasis AI, & pengembangan infrastruktur IT modern.',
     },
     {
       name: 'defaultOgImage',

@@ -13,7 +13,7 @@ export default function HeroContent({ heroHeadline, heroSubheadline }: HeroConte
     <div className="flex flex-col items-start max-w-2xl">
       <div className="hero-badge inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent text-primary border border-primary/20 font-semibold text-sm mb-8">
         <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-        One-stop creative platform
+        Premium Growth & Systems Agency
       </div>
 
       <h1 className="hero-headline text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter text-foreground leading-[1.05] mb-6">
@@ -26,7 +26,7 @@ export default function HeroContent({ heroHeadline, heroSubheadline }: HeroConte
       </h1>
 
       <p className="hero-subheadline text-lg sm:text-xl text-muted-foreground leading-relaxed mb-10">
-        {heroSubheadline || "Dari konsep event hingga foto produk yang siap publish. Sunday Vibes menyatukan seluruh kebutuhan kreatif dan teknis Anda dalam satu ekosistem yang terintegrasi, transparan, dan profesional."}
+        {heroSubheadline || "Mitra pertumbuhan digital strategis dan otomatisasi sistem bisnis. Kami membantu mengoptimalkan konversi funnel Anda, mengintegrasikan sistem AI cerdas, merancang identitas brand premium, serta mengelola infrastruktur IT modern perusahaan Anda secara profesional."}
       </p>
 
       <div className="hero-cta flex flex-col sm:flex-row gap-4 w-full sm:w-auto">

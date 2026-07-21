@@ -13,6 +13,34 @@ gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
+    icon: "🧠",
+    title: "Strategy & Consulting",
+    slug: "/layanan/strategy",
+    description: "Brand Strategy, Digital Growth Audit, Content Strategy Blueprint, & Corong Marketing Funnel.",
+    color: "bg-primary/10 text-primary",
+  },
+  {
+    icon: "📊",
+    title: "Performance & Analytics",
+    slug: "/layanan/performance",
+    description: "Conversion Rate Optimization (CRO), A/B Testing, Heatmaps, dan optimasi kecepatan web.",
+    color: "bg-secondary/10 text-secondary",
+  },
+  {
+    icon: "🤖",
+    title: "AI & Systems Automation",
+    slug: "/layanan/automation",
+    description: "AI Chatbots kustom, AI Sales Assistant, setup CRM, dan digitalisasi workflow SOP.",
+    color: "bg-primary/10 text-primary",
+  },
+  {
+    icon: "📦",
+    title: "Growth Packages",
+    slug: "/layanan/packages",
+    description: "Paket lengkap pertumbuhan bisnis bulanan (Starter, Business, Enterprise Growth Engine).",
+    color: "bg-accent text-primary",
+  },
+  {
     icon: "🎉",
     title: "Event Organizer",
     slug: "/layanan/events",

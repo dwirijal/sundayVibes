@@ -71,7 +71,7 @@ export default function TubanPage() {
               Sunday Vibes <span className="text-primary">Tuban</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              One-stop creative platform untuk kebutuhan event organizer, sewa alat, jasa foto, design, dan pembuatan website di Tuban, Jawa Timur
+              Premium Digital Growth & Systems Agency. Mitra strategis optimasi konversi, otomatisasi sistem bisnis berbasis AI, & pengembangan infrastruktur IT di Tuban, Jawa Timur.
             </p>
           </section>
 

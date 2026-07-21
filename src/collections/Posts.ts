@@ -1,9 +1,16 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, publicRead } from '@/lib/access'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
   admin: {
     useAsTitle: 'title',
+  },
+  access: {
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {
@@ -46,6 +53,6 @@ export const Posts: CollectionConfig = {
         { name: 'metaTitle', type: 'text' },
         { name: 'metaDescription', type: 'textarea' },
       ],
-    }
+    },
   ],
 }

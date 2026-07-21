@@ -1,9 +1,16 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, publicRead } from '@/lib/access'
 
 export const Services: CollectionConfig = {
   slug: 'services',
   admin: {
     useAsTitle: 'title',
+  },
+  access: {
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {
@@ -29,6 +36,10 @@ export const Services: CollectionConfig = {
         { label: 'Sewa Alat', value: 'sewa-alat' },
         { label: 'Design & Web', value: 'design' },
         { label: 'Photography', value: 'photography' },
+        { label: 'Strategy & Consulting', value: 'strategy' },
+        { label: 'Performance & Analytics', value: 'performance' },
+        { label: 'AI & Systems Automation', value: 'automation' },
+        { label: 'Growth Packages', value: 'growth-packages' },
       ],
       required: true,
     },
@@ -58,10 +69,10 @@ export const Services: CollectionConfig = {
             {
               name: 'feature',
               type: 'text',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     },
     {
       name: 'hero_image',
@@ -75,6 +86,6 @@ export const Services: CollectionConfig = {
         { name: 'metaTitle', type: 'text' },
         { name: 'metaDescription', type: 'textarea' },
       ],
-    }
+    },
   ],
 }

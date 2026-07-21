@@ -4,15 +4,18 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Calendar, User, ArrowRight } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function BlogPage() {
   const payload = await getPayload({ config: configPromise })
 
-  const { docs: posts } = await payload.find({
+  const result = await payload.find({
     collection: 'posts',
-    limit: 12,
+    limit: 20,
     depth: 1,
-    sort: '-createdAt',
   })
+  const posts = result.docs
 
   return (
     <div className="min-h-screen bg-background">

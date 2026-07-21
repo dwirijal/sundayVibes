@@ -1,9 +1,16 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, publicRead } from '@/lib/access'
 
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
   admin: {
     useAsTitle: 'client_name',
+  },
+  access: {
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {
@@ -37,6 +44,6 @@ export const Testimonials: CollectionConfig = {
       name: 'service',
       type: 'relationship',
       relationTo: 'services',
-    }
+    },
   ],
 }

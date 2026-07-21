@@ -4,29 +4,29 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Tentang Kami - Sunday Vibes",
-  description: "Sunday Vibes adalah one-stop creative platform di Surabaya yang menyatukan layanan kreatif dan teknis.",
+  description: "Sunday Vibes adalah Premium Digital Growth & Systems Agency yang mendigitalisasi operasional dan mengakselerasi bisnis Anda.",
 };
 
 export default function TentangPage() {
   const values = [
     {
       title: "Good Vibes Only",
-      description: "Pengalaman menyenangkan dari awal hingga akhir.",
+      description: "Pengalaman kolaborasi menyenangkan dari awal hingga akhir.",
       icon: "✨",
     },
     {
       title: "Transparan",
-      description: "Harga & proses yang jelas, real-time tracking.",
+      description: "Logika sistem transparan, breakdown harga jelas, real-time tracking.",
       icon: "👁️",
     },
     {
       title: "Kreatif",
-      description: "Output yang tidak generik, portfolio showcase.",
+      description: "Visual premium non-generik yang dioptimasi untuk konversi.",
       icon: "🎨",
     },
     {
       title: "Andal",
-      description: "Deadline selalu terpenuhi, notifikasi otomatis.",
+      description: "Deadline selalu terpenuhi, didukung backup harian otomatis.",
       icon: "⚡",
     },
   ];
@@ -34,7 +34,7 @@ export default function TentangPage() {
   const stats = [
     { value: "50+", label: "Klien" },
     { value: "100+", label: "Project" },
-    { value: "6", label: "Layanan" },
+    { value: "6+", label: "Divisi Layanan" },
     { value: "4.9★", label: "Rating" },
   ];
 
@@ -45,7 +45,7 @@ export default function TentangPage() {
         <div className="w-20 h-20 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-4xl mx-auto mb-8 animate-bounce">☀️</div>
         <h1 className="text-5xl md:text-6xl font-black mb-6 text-foreground">Tentang Sunday Vibes</h1>
         <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-          One-stop creative platform di Surabaya
+          Premium Digital Growth & Systems Agency
         </p>
       </section>
 
@@ -53,7 +53,7 @@ export default function TentangPage() {
       <section className="container mx-auto px-6 max-w-3xl text-center mb-24">
         <h2 className="text-3xl font-bold text-foreground mb-6">Cerita Kami</h2>
         <p className="text-lg text-muted-foreground leading-relaxed">
-          Sunday Vibes adalah one-stop creative platform di Surabaya yang berdedikasi untuk memberikan solusi kreatif terbaik. Kami menyediakan berbagai layanan terintegrasi mulai dari penyelenggaraan event, pembuatan produk digital, photography, hingga jasa design, coding, dan pengembangan website berbasis WordPress. Kami hadir untuk membantu brand dan bisnis Anda tumbuh serta bersinar di era digital.
+          Sunday Vibes adalah Premium Digital Growth & Systems Agency yang berdedikasi untuk membantu bisnis berakselerasi melalui strategi pertumbuhan berbasis data dan otomatisasi sistem operasional modern. Berawal sebagai kolektif kreatif di Surabaya, kini kami berevolusi menjadi mitra strategis untuk optimasi konversi, otomatisasi sistem AI bisnis, visual branding premium, pengembangan web custom (Next.js/WordPress), dan pengelolaan infrastruktur cloud IT. Kami menyatukan seluruh kebutuhan pertumbuhan dan teknologi Anda dalam satu ekosistem terintegrasi, transparan, dan andal.
         </p>
       </section>
 

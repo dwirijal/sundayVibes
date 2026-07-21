@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { auth } from '@/lib/auth'
 
-// Neon auth middleware instance (protects /dashboard with a Neon session).
-const neonGuard = auth.middleware({ loginUrl: '/login' })
-
+// Client dashboard uses Payload session cookie (payload-token).
+// Neon Auth remains available under /api/auth for a future OAuth bridge —
+// it must NOT gate /dashboard until sessions are linked to Payload users.
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
@@ -36,9 +35,14 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // Client dashboard → Neon Auth session (Google/magic/phone).
+  // Client dashboard → Payload cookie (layout re-validates via payload.auth).
   if (pathname.startsWith('/dashboard')) {
-    return neonGuard(request)
+    const token = request.cookies.get('payload-token')?.value
+    if (!token) {
+      const login = new URL('/login', request.url)
+      login.searchParams.set('redirect', pathname)
+      return NextResponse.redirect(login)
+    }
   }
 
   return NextResponse.next()

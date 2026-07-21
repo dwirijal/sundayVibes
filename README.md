@@ -79,7 +79,7 @@ docker-compose up -d
 npm run seed:admin
 ```
 
-Creates admin user: `admin@sundayvibes.id` / `admin123`
+Creates admin from `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` (min 12 chars in `.env`). No default password.
 
 ## Development
 

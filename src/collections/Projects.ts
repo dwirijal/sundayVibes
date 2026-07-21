@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, publicRead } from '@/lib/access'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
@@ -6,34 +7,11 @@ export const Projects: CollectionConfig = {
     useAsTitle: 'title',
   },
   access: {
-    read: ({ req: { user } }) => {
-      // Admins can see all projects
-      if (user?.role === 'admin') {
-        return true
-      }
-      // Clients can only see their own projects
-      if (user) {
-        return {
-          client: {
-            equals: user.id,
-          },
-        }
-      }
-      // Not authenticated - no access
-      return false
-    },
-    create: ({ req: { user } }) => {
-      // Only authenticated users can create projects
-      return !!user
-    },
-    update: ({ req: { user } }) => {
-      // Only admins can update projects
-      return user?.role === 'admin'
-    },
-    delete: ({ req: { user } }) => {
-      // Only admins can delete projects
-      return user?.role === 'admin'
-    },
+    // Portfolio is public. Dashboard scopes via query (client equals user.id).
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {
@@ -57,8 +35,10 @@ export const Projects: CollectionConfig = {
       hasMany: false,
     },
     {
+      // relationship so access filter client == user.id works
       name: 'client',
-      type: 'text',
+      type: 'relationship',
+      relationTo: 'users',
     },
     {
       name: 'tags',
@@ -67,8 +47,8 @@ export const Projects: CollectionConfig = {
         {
           name: 'tag',
           type: 'text',
-        }
-      ]
+        },
+      ],
     },
     {
       name: 'thumbnail',
@@ -83,8 +63,8 @@ export const Projects: CollectionConfig = {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
-        }
-      ]
+        },
+      ],
     },
     {
       name: 'description',
@@ -97,12 +77,12 @@ export const Projects: CollectionConfig = {
         {
           name: 'tech',
           type: 'text',
-        }
-      ]
+        },
+      ],
     },
     {
       name: 'result',
       type: 'richText',
-    }
+    },
   ],
 }

@@ -1,9 +1,16 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, publicRead } from '@/lib/access'
 
 export const Products: CollectionConfig = {
   slug: 'products',
   admin: {
     useAsTitle: 'title',
+  },
+  access: {
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {
@@ -55,6 +62,6 @@ export const Products: CollectionConfig = {
         { label: 'Extended', value: 'extended' },
       ],
       defaultValue: 'personal',
-    }
+    },
   ],
 }

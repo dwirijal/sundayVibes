@@ -32,11 +32,12 @@ export async function POST(req: NextRequest) {
 
     const payload = await getPayload({ config })
 
-    // Check if user already exists
+    // Check if user already exists (Users.read is not public)
     const existingUser = await payload.find({
       collection: 'users',
       where: { email: { equals: email } },
       limit: 1,
+      overrideAccess: true,
     })
 
     if (existingUser.docs.length > 0) {
@@ -47,6 +48,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create new user — role forced to 'client', never from request body.
+    // overrideAccess: Users.create is admin-only on REST; this is the public path.
     const user = await payload.create({
       collection: 'users',
       data: {
@@ -56,6 +58,7 @@ export async function POST(req: NextRequest) {
         password,
         role: 'client',
       },
+      overrideAccess: true,
     })
 
     return NextResponse.json({ user }, { status: 201 })

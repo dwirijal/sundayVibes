@@ -19,7 +19,7 @@ export function Footer() {
               <span className="font-bold text-xl tracking-tight text-foreground">Sunday Vibes</span>
             </Link>
             <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed">
-              One-stop creative platform. Menyatukan seluruh kebutuhan kreatif dan teknis Anda dalam satu ekosistem yang terintegrasi.
+              Premium Digital Growth & Systems Agency. Mitra strategis optimasi konversi, otomatisasi sistem bisnis berbasis AI, & pengembangan infrastruktur IT modern.
             </p>
           </div>
 

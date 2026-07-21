@@ -1,0 +1,132 @@
+import type { Metadata } from "next";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { PricingCard } from "@/components/PricingCard";
+import { ServiceSchema } from "@/components/seo/ServiceSchema";
+import { BreadcrumbSchema } from "@/components/seo/BreadcrumbSchema";
+
+export const metadata: Metadata = {
+  title: "Brand Strategy & Consulting - Sunday Vibes",
+  description: "Desain strategi pertumbuhan bisnis berbasis data. Brand strategy, digital growth audit, content blueprint, & competitor analysis.",
+};
+
+export default function StrategyPage() {
+  const packages = [
+    {
+      name: "Digital Growth Audit",
+      price: "Rp 1.500.000",
+      description: "Deep audit untuk menganalisis celah konversi, performa SEO, dan analisis taktis kompetitor.",
+      features: [
+        "Analisis Celah Konversi",
+        "SEO & Speed Performance Check",
+        "Social Media Audit",
+        "Competitor Benchmarking",
+        "Laporan Rekomendasi Aksi",
+        "1 Sesi Zoom Presentasi (60 Menit)"
+      ],
+    },
+    {
+      name: "Content Strategy Blueprint",
+      price: "Rp 2.500.000",
+      description: "Blueprint konten komprehensif untuk mendominasi media sosial dalam 30-90 hari.",
+      features: [
+        "Riset Keyword & Tren Industri",
+        "Content Pillars & Visual Guide",
+        "Kalender Konten 30 Hari",
+        "Hook & Storytelling Mapping",
+        "Panduan Caption & Hashtag",
+        "1x Sesi Brainstorming Tim"
+      ],
+      isPopular: true,
+    },
+    {
+      name: "Brand & Funnel Design",
+      price: "Rp 4.000.000",
+      description: "Rancangan visual positioning brand dan corong pemasaran (Marketing Funnel TOFU-MOFU-BOFU).",
+      features: [
+        "Brand Identity Workshop",
+        "Market Positioning Strategy",
+        "Customer Persona Mapping",
+        "Funnel TOFU-MOFU-BOFU Blueprint",
+        "Visual Moodboard Direction",
+        "Unlimited Konsultasi 1 Bulan"
+      ],
+    },
+  ];
+
+  const servicesList = [
+    { icon: "🧠", name: "Brand Strategy" },
+    { icon: "📈", name: "Growth Audit" },
+    { icon: "📅", name: "Content Blueprint" },
+    { icon: "🕵️", name: "Competitor Analysis" },
+    { icon: "🌪️", name: "Marketing Funnel" },
+    { icon: "🗺️", name: "Growth Roadmap" },
+  ];
+
+  return (
+    <main className="min-h-screen pt-32 pb-24 bg-background">
+      <ServiceSchema name="Strategy & Consulting" description="Desain strategi pertumbuhan bisnis berbasis data. Brand strategy, digital growth audit, content blueprint, & competitor analysis." provider="Sunday Vibes" areaServed={["Surabaya", "Tuban"]} priceRange="Mulai Rp 1.500.000" />
+      <BreadcrumbSchema items={[{ name: "Beranda", url: "/" }, { name: "Layanan", url: "/layanan" }, { name: "Strategy & Consulting", url: "/layanan/strategy" }]} />
+      
+      <section className="container mx-auto px-6 max-w-4xl text-center mb-16">
+        <div className="w-20 h-20 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-4xl mx-auto mb-8 animate-pulse">🧠</div>
+        <h1 className="text-5xl md:text-6xl font-black mb-6 text-foreground">Strategy & Consulting Layer</h1>
+        <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+          Sebelum mengeksekusi visual, kami merancang strategi bisnis untuk memastikan investasi pemasaran Anda menghasilkan ROI maksimal.
+        </p>
+      </section>
+
+      <section className="container mx-auto px-6 mb-16">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold text-center text-foreground mb-8">Pilar Strategi Kami</h2>
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+            {servicesList.map((service) => (
+              <div key={service.name} className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-muted/50 border border-border">
+                <span className="text-3xl">{service.icon}</span>
+                <span className="text-xs font-medium text-foreground text-center">{service.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="container mx-auto px-6 mb-24">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-foreground mb-4">Pilihan Paket Strategi</h2>
+          <p className="text-muted-foreground">Pilih akselerator pertumbuhan yang paling sesuai untuk bisnis Anda.</p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {packages.map((pkg) => (
+            <PricingCard
+              key={pkg.name}
+              name={pkg.name}
+              description={pkg.description}
+              price={pkg.price}
+              features={pkg.features}
+              highlighted={pkg.isPopular}
+              badge={pkg.isPopular ? "Rekomendasi" : undefined}
+              checkColor="text-primary"
+            >
+              <Button size="lg" variant={pkg.isPopular ? "default" : "outline"} className={`w-full rounded-full ${pkg.isPopular ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'border-2'}`}>
+                <Link href={`/booking?service=strategy&package=${pkg.name}`}>Pilih Paket</Link>
+              </Button>
+            </PricingCard>
+          ))}
+        </div>
+      </section>
+
+      <section className="container mx-auto px-6">
+        <div className="max-w-4xl mx-auto bg-card border border-border shadow-sm rounded-[2.5rem] p-12 text-center text-foreground">
+          <h2 className="text-3xl md:text-4xl font-black mb-6">Konsultasikan Strategi Bisnis Anda</h2>
+          <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
+            Diskusikan model bisnis, funnel konversi, dan pilar konten strategis Anda bersama konsultan growth kami secara gratis.
+          </p>
+          <Button size="lg" className="rounded-full px-8 bg-primary text-primary-foreground hover:bg-primary/90 h-14 text-lg">
+            <Link href="/booking?service=strategy">Konsultasi Sekarang</Link>
+          </Button>
+        </div>
+      </section>
+    </main>
+  );
+}

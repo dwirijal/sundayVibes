@@ -10,25 +10,20 @@ import { HeroClient } from "./HeroClient";
 import { ServicesClient } from "./ServicesClient";
 
 export const metadata: Metadata = {
-  title: "Sunday Vibes - One-stop Creative Platform Surabaya & Tuban",
-  description: "Platform digital kreatif & layanan dokumentasi di Surabaya dan Tuban. Event organizer, produk digital, sewa alat, design, coding, WordPress, dan foto profesional.",
+  title: "Sunday Vibes | Premium Digital Growth & Systems Agency",
+  description: "Mitra pertumbuhan digital strategis dan otomatisasi sistem bisnis. Melayani optimasi konversi, AI chatbot integration, visual branding, custom Next.js/WordPress development, dan cloud IT infrastructure.",
   keywords: [
-    "event organizer",
-    "event organizer Surabaya",
-    "event organizer Tuban",
-    "sewa kamera Surabaya",
-    "sewa kamera Tuban",
-    "jasa foto wisuda",
-    "jasa design grafis",
-    "pembuatan website",
-    "digital product",
-    "sewa alat",
-    "design",
-    "coding",
-    "wordpress",
-    "foto",
-    "surabaya",
-    "tuban"
+    "digital growth agency",
+    "systems automation agency",
+    "business automation",
+    "ai chatbot bisnis",
+    "conversion rate optimization",
+    "jasa seo surabaya",
+    "jasa pembuat website",
+    "custom web app",
+    "event organizer surabaya",
+    "sewa kamera surabaya",
+    "sunday vibes agency"
   ],
 };
 

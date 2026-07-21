@@ -1,0 +1,46 @@
+site_name: Sunday Vibes Blog
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: black
+    accent: deep orange
+plugins:
+  - search
+  - tags
+
+nav:
+  - Home: index.md
+  - Silabus Fotografi:
+    - Kurikulum Utama: silabus-fotografi/index.md
+    - Level 0 - Fondasi Visual: silabus-fotografi/level-0-fondasi-visual.md
+    - Level 1 - Mengenal Kamera: silabus-fotografi/level-1-mengenal-kamera.md
+    - Level 2 - Exposure Mastery: silabus-fotografi/level-2-exposure-mastery.md
+    - Level 3 - Fokus & Teknik: silabus-fotografi/level-3-fokus-teknik.md
+    - Level 4 - Komposisi Visual: silabus-fotografi/level-4-komposisi.md
+    - Level 5 - Tata Cahaya: silabus-fotografi/level-5-lighting.md
+    - Level 6 - Edit Foto & Warna: silabus-fotografi/level-6-color-editing.md
+    - Level 12 - Bisnis Pro: silabus-fotografi/level-12-workflow-professional.md
+  - Market:
+    - Crypto: market/crypto.md
+    - AI: market/ai.md
+    - Finance: market/finance.md
+    - Research: market/research.md
+  - Stories:
+    - Articles: stories/articles.md
+    - Videos: stories/videos.md
+    - Podcast: stories/podcast.md
+    - Interviews: stories/interviews.md
+  - Visual:
+    - Charts: visual/charts.md
+    - Infographics: visual/infographics.md
+    - Data Explorer: visual/data-explorer.md
+  - Tools:
+    - Calculator: tools/calculator.md
+    - Simulator: tools/simulator.md
+    - Dashboard: tools/dashboard.md
+  - Community:
+    - Discussion: community/discussion.md
+    - Creator: community/creator.md
+    - Newsletter: community/newsletter.md
+
