@@ -1,6 +1,15 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy client — Resend constructor throws without a key, which breaks
+// `next build` when RESEND_API_KEY is unset (CI / local without secrets).
+let resend: Resend | null = null
+
+function getResend(): Resend | null {
+  const key = process.env.RESEND_API_KEY
+  if (!key) return null
+  if (!resend) resend = new Resend(key)
+  return resend
+}
 
 interface BookingDetails {
   service: string
@@ -13,8 +22,14 @@ interface BookingDetails {
 }
 
 async function sendEmail(to: string, subject: string, html: string) {
+  const client = getResend()
+  if (!client) {
+    console.warn('RESEND_API_KEY not set — skipping email')
+    return { success: false, error: 'RESEND_API_KEY not configured' }
+  }
+
   try {
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await client.emails.send({
       from: 'Sunday Vibes <noreply@sundayvibes.com>',
       to,
       subject,

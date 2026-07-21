@@ -29,5 +29,8 @@ jobs:
       env:
         # Dummy vars for build checking
         DATABASE_URI: postgresql://dummy:dummy@localhost:5432/dummy?sslmode=disable
-        PAYLOAD_SECRET: dummy-secret-for-build-only
+        # payload.config requires >= 32 chars
+        PAYLOAD_SECRET: dummy-secret-for-build-only-32chars!!
         NEXT_PUBLIC_SITE_URL: http://localhost:3000
+        # optional — email/auth lazy-init if missing
+        RESEND_API_KEY: ""
