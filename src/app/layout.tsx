@@ -10,8 +10,18 @@ import { cn } from "@/lib/utils";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
+function siteUrl(): string {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim()
+  if (!raw) return 'https://sundayvibes.id'
+  try {
+    return new URL(raw).origin
+  } catch {
+    return 'https://sundayvibes.id'
+  }
+}
+
 async function getOrganizationSchema() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sundayvibes.id";
+  const baseUrl = siteUrl();
   type Loose = Record<string, unknown> | undefined;
   let contact: Loose;
   let site: Loose;
@@ -75,7 +85,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://sundayvibes.id'),
+  metadataBase: new URL(siteUrl()),
   alternates: {
     canonical: '/',
   },
