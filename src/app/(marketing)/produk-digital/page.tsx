@@ -9,13 +9,17 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const payload = await getPayload({ config: configPromise })
-
-  const products = await payload.find({
-    collection: 'products',
-    limit: 100,
-    depth: 1,
-  })
+  let products: { docs: unknown[] } = { docs: [] }
+  try {
+    const payload = await getPayload({ config: configPromise })
+    products = await payload.find({
+      collection: 'products',
+      limit: 100,
+      depth: 1,
+    })
+  } catch {
+    /* offline / schema mismatch at build */
+  }
 
   // Extract docs and assert them to the expected Client type implicitly by serializing and destructuring if needed,
   // or pass down via mapping to strip off complex backend payload Types.

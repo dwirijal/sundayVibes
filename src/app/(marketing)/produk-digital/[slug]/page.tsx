@@ -11,12 +11,16 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const products = await payload.find({
-    collection: 'products',
-    limit: 100,
-  })
-  return products.docs.map((p) => ({ slug: p.slug }))
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const products = await payload.find({
+      collection: 'products',
+      limit: 100,
+    })
+    return products.docs.map((p) => ({ slug: p.slug }))
+  } catch {
+    return []
+  }
 }
 
 export default async function ProductDetailPage({ params }: PageProps) {

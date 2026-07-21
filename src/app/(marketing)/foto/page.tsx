@@ -9,13 +9,17 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const payload = await getPayload({ config: configPromise })
-
-  const photos = await payload.find({
-    collection: 'photos',
-    limit: 100,
-    depth: 1,
-  })
+  let photos: { docs: unknown[] } = { docs: [] }
+  try {
+    const payload = await getPayload({ config: configPromise })
+    photos = await payload.find({
+      collection: 'photos',
+      limit: 100,
+      depth: 1,
+    })
+  } catch {
+    /* offline / schema mismatch at build */
+  }
 
   const serializedPhotos = (photos.docs as unknown as Array<{
     id: string;

@@ -10,14 +10,18 @@ export const metadata: Metadata = {
 };
 
 export default async function PortfolioPage() {
-  const payload = await getPayload({ config: configPromise })
-
-  const projects = await payload.find({
-    collection: 'projects',
-    limit: 12,
-    depth: 1,
-    sort: '-createdAt',
-  })
+  let projects: { docs: unknown[] } = { docs: [] }
+  try {
+    const payload = await getPayload({ config: configPromise })
+    projects = await payload.find({
+      collection: 'projects',
+      limit: 12,
+      depth: 1,
+      sort: '-createdAt',
+    })
+  } catch {
+    /* offline / schema mismatch at build */
+  }
 
   const tiktoks = [
     { url: "https://www.tiktok.com/@sundayvibes._/video/7648357287551192341", id: "7648357287551192341" },

@@ -9,13 +9,17 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const payload = await getPayload({ config: configPromise })
-
-  const equipment = await payload.find({
-    collection: 'equipment',
-    limit: 100,
-    depth: 1,
-  })
+  let equipment: { docs: unknown[] } = { docs: [] }
+  try {
+    const payload = await getPayload({ config: configPromise })
+    equipment = await payload.find({
+      collection: 'equipment',
+      limit: 100,
+      depth: 1,
+    })
+  } catch {
+    /* offline / schema mismatch at build */
+  }
 
   const serializedEquipment = (equipment.docs as unknown as Array<{
     id: string;

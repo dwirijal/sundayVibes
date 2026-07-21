@@ -24,15 +24,16 @@ async function getPost(slug: string) {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const { docs: posts } = await payload.find({
-    collection: 'posts',
-    limit: 100,
-  })
-
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const { docs: posts } = await payload.find({
+      collection: 'posts',
+      limit: 100,
+    })
+    return posts.map((post) => ({ slug: post.slug }))
+  } catch {
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

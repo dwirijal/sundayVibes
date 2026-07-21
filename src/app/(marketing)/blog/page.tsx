@@ -7,15 +7,29 @@ import { Calendar, User, ArrowRight } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-export default async function BlogPage() {
-  const payload = await getPayload({ config: configPromise })
+type BlogPost = {
+  id: string | number
+  slug: string
+  title: string
+  category?: string | null
+  createdAt: string
+  thumbnail?: { url?: string | null; alt?: string | null } | null
+  author?: { name?: string | null } | string | null
+}
 
-  const result = await payload.find({
-    collection: 'posts',
-    limit: 20,
-    depth: 1,
-  })
-  const posts = result.docs
+export default async function BlogPage() {
+  let posts: BlogPost[] = []
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'posts',
+      limit: 20,
+      depth: 1,
+    })
+    posts = result.docs as unknown as BlogPost[]
+  } catch {
+    /* offline / schema mismatch at build */
+  }
 
   return (
     <div className="min-h-screen bg-background">

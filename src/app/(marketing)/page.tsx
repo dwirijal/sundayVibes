@@ -28,8 +28,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const payload = await getPayload({ config: configPromise });
-
   // Minimal shapes for just the fields consumed here (payload-types.ts is not
   // generated locally — these avoid `any` without pretending full schema knowledge).
   interface ServiceDoc {
@@ -55,23 +53,31 @@ export default async function Home() {
     [key: string]: unknown;
   }
 
-  // Parallelize independent queries (was sequential: services → testimonials → global)
-  const [servicesResult, testimonialsResult, homepageGlobal] = await Promise.all([
-    payload.find({
-      collection: "services",
-      sort: "createdAt",
-      limit: 6,
-      depth: 1,
-    }),
-    payload.find({
-      collection: "testimonials",
-      limit: 10,
-      depth: 1,
-    }) as unknown as Promise<FindResult<TestimonialDoc>>,
-    payload.findGlobal({ slug: "homepage" }) as unknown as Promise<HomepageGlobal>,
-  ]);
+  let servicesResult: FindResult<ServiceDoc> = { docs: [] }
+  let testimonialsResult: FindResult<TestimonialDoc> = { docs: [] }
+  let homepageGlobal: HomepageGlobal = {}
+  try {
+    const payload = await getPayload({ config: configPromise });
+    // Parallelize independent queries (was sequential: services → testimonials → global)
+    ;[servicesResult, testimonialsResult, homepageGlobal] = await Promise.all([
+      payload.find({
+        collection: "services",
+        sort: "createdAt",
+        limit: 6,
+        depth: 1,
+      }) as unknown as Promise<FindResult<ServiceDoc>>,
+      payload.find({
+        collection: "testimonials",
+        limit: 10,
+        depth: 1,
+      }) as unknown as Promise<FindResult<TestimonialDoc>>,
+      payload.findGlobal({ slug: "homepage" }) as unknown as Promise<HomepageGlobal>,
+    ]);
+  } catch {
+    // CI / offline build without DB — render empty marketing shell.
+  }
 
-  const services = (servicesResult as unknown as FindResult<ServiceDoc>).docs.map((doc) => ({
+  const services = servicesResult.docs.map((doc) => ({
     id: doc.id,
     title: doc.title,
     slug: doc.slug,

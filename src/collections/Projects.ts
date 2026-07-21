@@ -7,7 +7,7 @@ export const Projects: CollectionConfig = {
     useAsTitle: 'title',
   },
   access: {
-    // Portfolio is public. Dashboard scopes via query (client equals user.id).
+    // Portfolio is public. Dashboard scopes via query when client stores user id string.
     read: publicRead,
     create: adminOnly,
     update: adminOnly,
@@ -35,10 +35,9 @@ export const Projects: CollectionConfig = {
       hasMany: false,
     },
     {
-      // relationship so access filter client == user.id works
+      // ponytail: text matches existing DB column; relationship→users after data migration
       name: 'client',
-      type: 'relationship',
-      relationTo: 'users',
+      type: 'text',
     },
     {
       name: 'tags',
