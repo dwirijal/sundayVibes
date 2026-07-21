@@ -27,8 +27,13 @@ async function getOrganizationSchema() {
   let site: Loose;
   try {
     const payload = await getPayload({ config: configPromise });
-    contact = (await payload.findGlobal({ slug: "contact-info" })) as Loose;
-    site = (await payload.findGlobal({ slug: "site-config" })) as Loose;
+    // ⚡ Bolt: Fetch global settings concurrently to improve TTFB
+    const [contactData, siteData] = await Promise.all([
+      payload.findGlobal({ slug: "contact-info" }),
+      payload.findGlobal({ slug: "site-config" })
+    ]);
+    contact = contactData as Loose;
+    site = siteData as Loose;
   } catch {
     // Globals may be empty in a fresh DB — emit minimal schema.
     contact = undefined;

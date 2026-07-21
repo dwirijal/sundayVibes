@@ -13,25 +13,25 @@ export default async function DashboardPage() {
     return null
   }
 
-  // Fetch user's bookings
-  const bookings = await payload.find({
-    collection: 'bookings',
-    where: {
-      client: { equals: user.id },
-    },
-    limit: 100,
-    depth: 1,
-  })
-
-  // Fetch user's projects
-  const projects = await payload.find({
-    collection: 'projects',
-    where: {
-      client: { equals: user.id },
-    },
-    limit: 100,
-    depth: 1,
-  })
+  // ⚡ Bolt: Fetch bookings and projects concurrently to reduce dashboard load time
+  const [bookings, projects] = await Promise.all([
+    payload.find({
+      collection: 'bookings',
+      where: {
+        client: { equals: user.id },
+      },
+      limit: 100,
+      depth: 1,
+    }),
+    payload.find({
+      collection: 'projects',
+      where: {
+        client: { equals: user.id },
+      },
+      limit: 100,
+      depth: 1,
+    })
+  ])
 
   // Calculate stats
   const totalBookings = bookings.docs.length

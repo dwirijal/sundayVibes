@@ -1,0 +1,3 @@
+## 2025-02-18 - Concurrent Payload CMS Queries and Payload Size Reduction
+**Learning:** Sequential Payload CMS queries (e.g. fetching globals or unrelated collections) cause unnecessary TTFB blocking. Additionally, fetching large collections without `depth: 0` and `select` results in significant unnecessary data transfer and processing overhead.
+**Action:** Always use `Promise.all` for independent `payload.find` or `payload.findGlobal` calls. Always use `depth: 0` and `select` when fetching collections if only a subset of fields (like `slug`) are required, especially for dynamic routes or sitemaps.
