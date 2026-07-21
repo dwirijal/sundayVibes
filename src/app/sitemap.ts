@@ -113,7 +113,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       if (post.slug) {
         sitemapData.push({
           url: `${baseUrl}/blog/${post.slug}`,
-          lastModified: new Date(post.updatedAt || post.createdAt),
+          lastModified: new Date((post.updatedAt || post.createdAt) as string),
           changeFrequency: 'weekly',
           priority: 0.6,
         })
@@ -128,7 +128,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       if (project.slug) {
         sitemapData.push({
           url: `${baseUrl}/portfolio/${project.slug}`,
-          lastModified: new Date(project.updatedAt || project.createdAt),
+          lastModified: new Date((project.updatedAt || project.createdAt) as string),
           changeFrequency: 'monthly',
           priority: 0.7,
         })
@@ -143,7 +143,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       if (photo.slug) {
         sitemapData.push({
           url: `${baseUrl}/foto/${photo.slug}`,
-          lastModified: new Date(photo.updatedAt || photo.createdAt),
+          lastModified: new Date((photo.updatedAt || photo.createdAt) as string),
           changeFrequency: 'monthly',
           priority: 0.6,
         })
@@ -158,7 +158,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       if (product.slug) {
         sitemapData.push({
           url: `${baseUrl}/produk-digital/${product.slug}`,
-          lastModified: new Date(product.updatedAt || product.createdAt),
+          lastModified: new Date((product.updatedAt || product.createdAt) as string),
           changeFrequency: 'monthly',
           priority: 0.7,
         })
