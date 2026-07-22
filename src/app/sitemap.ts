@@ -90,80 +90,91 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   if (!payload) return sitemapData
 
-  // Add dynamic blog posts
-  try {
-    const posts = await payload.find({
+  // Execute independent queries concurrently using Promise.allSettled for fault tolerance.
+  // We use depth: 0 and select only the fields needed for the sitemap to reduce payload size.
+  const selectQuery = { slug: true, updatedAt: true, createdAt: true } as const;
+
+  const results = await Promise.allSettled([
+    payload.find({
       collection: 'posts',
       limit: 100,
-    })
+      depth: 0,
+      select: selectQuery,
+    }),
+    payload.find({
+      collection: 'projects',
+      limit: 100,
+      depth: 0,
+      select: selectQuery,
+    }),
+    payload.find({
+      collection: 'photos',
+      limit: 500,
+      depth: 0,
+      select: selectQuery,
+    }),
+    payload.find({
+      collection: 'products',
+      limit: 100,
+      depth: 0,
+      select: selectQuery,
+    }),
+  ]);
 
-    posts.docs.forEach((post) => {
+  // Handle Posts
+  if (results[0].status === 'fulfilled') {
+    results[0].value.docs.forEach((post) => {
       sitemapData.push({
         url: `${baseUrl}/blog/${post.slug}`,
-        lastModified: new Date(post.updatedAt || post.createdAt),
+        lastModified: new Date((post.updatedAt || post.createdAt) as string | number | Date),
         changeFrequency: 'weekly',
         priority: 0.6,
       })
     })
-  } catch (error) {
-    console.error('Failed to fetch posts for sitemap:', error)
+  } else {
+    console.error('Failed to fetch posts for sitemap:', results[0].reason)
   }
 
-  // Add dynamic projects
-  try {
-    const projects = await payload.find({
-      collection: 'projects',
-      limit: 100,
-    })
-
-    projects.docs.forEach((project) => {
+  // Handle Projects
+  if (results[1].status === 'fulfilled') {
+    results[1].value.docs.forEach((project) => {
       sitemapData.push({
         url: `${baseUrl}/portfolio/${project.slug}`,
-        lastModified: new Date(project.updatedAt || project.createdAt),
+        lastModified: new Date((project.updatedAt || project.createdAt) as string | number | Date),
         changeFrequency: 'monthly',
         priority: 0.7,
       })
     })
-  } catch (error) {
-    console.error('Failed to fetch projects for sitemap:', error)
+  } else {
+    console.error('Failed to fetch projects for sitemap:', results[1].reason)
   }
 
-  // Add dynamic photos
-  try {
-    const photos = await payload.find({
-      collection: 'photos',
-      limit: 500,
-    })
-
-    photos.docs.forEach((photo) => {
+  // Handle Photos
+  if (results[2].status === 'fulfilled') {
+    results[2].value.docs.forEach((photo) => {
       sitemapData.push({
         url: `${baseUrl}/foto/${photo.slug}`,
-        lastModified: new Date(photo.updatedAt || photo.createdAt),
+        lastModified: new Date((photo.updatedAt || photo.createdAt) as string | number | Date),
         changeFrequency: 'monthly',
         priority: 0.6,
       })
     })
-  } catch (error) {
-    console.error('Failed to fetch photos for sitemap:', error)
+  } else {
+    console.error('Failed to fetch photos for sitemap:', results[2].reason)
   }
 
-  // Add dynamic digital products
-  try {
-    const products = await payload.find({
-      collection: 'products',
-      limit: 100,
-    })
-
-    products.docs.forEach((product) => {
+  // Handle Digital Products
+  if (results[3].status === 'fulfilled') {
+    results[3].value.docs.forEach((product) => {
       sitemapData.push({
         url: `${baseUrl}/produk-digital/${product.slug}`,
-        lastModified: new Date(product.updatedAt || product.createdAt),
+        lastModified: new Date((product.updatedAt || product.createdAt) as string | number | Date),
         changeFrequency: 'monthly',
         priority: 0.7,
       })
     })
-  } catch (error) {
-    console.error('Failed to fetch products for sitemap:', error)
+  } else {
+    console.error('Failed to fetch products for sitemap:', results[3].reason)
   }
 
   return sitemapData
