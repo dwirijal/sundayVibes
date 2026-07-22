@@ -1,0 +1,3 @@
+## 2025-02-17 - Parallelizing Payload Queries with Promise.allSettled
+**Learning:** Using `Promise.allSettled` for concurrent database calls significantly speeds up operations like sitemap generation. Sequential calls artificially stack response times. Setting `depth: 0` and explicitly querying `select: { ... } as const` drastically minimises memory overhead and network payload.
+**Action:** When working with unrelated data sources (e.g. sitemap or mixed data endpoints), refactor multiple `payload.find()` calls to `Promise.allSettled` to tolerate individual query failure, and strictly control payload size via `depth` and `select`.
